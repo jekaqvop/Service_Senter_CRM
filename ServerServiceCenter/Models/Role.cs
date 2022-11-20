@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,21 +8,17 @@ using System.Threading.Tasks;
 namespace Models
 {
     public class Role
-    {
-        public enum Roles
-        {
-            Admin,
-            Owner,
-            Emploee,
-            User
-        }
+    {        
 
         public Role()
         {
-            this.role = Roles.User;
+            this.RoleName = "User";
         }
 
         public int Id { get; set; }
-        public Roles role { get; set; }
+        [Required]
+        public string RoleName { get; set; }
+
+        public virtual ICollection<User> Users { get; set; }
     }
 }

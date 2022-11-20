@@ -1,5 +1,4 @@
 ﻿using DataBaseManager.Pattern.Interface;
-using DBManager;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using System;
@@ -8,48 +7,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataBaseManager.Pattern.Repositories
+namespace DBManager.Pattern.Repositories
 {
-
-    public class UserRepository : IRepository<User>
+    public class DeviceRepository : IRepository<Device>
     {
+
         private AppDbContext db;
 
-        public UserRepository(AppDbContext context)
+        public DeviceRepository(AppDbContext context)
         {
             this.db = context;
         }
-        public void Create(User item)
+        public void Create(Device item)
         {
-            db.Users.Add(item);
+            db.Devices.Add(item);
         }
 
         public void Delete(int id)
         {
-            User user = db.Users.Find(id);
-            if (user != null)
-                db.Users.Remove(user);
+            Device item = db.Devices.Find(id);
+            if (item != null)
+                db.Devices.Remove(item);
         }
 
-        public User GetItem(int id)
+        public Device GetItem(int id)
         {
-            return db.Users.Find(id);
+            return db.Devices.Find(id);
         }
 
-        public User FindUser(ref string message, string Loign, string phoneNumber = null, string email = null)
+        public Device GetRoleForName(string serialNumber)
         {
-            var users = db.Users.Where(user => user.Login.Equals(Loign) || user.PhoneNumber.Equals(phoneNumber) || user.Email.Equals(email));
-            message = null;
-            if (users.Count() > 0)
-                message = "User found";
-            else
-                message = "User not found";
-            return users.FirstOrDefault();
+            var items = db.Devices.Where(item => item.SerialNumber == serialNumber);
+
+            if (items.Count() != 1)
+                return null;
+
+            return items.FirstOrDefault();
         }
 
-        public IEnumerable<User> GetBookList()
+        public IEnumerable<Device> GetBookList()
         {
-            return db.Users;
+            return db.Devices;
         }
 
         public void Save()
@@ -57,7 +55,7 @@ namespace DataBaseManager.Pattern.Repositories
             db.SaveChanges();
         }
 
-        public void Update(User item)
+        public void Update(Device item)
         {
             db.Entry(item).State = EntityState.Modified;
         }
@@ -83,5 +81,3 @@ namespace DataBaseManager.Pattern.Repositories
         }
     }
 }
-
-

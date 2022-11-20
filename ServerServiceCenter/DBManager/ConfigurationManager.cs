@@ -10,8 +10,7 @@ namespace DBManager
         {
             var builder = new ConfigurationBuilder();
             builder.SetBasePath(Directory.GetCurrentDirectory());
-            builder.AddJsonFile("D:\\Study\\KursProject\\Project\\servers_tests\\ServerServiceCenter\\DBManager\\Configuration\\appsettings.json");
-
+            builder.AddJsonFile("appsettings.json");
             var config = builder.Build();
             string connectionString = config.GetConnectionString("DefaultConnection");
 

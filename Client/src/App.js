@@ -4,6 +4,7 @@ import Login from './Login';
 import Panel from './screens/Panel';
 
 import PrivateRoute from './context/PrivateRoute';
+import ErrorPage from './screens/ErrorPage';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
 						</PrivateRoute>
 						}
 					/>
+					<Route path="*" element={<ErrorPage />} />	
 				</Routes>
 			</Router>
 		</main>

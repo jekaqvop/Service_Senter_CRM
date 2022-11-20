@@ -3,14 +3,14 @@ import { Navigate } from 'react-router-dom';
 import axios from './api/axios';
 
 import { AuthContext } from './context/AuthContext';
-const LOGIN_URL = "/Register/GetData";
+const LOGIN_URL = "/api/Auth/login";
 
 const Login = (history) => {
 	const userRef = useRef();
 	const errRef = useRef();
 
-	const [user, setUser] = useState('');
-	const [pwd, setPwd] = useState('');
+	const [Login, setLogin] = useState('');
+	const [Password, setPassword] = useState('');
 	const [errMsg, setErrMsg] = useState('');
 	const [success, setSuccess] = useState(false);
 
@@ -22,26 +22,24 @@ const Login = (history) => {
 
 	useEffect(() => {
 		setErrMsg('');
-	}, [user, pwd]);
+	}, [Login, Password]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();		
 		try {
 			const response = await axios.post(
 				LOGIN_URL,
-				JSON.stringify({ user, pwd }),
+				JSON.stringify({ Login, Password }),
 				{
 					headers: { 'Content-Type': 'application/json' },
 					withCredentials: true,
 				}
 			);
 
-			const accessToken = response?.data?.accessToken;
-			const roles = response?.data?.roles;
-			//setAuth({ user, pwd, roles, accessToken });
-			setUser('');
-			setPwd('');
-			setSuccess(true);
+			setAuthData({ data:  response?.data?.success });
+			setSuccess(response?.data?.success);
+			setLogin('');
+			setPassword('');
 		} catch (err) {
 			if (!err?.response) {
 				setErrMsg('No Server Response');
@@ -78,8 +76,8 @@ const Login = (history) => {
 							id="username"
 							ref={userRef}
 							autoComplete="off"
-							onChange={(e) => setUser(e.target.value)}
-							value={user}
+							onChange={(e) => setLogin(e.target.value)}
+							value={Login}
 							required
 						/>
 
@@ -87,8 +85,8 @@ const Login = (history) => {
 						<input
 							type="password"
 							id="password"
-							onChange={(e) => setPwd(e.target.value)}
-							value={pwd}
+							onChange={(e) => setPassword(e.target.value)}
+							value={Password}
 							required
 						/>
 						<button>Sign In</button>

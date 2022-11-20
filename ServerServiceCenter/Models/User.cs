@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BCrypt.Net;
+using Models.ModelsView;
 
 namespace Models
 {
@@ -15,19 +18,23 @@ namespace Models
         public string PhoneNumber { get; set; }
         public string Pwd { get; set; }
         public string? Token { get; set; }
+        public int IdRole { get; set; }      
         public Role RoleUser { get; set; }
+
+        public ICollection<Order> OrdersClients { get; set; }
+        public ICollection<Order> OrdersMasters { get; set; }
 
         public User() { }
 
-        public User(ViewUser viewUser)
+        public User(RegUser viewUser, Role role)
         {
-            this.Id = viewUser.Id;
+            this.Id = 0;
             this.Login = viewUser.Login;
             this.UserName = viewUser.UserName;
             this.Email = viewUser.Email;
             this.PhoneNumber = viewUser.PhoneNumber;
-            this.Pwd = viewUser.Pwd;
-            this.RoleUser = new Role();
+            this.Pwd = BCrypt.Net.BCrypt.HashPassword(viewUser.Pwd);
+            this.RoleUser = role;
         }
 
     }

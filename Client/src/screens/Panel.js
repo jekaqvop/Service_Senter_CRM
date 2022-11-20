@@ -1,12 +1,34 @@
 import React, {useContext} from "react";
 import { Button } from "react-bootstrap";
 import { AuthContext } from "../context/AuthContext";
+import axios from '../api/axios';
 
+const LOGOUT_URL = "/api/Auth/logout";
+
+function LOGOUTFUN() {
+
+  try {
+    const response = axios.get(
+      LOGOUT_URL,				
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      }
+    );  
+    
+  return true;
+  } catch (err) {
+    console.log("error");
+    return false;
+  }
+  
+}
 
 const Panel = () => {
   const { setAuthData, auth } = useContext(AuthContext);
   const onLogOut = () => {
     setAuthData(null);
+    LOGOUTFUN();
   } //clearing the context
   return (
     <div
