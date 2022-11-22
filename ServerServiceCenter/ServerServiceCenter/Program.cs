@@ -1,4 +1,5 @@
 using ServerServiceCenter.Helpers;
+using ServerServiceCenter.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,10 @@ app.UseCors(options => options.WithOrigins("http://localhost:3000")//AllowAnyOri
 .AllowCredentials());
 
 app.UseAuthorization();
+//app.MapWhen(context => context.Request.Path.StartsWithSegments("/api/Auth"), appBuilder =>
+//{
+//    appBuilder.UseAuthenticationMiddleware();
+//});
 
 app.MapControllers();
 

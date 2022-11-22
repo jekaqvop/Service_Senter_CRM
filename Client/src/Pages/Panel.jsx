@@ -1,14 +1,13 @@
 import React, {useContext} from "react";
-import { Button } from "react-bootstrap";
 import { AuthContext } from "../context/AuthContext";
 import axios from '../api/axios';
 
 const LOGOUT_URL = "/api/Auth/logout";
 
-function LOGOUTFUN() {
+const LOGOUTFUN = async () => {
 
   try {
-    const response = axios.get(
+    const response = await axios.get(
       LOGOUT_URL,				
       {
         headers: { 'Content-Type': 'application/json' },
@@ -31,22 +30,25 @@ const Panel = () => {
     LOGOUTFUN();
   } //clearing the context
   return (
+    <>
+
     <div
       style={{ height: "100vh" }}
       className="d-flex justify-content-center align-items-center"
     >
       <div style={{ width: 300 }}>
         <h1 className="text-center"> {`Hello, ${auth.data}`} </h1>
-        <Button
+        <button
           variant="primary"
           type="button"
           className="w-100 mt-3"
           onClick={onLogOut}
         >
           Log out
-        </Button>
+        </button>
       </div>
     </div>
+  </>
   );
 };
 

@@ -9,24 +9,25 @@
 html {
 	font-family: 'Nunito', sans-serif;
 	font-size: 22px;
-	color: #fff;
+	color: rgb(0, 0, 0);
 }
 
-body {
+
+#BackgroundBody {
 	min-height: 100vh;
-	background-color: rgb(255, 184, 30);
-}
-
-.App {
+	background-color: rgb(247, 247, 247);
+	/*было в .App*/
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	min-height: 100vh;
 	padding: 1rem 0.5rem;
+	color: #fff;
+	font-size: 22px;
 }
 
-section {
+#BackgroundBody > section {
 	width: 100%;
 	max-width: 420px;
 	min-height: 400px;
@@ -37,7 +38,7 @@ section {
 	background-color: rgba(0, 0, 0, 0.4);
 }
 
-form {
+#BackgroundBody form {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
@@ -45,12 +46,12 @@ form {
 	padding-bottom: 1rem;
 }
 
-a,
-a:visited {
+#BackgroundBody a,
+#BackgroundBody a:visited {
 	color: #fff;
 }
 
-input[type='text'],
+#BackgroundBody input[type='text'],
 input[type='password'],
 button,
 textarea {
@@ -58,14 +59,15 @@ textarea {
 	font-size: 22px;
 	padding: 0.25rem;
 	border-radius: 0.5rem;
+	color: #000;
 }
 
-label,
+#BackgroundBody label,
 button {
 	margin-top: 1rem;
 }
 
-button {
+#BackgroundBody button {
 	padding: 0.5rem;
 }
 
@@ -79,7 +81,7 @@ button {
 	bottom: -10px;
 }
 
-.instructions > svg {
+.instructions svg {
 	margin-right: 0.25rem;
 }
 

@@ -85,20 +85,21 @@ namespace ServerServiceCenter.Controllers
             UserRepository userRepository = unitOfWork.GetUserRepository();
             string messageFindUser = "";
             User findUser = userRepository.FindUser(ref messageFindUser, loginUser.Login);
-            RoleRepository roleRepository = unitOfWork.GetRoleRepository();
-            Role roleNewUser = roleRepository.GetItem(findUser.IdRole);
+            
+            
             if (findUser == null || messageFindUser == "User not found")
             {
                 Response.StatusCode = 401;
                 return BadRequest(new { message = messageFindUser });
-            }
-
+            }           
             else if (!BCrypt.Net.BCrypt.Verify(loginUser.Password, findUser.Pwd))
             {
                 Response.StatusCode = 401;
                 return BadRequest(new { message = "Invalid Credentials" });
-            }           
-           
+            }    
+            
+            RoleRepository roleRepository = unitOfWork.GetRoleRepository();
+            Role roleNewUser = roleRepository.GetItem(findUser.IdRole);
             var jwt = jwtService.Generate(findUser.Id);
             Response.Cookies.Append("jwt", jwt, new CookieOptions
             {

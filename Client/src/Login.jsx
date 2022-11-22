@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import axios from './api/axios';
-
+import './index.css';
 import { AuthContext } from './context/AuthContext';
 const LOGIN_URL = "/api/Auth/login";
 
@@ -60,6 +60,7 @@ const Login = (history) => {
 			{success ? (
 			<Navigate to="/"/>
 			) : (
+				<div id='BackgroundBody'>
 				<section>
 					<p
 						ref={errRef}
@@ -99,6 +100,7 @@ const Login = (history) => {
 						</span>
 					</p>
 				</section>
+				</div>
 			)}
 		</>
 	);

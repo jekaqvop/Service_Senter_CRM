@@ -7,6 +7,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from './api/axios';
 import { Navigate } from 'react-router-dom';
+import './index.css';
 
 const LOGIN_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const USER_REGEX = /^(([А-ЯЁA-Z][а-яёa-z']+[\\-\s]?){2,3})$/;
@@ -129,6 +130,7 @@ const Register = () => {
 			{success ? (
 				<Navigate to="/login" replace />
 			) : (
+				<div id='BackgroundBody'>
 				<section >
 					<p
 						ref={errRef}
@@ -378,6 +380,7 @@ const Register = () => {
 						</span>
 					</p>
 				</section>
+				</div>
 			)}
 		</>
 	);
