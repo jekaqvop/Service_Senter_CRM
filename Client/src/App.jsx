@@ -7,6 +7,8 @@ import 'boxicons/css/boxicons.min.css';
 import PrivateRoute from './context/PrivateRoute';
 import ErrorPage from './Pages/ErrorPage';
 import AppLayout from './components/layout/AppLayout';
+import TableUsers from './Pages/TableUsers/TableUsers';
+import UsersTable from './components/UsersTable/UsersTable';
 
 
 function App() {
@@ -14,6 +16,7 @@ function App() {
 		<main className="App">
 			<Router>
 				<Routes>
+					
 					<Route path="/register" exact element={<Register />} />
 					
 					<Route path="/login" element={<Login />} />			
@@ -26,7 +29,7 @@ function App() {
 						<Route index element={<Panel />} />
 						<Route path='/started' element={<Panel />} />
 						<Route path='/calendar' element={<Panel />} />
-						<Route path='/user' element={<Panel />} />
+						<Route path='/user' element={<UsersTable />} />
 						<Route path='/order' element={<Panel />} />
 					</Route>
 					<Route path="*" element={<ErrorPage />} />	

@@ -101,7 +101,7 @@ const Sidebar = () => {
                         style={{
                             transform: `translateX(-50%) translateY(${activeIndex * stepHeight}px)`
                         }}
-                    >                      
+                     >                      
                     </div>
                     {
                         sidebarNavItems.map((item, index) => (
