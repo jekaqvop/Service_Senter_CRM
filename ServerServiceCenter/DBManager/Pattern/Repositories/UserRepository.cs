@@ -47,7 +47,7 @@ namespace DataBaseManager.Pattern.Repositories
             return users.FirstOrDefault();
         }
 
-        public IEnumerable<User> GetBookList()
+        public IEnumerable<User> GetList()
         {
             return db.Users;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using BCrypt.Net;
 using Models.ModelsView;
@@ -16,12 +17,17 @@ namespace Models
         public string UserName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
+        [JsonIgnore]
         public string Pwd { get; set; }
+        [JsonIgnore]
         public string? Token { get; set; }
-        public int IdRole { get; set; }      
+        public int IdRole { get; set; }
+        [JsonIgnore]
         public Role RoleUser { get; set; }
 
+        [JsonIgnore]
         public ICollection<Order> OrdersClients { get; set; }
+        [JsonIgnore]
         public ICollection<Order> OrdersMasters { get; set; }
 
         public User() { }

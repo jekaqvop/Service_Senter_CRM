@@ -44,7 +44,7 @@ namespace DBManager.Pattern.Repositories
             return roles.FirstOrDefault();
         }       
 
-        public IEnumerable<Role> GetBookList()
+        public IEnumerable<Role> GetList()
         {
             return db.Roles;
         }

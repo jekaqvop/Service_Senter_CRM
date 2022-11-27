@@ -45,7 +45,7 @@ namespace DBManager.Pattern.Repositories
             return items.FirstOrDefault();
         }
 
-        public IEnumerable<Device> GetBookList()
+        public IEnumerable<Device> GetList()
         {
             return db.Devices;
         }

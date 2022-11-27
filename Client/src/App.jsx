@@ -7,7 +7,6 @@ import 'boxicons/css/boxicons.min.css';
 import PrivateRoute from './context/PrivateRoute';
 import ErrorPage from './Pages/ErrorPage';
 import AppLayout from './components/layout/AppLayout';
-import TableUsers from './Pages/TableUsers/TableUsers';
 import UsersTable from './components/UsersTable/UsersTable';
 
 

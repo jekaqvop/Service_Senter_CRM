@@ -34,7 +34,7 @@ namespace DBManager.Pattern.Repositories
             return db.ServicesPerformeds.Find(id);
         }
 
-        public IEnumerable<ServicesPerformed> GetBookList()
+        public IEnumerable<ServicesPerformed> GetList()
         {
             return db.ServicesPerformeds;
         }

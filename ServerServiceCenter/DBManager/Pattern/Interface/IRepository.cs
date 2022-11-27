@@ -8,7 +8,7 @@ namespace DataBaseManager.Pattern.Interface
 {
     public interface IRepository<T> where T : class
     {
-        IEnumerable<T> GetBookList();
+        IEnumerable<T> GetList();
         T GetItem(int id);
         void Create(T item);
         void Update(T item);

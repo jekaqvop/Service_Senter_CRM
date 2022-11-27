@@ -134,13 +134,14 @@ namespace ServerServiceCenter.Controllers
             {
                 var jwt = Request.Cookies["jwt"];
                 var userRole = Request.Cookies["role"];
+                var userlogin = Request.Cookies["login"];
                 var token = jwtService.Verify(jwt);
                 int UserId = int.Parse(token.Issuer);
                 UserRepository userRepository = unitOfWork.GetUserRepository();
                 var user = userRepository.GetItem(UserId);
                 RoleRepository roleRepository = unitOfWork.GetRoleRepository();
                 Role roleNewUser = roleRepository.GetItem(user.IdRole);
-                if (roleNewUser.RoleName != userRole)
+                if (roleNewUser.RoleName != userRole || user.Login != userlogin)
                     return Unauthorized();
 
                 return Ok(new
