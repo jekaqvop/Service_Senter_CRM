@@ -16,10 +16,10 @@ namespace ServerServiceCenter.Middleware
     {
         private readonly RequestDelegate _next;
         UnitOfWork unitOfWork;
-        public AuthenticationMiddleware(RequestDelegate next)
+        public AuthenticationMiddleware(RequestDelegate next, UnitOfWork unitOfWork)
         {
             _next = next;          
-            unitOfWork = new UnitOfWork();
+            this.unitOfWork = unitOfWork;
         }
 
         public async Task Invoke(HttpContext httpContext, JwtService jwtService)

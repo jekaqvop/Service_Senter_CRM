@@ -10,6 +10,12 @@ namespace Models
 {
     public class Message
     {
+        public Message() { }
+        public Message(string messageValue)
+        {
+            MessageValue = messageValue;
+        }
+
         public string MessageValue { get; set; }
 
         public string GetMessageJson()

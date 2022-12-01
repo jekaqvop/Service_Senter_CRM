@@ -19,10 +19,10 @@ namespace ServerServiceCenter.Controllers
         UnitOfWork unitOfWork;
         private readonly JwtService jwtService;
 
-        public AuthController(JwtService jwtService)
+        public AuthController(JwtService jwtService, UnitOfWork unitOfWork)
         {
             this.jwtService = jwtService;
-            unitOfWork = new UnitOfWork();
+            this.unitOfWork = unitOfWork;
         }
        
         [HttpPost("register")]

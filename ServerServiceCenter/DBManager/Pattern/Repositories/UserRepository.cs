@@ -30,6 +30,13 @@ namespace DataBaseManager.Pattern.Repositories
             if (user != null)
                 db.Users.Remove(user);
         }
+        
+        public void DeleteUsers(int[] ids)
+        {
+            IEnumerable<User> users = db.Users.Where(item => ids.Contains(item.Id));
+            if (users != null)
+                db.Users.RemoveRange(users);
+        }
 
         public User GetItem(int id)
         {

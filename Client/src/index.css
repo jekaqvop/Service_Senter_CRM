@@ -62,12 +62,12 @@ textarea {
 	color: #000;
 }
 
-#BackgroundBody label,
-button {
+#BackgroundBody button,
+label {
 	margin-top: 1rem;
 }
 
-#BackgroundBody button {
+#BackgroundBody > button {
 	padding: 0.5rem;
 }
 

@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from '../api/axios';
 
@@ -23,12 +23,14 @@ const LOGOUTFUN = async () => {
   
 }
 
-const Panel = () => {
+const Panel = () => { 
   const { setAuthData, auth } = useContext(AuthContext);
   const onLogOut = () => {
     setAuthData(null);
     LOGOUTFUN();
   } //clearing the context
+
+
   return (
     <>
 

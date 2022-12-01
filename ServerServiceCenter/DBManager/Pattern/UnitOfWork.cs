@@ -13,9 +13,9 @@ namespace DBManager.Pattern
     {
         private AppDbContext context;
 
-        public UnitOfWork()
+        public UnitOfWork(AppDbContext appDbContext)
         {
-            context = new AppDbContext(ConfigurationManager.GetDbOptions());
+            context = appDbContext;
         }
 
         private UserRepository userRepository;

@@ -3,20 +3,43 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './Login';
 import Panel from './Pages/Panel';
 import 'boxicons/css/boxicons.min.css';
-
 import PrivateRoute from './context/PrivateRoute';
 import ErrorPage from './Pages/ErrorPage';
 import AppLayout from './components/layout/AppLayout';
 import UsersTable from './components/UsersTable/UsersTable';
+import TestHoast from './Pages/TestHoast';
 
+import { useState } from 'react';
+
+import './Pages/CSS/TestHoast.css';
+import Toast from './components/Toasts/Toast';
+
+import { TOAST_PROPERTIES } from './components/Toasts/toastProperties';
 
 function App() {
+	const [list, setList] = useState([]);
+	const [position, setPosition] = useState("top-right");
+	const [autoDelete, setAutoDelete] = useState(false);
+	const [autoCloseTime, setAutoCloseTime] = useState(0);
+	const [descriptionToast, setDescriptionToast] = useState(null);
+  
+	const showToast = (type, positionToast, autoDeleteToast, autoCloseTime, DescriptionToast) => {
+	  setPosition(positionToast);
+	  setAutoDelete(autoDeleteToast);
+	  setAutoCloseTime(autoCloseTime);
+	  
+	  const toastProperties = TOAST_PROPERTIES.find((toast) => toast.title.toLowerCase() === type.toLowerCase());
+	  toastProperties.description = DescriptionToast;
+	  setList([...list, toastProperties]);
+	}
+	
+   
 	return (
 		<main className="App">
 			<Router>
 				<Routes>
 					
-					<Route path="/register" exact element={<Register />} />
+					<Route path="/register" exact element={<Register showToast={showToast}/>} />
 					
 					<Route path="/login" element={<Login />} />			
 					<Route path="/" element={
@@ -25,15 +48,22 @@ function App() {
 						</PrivateRoute>
 						}
 					>
-						<Route index element={<Panel />} />
-						<Route path='/started' element={<Panel />} />
-						<Route path='/calendar' element={<Panel />} />
-						<Route path='/user' element={<UsersTable />} />
+						<Route index element={<Panel showToast={showToast}/>} />
+						<Route path='/started' element={<Panel showToast={showToast}/>} />
+						<Route path='/calendar' element={<TestHoast />} />
+						<Route path='/user' element={<UsersTable showToast={showToast}/>} />
 						<Route path='/order' element={<Panel />} />
 					</Route>
 					<Route path="*" element={<ErrorPage />} />	
 				</Routes>
 			</Router>
+			<Toast 
+				toastList={list}
+				position={position}
+				autoDelete={autoDelete}
+				autoDeleteTime={parseInt(autoCloseTime, 10)}
+				
+			/>
 		</main>
 	);
 }
