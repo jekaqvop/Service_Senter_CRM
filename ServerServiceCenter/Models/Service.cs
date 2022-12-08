@@ -16,6 +16,8 @@ namespace Models
         public decimal Price { get; set; }
         [JsonIgnore]
         public ICollection<ServicesPerformed> ServicesPerformeds { get; set; }
+        [JsonIgnore]
+        public ICollection<StorageImagePath> StorageImagesPaths { get; set; }
 
     }
 }

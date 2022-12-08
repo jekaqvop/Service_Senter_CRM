@@ -43,7 +43,7 @@ namespace DataBaseManager.Pattern.Repositories
             return db.Users.Find(id);
         }
 
-        public User FindUser(ref string message, string Loign, string phoneNumber = null, string email = null)
+        public User FindUser(ref string message, string Loign = null, string phoneNumber = null, string email = null)
         {
             var users = db.Users.Where(user => user.Login.Equals(Loign) || user.PhoneNumber.Equals(phoneNumber) || user.Email.Equals(email));
             message = null;

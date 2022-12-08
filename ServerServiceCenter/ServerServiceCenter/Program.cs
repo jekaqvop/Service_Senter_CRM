@@ -34,6 +34,8 @@ app.UseCors(options => options.WithOrigins("http://localhost:3000")//AllowAnyOri
 .AllowAnyHeader()
 .AllowCredentials());
 
+app.UseStaticFiles();
+
 app.UseAuthorization();
 //app.MapWhen(context => context.Request.Path.StartsWithSegments("/api/Auth"), appBuilder =>
 //{

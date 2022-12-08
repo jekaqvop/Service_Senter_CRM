@@ -1,7 +1,9 @@
 ﻿using DataBaseManager.Pattern.Repositories;
 using DBManager.Pattern;
+using DBManager.Pattern.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.ModelsView;
 using System;
 using System.IO;
 using System.Text;
@@ -35,15 +37,81 @@ namespace ServerServiceCenter.Controllers
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
-        public async Task<string> Get(int id)
+        public async Task<User> Get(int id)
         {
-            return "value";
+            User user = userRepository.GetItem(id);
+            return user;
         }
 
         // POST api/<ValuesController>
         [HttpPost]
-        public async Task Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] RegUser viewuser)
         {
+            
+            Message messageRegister = new Message();
+            //var reader = Request.BodyReader;
+            //var stream = reader.AsStream();
+            //using (MemoryStream memoryStream = new MemoryStream())
+            //{
+            //    stream.CopyTo(memoryStream);
+            //    memoryStream.Position = 0;
+            //    var bytes = memoryStream.ToArray();
+            //    var json = Encoding.UTF8.GetString(bytes);
+            //    viewuser = JsonSerializer.Deserialize<RegUser>(json);
+            //}
+              
+            
+            try
+            {
+                if (viewuser == null)
+                {
+                    return StatusCode(400);
+                }
+
+                else if (viewuser != null)
+                {
+
+                    UserRepository userRepository = unitOfWork.GetUserRepository();
+                    string messageFindUser = null;
+                    User findUser = userRepository.FindUser(ref messageFindUser, null, viewuser.PhoneNumber, viewuser.Email);
+                    messageRegister.MessageValue = messageFindUser;
+                    if (findUser != null && messageFindUser == "User found")
+                    {
+                        return StatusCode(409);
+                    }
+                    else
+                    {
+                        int lastIndex = viewuser.Email.IndexOf("@");
+                        string newLogin = viewuser.Email.ToLower().Substring(0, lastIndex);
+                        while (true)
+                        {
+                            newLogin += RegUser.RandomString(newLogin.Length + newLogin.Length % 7);
+                            User findUserLogin = userRepository.FindUser(ref messageFindUser, newLogin);
+                            if (findUser == null && messageFindUser != "User found")
+                                break;
+                        }                      
+
+                        messageRegister.MessageValue = messageFindUser;
+                        RoleRepository roleRepository = unitOfWork.GetRoleRepository();
+                        Role roleNewUser = roleRepository.GetRoleForName("User");
+                        User newUser = new User(viewuser, roleNewUser);
+                        newUser.Login = newLogin;
+                        userRepository.Create(newUser);
+                        userRepository.Save();
+
+                        messageRegister.MessageValue = "New user created!";
+                        Response.StatusCode = 201;
+                        Response.ContentType = "application/json";
+                        return new ObjectResult(newUser);
+                    }
+                }
+            }
+            catch
+            {
+                return BadRequest(500);
+            }
+
+            return Ok();
         }
 
         // PUT api/<ValuesController>/5

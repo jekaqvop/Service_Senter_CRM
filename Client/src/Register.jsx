@@ -115,11 +115,11 @@ const Register = () => {
 			setMatchPwd('');
 		} catch (err) {
 			if (!err?.response) {
-				setErrMsg('No Server Response');
+				setErrMsg('Сервер не отвечает. Повторите попытку позже.');
 			} else if (err.response?.status === 409) {
-				setErrMsg('Username Taken');
+				setErrMsg('Такой логин, почта или номер телефона уже используются.');
 			} else {
-				setErrMsg('Registration Failed');
+				setErrMsg('Произошла ошибка во время регистрации. Попробуйте позже.');
 			}
 			errRef.current.focus();
 		}
@@ -139,7 +139,7 @@ const Register = () => {
 					>
 						{errMsg}
 					</p>
-					<h1>Register</h1>
+					<h1 id='title-singreg'>Register</h1>
 					
 					<form onSubmit={handleSubmit}>
 					<label htmlFor="login">
@@ -366,7 +366,7 @@ const Register = () => {
 							Must match the first password input field.
 						</p>
 
-						<button
+						<button id='button-sing'
 							disabled={!validEmail|| !validLogin || !validPhoneNumber || !validName || !validPwd || !validMatch ? true : false}
 						>
 							Sign Up

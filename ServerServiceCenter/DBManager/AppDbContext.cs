@@ -16,6 +16,7 @@ namespace DBManager
         public DbSet<Device> Devices { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Service> Services { get; set; }
+        public DbSet<StorageImagePath> StorageImagesPaths { get; set; }
         public DbSet<ServicesPerformed> ServicesPerformeds { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
@@ -33,6 +34,7 @@ namespace DBManager
             modelBuilder.Entity<Order>().HasMany(ua => ua.ServicesPerformeds).WithOne(u => u.Order).HasForeignKey(u => u.IdOrder).OnDelete(DeleteBehavior.ClientCascade);
             modelBuilder.Entity<Service>().HasMany(ua => ua.ServicesPerformeds).WithOne(u => u.Service).HasForeignKey(u => u.IdService).OnDelete(DeleteBehavior.ClientSetNull);
             modelBuilder.Entity<User>().HasMany(ua => ua.OrdersMasters).WithOne(u => u.Master).HasForeignKey(u => u.IdMaster).OnDelete(DeleteBehavior.ClientSetNull);
+            modelBuilder.Entity<Service>().HasMany(ua => ua.StorageImagesPaths).WithOne(u => u.ServiceImage).HasForeignKey(u => u.IdService).OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

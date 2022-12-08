@@ -33,11 +33,6 @@ const  PrivateRoute = ({children }) => {
   const[statusCode, setStatusCode] = useState(400);
   const[loading2, setLoading2] = useState(true);
 
-  //useEffect(()=> {
-  //  setisAuth(checkAuth());
-  //  console.log("useeff");   
-  //// eslint-disable-next-line react-hooks/exhaustive-deps
-  //}, []);
   useEffect( () => {
     (
       async () =>  {
@@ -71,13 +66,7 @@ const  PrivateRoute = ({children }) => {
     }, [statusCode, isAuth]);
 
 
-  if (loading ) { // исправить этот момент 
-    //setTimeout(
-    //  () => {
-    //    setIsAuth(true);
-    //  },
-    //  1 * 1000
-    //);
+  if (loading ) { 
        return (    
         <div id='BackgroundBody'>
           <p>Loading...</p>   

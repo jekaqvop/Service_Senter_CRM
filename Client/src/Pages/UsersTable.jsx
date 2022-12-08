@@ -4,8 +4,12 @@ import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import { Button } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
-import axios from '../../api/axios';
+import axios from '../api/axios';
 import Confirm from 'react-confirm-bootstrap';
+
+import "./CSS/UsersTable.css";
+import AddUserModal from '../components/Modals/AddUserModal';
+
 
 const USERS_URL = "/api/Users"
 
@@ -22,13 +26,11 @@ const PHONENUMBER_REGEX = /^(?:\+375|80)\s?\(?\d\d\)?\s?\d\d(?:\d[\\-\s]\d\d[\\-
 
 
 const UsersTable = (props) => {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
+
+  const [open, setOpen] = useState(false);
   
  const columns = [{
   dataField: 'id',
@@ -166,8 +168,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
   const EditUsers = async (e) => {
     try{
       const response = await axios.put(
-      USERS_URL + "/" + id + "/" + newValue + "/" + dataField,
-      
+      USERS_URL + "/" + id + "/" + newValue + "/" + dataField,      
       {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true,
@@ -183,7 +184,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
   return { async: true };
 }
   const handleDelete = async (rowId) => {
-    const loadUsers = async (e) => {
+    const loadUsers = async () => {
      try{
         const response = await axios.delete(
            USERS_URL + "/" + rowId
@@ -192,14 +193,14 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
         setUsers(users.filter(item => item.id !== rowId));
 
       }catch(err){
-        showError("Не удалось удалить строку с id равным " + rowId);
+        showToastFiveSec('error', "Не удалось удалить строку с id равным " + rowId);
       }         
     }
     loadUsers();
   };
 
   const DefaultSorted = [{
-    dataField: 'Id',
+    dataField: 'id',
     order: 'desc'
   }];    
     
@@ -207,8 +208,8 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
   const onDeleteRows = () => {
     
     const handleSubmit = async () => {
-     if(selectedRows.length === 0) {showError('Пользователи не выбраны');}
-     
+     if(selectedRows.length === 0) {showToastFiveSec('Warning', 'Пользователи для удаления не выбраны');}
+     else{
       try {
         const response = await axios.post(
           USERS_URL + "/DeleteUsers",
@@ -220,21 +221,22 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
         );
         const message = response?.data.messageValue; 
         if(message === "Users Deleted") {setUsers(users.filter(item => !selectedRows.includes(item.id)));}          
-        else {showError('Не удалось удалить выбранных пользователей');} 
+        else {showToastFiveSec('error', 'Не удалось удалить выбранных пользователей');} 
       } catch (err) {
-        showError('No Server Response');
+        showToastFiveSec('error', 'No Server Response');
         if (!err?.response) {
           
-          showError('No Server Response');
+          showToastFiveSec('error', 'No Server Response');
         } 
       }      
+     }      
     };
     handleSubmit();
   }
 
-  const showError = (description) =>{
+  const showToastFiveSec = (type, description) =>{
    
-    props.showToast("Error", "top-right", true, 5000, !description ? "Error" : description);
+    props.showToast(type, "top-right", true, 5000, !description ? "Error" : description);
   }
 
   const handleOnSelect = (row, isSelect) => {
@@ -295,39 +297,48 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
       blurToSave: true,
       beforeSaveCell
    };
-   const onConfirm = () => {
-    // Preform your action.
+   const AddNewUser = (newUser) => {  
+      setUsers(prevState => [ newUser, ...prevState]);
   };
     return(
         <>      
         {loading ? (
-            <h4>Loading...</h4>) : (
-              <>                  
-         
-          <Button className="btn btn-lg btn-primary" onClick={ handleClick }> Clear all filters </Button>
-          <Confirm
-                    onConfirm={onDeleteRows}
-                    body="Вы уверены, что хотите удалить выбранных пользователей? Данный процесс необратим!"
-                    confirmText="Confirm Delete"
-                    title="Подтверждение удаления">
-            <Button className="btn-danger"  > Delete rows </Button>
-          </Confirm>
-          <BootstrapTable 
-              keyField='id' 
-              data={ users }  
-              columns={ columns } 
-              selectRow={ selectRow }
-            
-              filter={ filterFactory() }
-              defaultSorted={DefaultSorted} 
-              cellEdit={ cellEditFactory(editCell) }
-              onTableChange={ handleTableChange }
-              remote={{cellEdit: true}}
-             
-              noDataIndication="Пользователей нет"
-              striped
-              hover
-              />               
+            <h1>Загрузка...</h1>) : (
+              <>    
+                <div className='tableContainer'>              
+                  <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={ handleClick }> Очистить фильтры </Button>
+                  <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={() => {setOpen(true)} }> Добавить пользователя </Button>
+                  <Confirm
+                            onConfirm={onDeleteRows}
+                            body="Вы уверены, что хотите удалить выбранных пользователей? Данный процесс необратим!"
+                            confirmText="Confirm Delete"
+                            title="Подтверждение удаления">
+                    <Button id='buttonFixPosition' className="btn btn-lg btn-primary btn-danger"  > Удалить строки </Button>
+                  </Confirm>
+
+                  <BootstrapTable 
+                      id="tableUsers"
+                      keyField='id' 
+                      data={ users }  
+                      columns={ columns } 
+                      selectRow={ selectRow }
+                    
+                      filter={ filterFactory() }
+                      defaultSorted={DefaultSorted} 
+                      cellEdit={ cellEditFactory(editCell) }
+                      onTableChange={ handleTableChange }
+                      remote={{cellEdit: true}}
+                    
+                      noDataIndication="Пользователей нет"
+                      striped
+                      hover 
+                      />         
+                </div>    
+                <AddUserModal open={open}
+                              setOpen={setOpen}
+                              showToast={showToastFiveSec}
+                              AddNewUser={AddNewUser}
+                />      
               </>
           )
         }

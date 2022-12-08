@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import './sidebar.scss';
 import { AuthContext } from "../../context/AuthContext";
 import axios from '../../api/axios';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
 
 const LOGOUT_URL = "/api/Auth/logout";
 
@@ -28,31 +30,19 @@ const LOGOUTFUN = async () => {
 
 const sidebarNavItems = [
     {
-        display: 'Dashboard',
-        icon: <i className='bx bx-home'></i>,
+        display: 'Услуги',
+        icon: <i className='bx bx-service'></i>,
         to: '/',
-        section: ''
+        section: 'services'
     },
     {
-        display: 'Getting Started',
-        icon: <i className='bx bx-star'></i>,
-        to: '/started',
-        section: 'started'
-    },
-    {
-        display: 'Calendar',
-        icon: <i className='bx bx-calendar'></i>,
-        to: '/calendar',
-        section: 'calendar'
-    },
-    {
-        display: 'User',
+        display: 'Пользователи',
         icon: <i className='bx bx-user'></i>,
         to: '/user',
         section: 'user'
     },
     {
-        display: 'Orders',
+        display: 'Заказы',
         icon: <i className='bx bx-receipt'></i>,
         to: '/order',
         section: 'order'
@@ -117,14 +107,16 @@ const Sidebar = () => {
                             </Link>
                         ))
                     }
-                       <button
-                        variant="primary"
-                        type="button"
-                        className="w-100 mt-3"
-                        onClick={onLogOut}
-                        >
-                        Log out
-                        </button>
+             
+                        <Box id="boxButtonLogOut" className="row" >
+                            <div className="col text-center">
+                                <Button id='buttonLogOut'  variant="outlined" className='centered' 
+                                    color="primary" onClick={onLogOut}>
+                                    Выйти из акаунта
+                                </Button>     
+                            </div>
+                        </Box>
+                           
                 </div>
             </div>
         </div>

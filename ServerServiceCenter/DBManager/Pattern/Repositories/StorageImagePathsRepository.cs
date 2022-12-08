@@ -9,44 +9,41 @@ using System.Threading.Tasks;
 
 namespace DBManager.Pattern.Repositories
 {
-    public class ServiceRepository : IRepository<Service>
+    public class StorageImagePathsRepository : IRepository<StorageImagePath>
     {
         private AppDbContext db;
 
-        public ServiceRepository(AppDbContext context)
+        public StorageImagePathsRepository(AppDbContext context)
         {
             this.db = context;
         }
-        public void Create(Service item)
+        public void Create(StorageImagePath item)
         {
-            db.Services.Add(item);
+            db.StorageImagesPaths.Add(item);
         }
 
         public void Delete(int id)
         {
-            Service item = db.Services.Find(id);
+            StorageImagePath item = db.StorageImagesPaths.Find(id);
             if (item != null)
-                db.Services.Remove(item);
+                db.StorageImagesPaths.Remove(item);
         }
 
-        public Service GetItem(int id)
+        public StorageImagePath GetItem(int id)
         {
-            return db.Services.Find(id);
+            return db.StorageImagesPaths.Find(id);
         }
 
-        public Service GetServiceData(string serviceTitle = null, string description = null, decimal? price = null)
+        public IQueryable<StorageImagePath> GetItemsForIdService(int idService)
         {
-            var items = db.Services.Where(item => item.Title.Equals(serviceTitle) || item.Description.Equals(description) || item.Price.Equals(price));
+            var images = db.StorageImagesPaths.Where(item => item.IdService == idService);
 
-            if (items.Count() == 0)
-                return null;
-
-            return items.FirstOrDefault();
+            return images;
         }
 
-        public IEnumerable<Service> GetList()
+        public IEnumerable<StorageImagePath> GetList()
         {
-            return db.Services;
+            return db.StorageImagesPaths;
         }
 
         public void Save()
@@ -54,7 +51,7 @@ namespace DBManager.Pattern.Repositories
             db.SaveChanges();
         }
 
-        public void Update(Service item)
+        public void Update(StorageImagePath item)
         {
             db.Entry(item).State = EntityState.Modified;
         }
@@ -78,5 +75,7 @@ namespace DBManager.Pattern.Repositories
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
     }
 }
+

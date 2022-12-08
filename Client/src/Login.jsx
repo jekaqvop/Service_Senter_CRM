@@ -69,7 +69,7 @@ const Login = (history) => {
 					>
 						{errMsg}
 					</p>
-					<h1>Sign In</h1>
+					<h1 id='title-singreg'> Sign In</h1>
 					<form onSubmit={handleSubmit}>
 						<label htmlFor="username">Username:</label>
 						<input
@@ -90,12 +90,12 @@ const Login = (history) => {
 							value={Password}
 							required
 						/>
-						<button>Sign In</button>
+						<button id='button-sing'>Sign In</button>
 					</form>
 					<p>
 						Need an Account?
 						<br />
-						<span className="line">
+						<span className="line" >
 							<a href="/register">Sign Up</a>
 						</span>
 					</p>

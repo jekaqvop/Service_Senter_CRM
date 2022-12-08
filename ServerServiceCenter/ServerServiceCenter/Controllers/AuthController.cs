@@ -8,7 +8,9 @@ using Models;
 using Models.ModelsView;
 using Newtonsoft.Json;
 using ServerServiceCenter.Helpers;
-
+using System.IO;
+using System.Reflection.PortableExecutable;
+using System.Text;
 
 namespace ServerServiceCenter.Controllers
 {
@@ -28,11 +30,11 @@ namespace ServerServiceCenter.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegUser viewuser)
         {   
-            Message messageRegister = new Message();          
-
+            Message messageRegister = new Message();
+            
             try
             {                
-                if (viewuser == null && viewuser.ChekIsEmpty())
+                if (viewuser == null || viewuser.ChekIsEmpty())
                 {
                     return StatusCode(400);
                 }
@@ -139,6 +141,8 @@ namespace ServerServiceCenter.Controllers
                 int UserId = int.Parse(token.Issuer);
                 UserRepository userRepository = unitOfWork.GetUserRepository();
                 var user = userRepository.GetItem(UserId);
+                if(user == null)
+                    return Unauthorized();
                 RoleRepository roleRepository = unitOfWork.GetRoleRepository();
                 Role roleNewUser = roleRepository.GetItem(user.IdRole);
                 if (roleNewUser.RoleName != userRole || user.Login != userlogin)

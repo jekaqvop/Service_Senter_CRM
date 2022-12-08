@@ -23,7 +23,15 @@ namespace DBManager.Pattern
         private ServiceRepository serviceRepository;
         private ServicesPerformedRepository servicesPerformedRepository;
         private RoleRepository roleRepository;
+        private StorageImagePathsRepository storageImagePathsRepository;
 
+        public StorageImagePathsRepository GetStorageImagePathsRepository()
+        {           
+            if (storageImagePathsRepository == null)
+                storageImagePathsRepository = new StorageImagePathsRepository(context);
+            return storageImagePathsRepository;            
+        }  
+        
         public UserRepository GetUserRepository()
         {           
             if (userRepository == null)

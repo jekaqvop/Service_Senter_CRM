@@ -1,0 +1,33 @@
+.tag{
+    float: right;
+        margin-right: 0px;
+}
+
+#bagroundBlue{
+    background-color: #308efe;
+    color: #fff;
+}
+  
+#borderBlueAndText{
+    background-color: transparent;
+    border-color: #308efe;
+    color: #308efe;
+}
+
+.is-clearfix{
+    margin-top: 1.5rem;
+}
+
+.centered{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    flex:auto;
+}
+
+#buttonAddService{
+    font-size: 1.3rem;
+    min-height: 78px;
+}

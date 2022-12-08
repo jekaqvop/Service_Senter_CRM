@@ -1,7 +1,6 @@
-import React, {useContext, useState} from "react";
+import React, {useContext} from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from '../api/axios';
-
 const LOGOUT_URL = "/api/Auth/logout";
 
 const LOGOUTFUN = async () => {
@@ -32,8 +31,7 @@ const Panel = () => {
 
 
   return (
-    <>
-
+    <>    
     <div
       style={{ height: "100vh" }}
       className="d-flex justify-content-center align-items-center"

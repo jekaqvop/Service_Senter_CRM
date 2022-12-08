@@ -6,8 +6,7 @@ import 'boxicons/css/boxicons.min.css';
 import PrivateRoute from './context/PrivateRoute';
 import ErrorPage from './Pages/ErrorPage';
 import AppLayout from './components/layout/AppLayout';
-import UsersTable from './components/UsersTable/UsersTable';
-import TestHoast from './Pages/TestHoast';
+import UsersTable from './Pages/UsersTable';
 
 import { useState } from 'react';
 
@@ -15,14 +14,14 @@ import './Pages/CSS/TestHoast.css';
 import Toast from './components/Toasts/Toast';
 
 import { TOAST_PROPERTIES } from './components/Toasts/toastProperties';
+import Services from './Pages/Services';
 
 function App() {
 	const [list, setList] = useState([]);
 	const [position, setPosition] = useState("top-right");
 	const [autoDelete, setAutoDelete] = useState(false);
 	const [autoCloseTime, setAutoCloseTime] = useState(0);
-	const [descriptionToast, setDescriptionToast] = useState(null);
-  
+
 	const showToast = (type, positionToast, autoDeleteToast, autoCloseTime, DescriptionToast) => {
 	  setPosition(positionToast);
 	  setAutoDelete(autoDeleteToast);
@@ -48,12 +47,10 @@ function App() {
 						</PrivateRoute>
 						}
 					>
-						<Route index element={<Panel showToast={showToast}/>} />
-						<Route path='/started' element={<Panel showToast={showToast}/>} />
-						<Route path='/calendar' element={<TestHoast />} />
+						<Route index element={<Services showToast={showToast}/>} />		
 						<Route path='/user' element={<UsersTable showToast={showToast}/>} />
 						<Route path='/order' element={<Panel />} />
-					</Route>
+					</Route>	
 					<Route path="*" element={<ErrorPage />} />	
 				</Routes>
 			</Router>

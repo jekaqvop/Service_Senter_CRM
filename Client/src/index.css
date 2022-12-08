@@ -115,3 +115,15 @@ label {
 .line {
 	display: inline-block;
 }
+
+#title-singreg {
+	margin-top: 20px;
+	margin-bottom: 10px;
+	font-size:36px;
+  }
+
+#button-sing{
+	margin-top: 20px;
+	margin-bottom: 10px;
+	padding: 7px;
+}
