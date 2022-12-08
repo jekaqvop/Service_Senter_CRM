@@ -77,7 +77,6 @@ const AddUserModal = (props) => {
 			console.log(JSON.stringify(response?.data));			
 			if(response?.data){
         const newUser = response?.data;
-        console.log(newUser);
           props.AddNewUser(newUser);
       }
 			

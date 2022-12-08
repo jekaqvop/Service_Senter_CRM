@@ -1,19 +1,23 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 import axios from "../api/axios";
 
-const IMAGES_URL = "/api/Images"
+const IMAGES_URL = "/api/Images";
+const BASE_URL = "https://localhost:44340";
 
 const ServiceItem = props => {
   const { product } = props;
+  const [isRedirect, setIsRedirect] = useState(false);
   const [imagePath, setImagePath] = useState("https://bulma.io/images/placeholders/128x128.png");
 useEffect(()=>{  
+  setIsRedirect(false);
     const loadImage = async () => {
      try{
         const response = await axios.get(
           IMAGES_URL + "/" + product.id + "/" + 1
-       );    
-          setImagePath(response?.data?.PathImage ? response?.data?.PathImage : "https://bulma.io/images/placeholders/128x128.png");
+        );    
+        setImagePath(BASE_URL + "/" + response?.data?.pathImage);  
       }catch(err){
 
       }         
@@ -21,8 +25,9 @@ useEffect(()=>{
     loadImage();
 // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
-
   return (
+    <>
+    { isRedirect ?  (<Navigate to={"/seviceItemPage/" + product.id}/>) : (
     <div className=" column is-half">
       <div className="box">
         <div className="media">
@@ -43,13 +48,9 @@ useEffect(()=>{
             <div className="is-clearfix">
               <button id="borderBlueAndText"
                 className="button is-small is-outlined is-primary   is-pulled-right"
-                onClick={() =>
-                  props.addToCart({
-                    id: product.id,
-                    product,
-                    amount: 1
-                  })
-                }
+                onClick={() =>{
+                    setIsRedirect(true);
+                } }
               >
                 Подробнее
               </button>
@@ -58,6 +59,7 @@ useEffect(()=>{
         </div>
       </div>
     </div>
+    )}</>
   );
 };
 

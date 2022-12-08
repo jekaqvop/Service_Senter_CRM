@@ -15,6 +15,7 @@ import Toast from './components/Toasts/Toast';
 
 import { TOAST_PROPERTIES } from './components/Toasts/toastProperties';
 import Services from './Pages/Services';
+import ServicePage from './Pages/ServicePage';
 
 function App() {
 	const [list, setList] = useState([]);
@@ -38,8 +39,7 @@ function App() {
 			<Router>
 				<Routes>
 					
-					<Route path="/register" exact element={<Register showToast={showToast}/>} />
-					
+					<Route path="/register" exact element={<Register showToast={showToast}/>} />					
 					<Route path="/login" element={<Login />} />			
 					<Route path="/" element={
 						<PrivateRoute>
@@ -51,6 +51,7 @@ function App() {
 						<Route path='/user' element={<UsersTable showToast={showToast}/>} />
 						<Route path='/order' element={<Panel />} />
 					</Route>	
+					<Route path="/seviceItemPage/:id" element={<ServicePage showToast={showToast}/>} />
 					<Route path="*" element={<ErrorPage />} />	
 				</Routes>
 			</Router>

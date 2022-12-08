@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from '../api/axios';
 import ServiceItem from '../components/ServiceItem';
 import "./CSS/Services.css"
-import "bulma/css/bulma.css";
+import 'bulma/css/bulma.css';
 import Button from '@material-ui/core/Button';
 import AddServices from '../components/AddService/AddService';
 
@@ -26,7 +26,7 @@ const Services = (props) =>{
       }catch(err){
         setLoading(false);
       }         
-    }
+    };
     useEffect(()=>{
         setLoading(true);          
         loadServices();       
