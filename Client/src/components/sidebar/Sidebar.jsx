@@ -32,7 +32,7 @@ const sidebarNavItems = [
     {
         display: 'Услуги',
         icon: <i className='bx bx-service'></i>,
-        to: '/',
+        to: '/services',
         section: 'services'
     },
     {

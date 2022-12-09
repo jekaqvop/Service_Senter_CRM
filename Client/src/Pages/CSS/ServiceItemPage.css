@@ -1,0 +1,227 @@
+#wrapper {
+	max-width: 960px;
+	margin: auto;
+    min-height: calc(100vh - 100%);
+    margin-top: 0.7%;
+    flex-grow: 1;
+    height: 100%;
+}
+
+body{
+    height: 100vh;
+}
+
+.App{
+    height: 100vh;
+}
+
+header {
+	padding: 20px 0;
+}
+nav a {
+	text-decoration: none;
+}
+
+nav ul {
+	margin: 0;
+	padding: 0;
+}
+
+nav li {
+	list-style-position: inside;
+	font: 14px 'Oswald', sans-serif;
+	padding: 10px;
+}
+
+.top-menu li {
+	display: inline-block;
+	padding: 10px 30px;
+	margin: 0;
+}
+
+.top-menu li.active {
+	background: #308efe;
+	color: #fff;
+}
+
+.top-menu a {
+	color: #b2b2b2;
+}
+
+footer {
+    display: flex;
+    flex: 0 0 auto;
+	background: #7e7e7e;
+	color: #dbdbdb;
+	font-size: 11px;
+    flex-shrink: 0;
+}
+
+#footer {
+	max-width: 960px;
+	margin: auto;
+	padding: 10px 0;
+	min-height: 120px;
+}
+
+blockquote {
+	margin: 0;
+	background: #308efe;
+	padding: 10px 20px;
+	font-family: 'Oswald', sans-serif;
+	font-weight: 300;
+}
+
+blockquote p {
+	color: #fff;
+	font-style: italic;
+	font-size: 33px;
+	margin: 0;
+}
+
+blockquote cite {
+	display: block;
+	font-size: 20px;
+	font-style: normal;
+	color: #ffffff;
+	margin: 0;
+	text-align: right;
+}
+figure {
+	display: inline-block;
+	margin: 0;
+	font-family: 'Oswald', sans-serif;
+	font-weight: 300;
+}
+
+figure img {
+	display: block;
+	border: 1px solid #fff;
+	outline: 1px solid #c9c9c9;
+}
+
+figure figcaption {
+	font-size: 16px;
+	font-weight: 300;
+	margin-top: 5px;
+}
+
+figure figcaption span {
+	display: block;
+	font-size: 14px;
+	color: #308efe;
+}
+
+footer h3 {
+	font: 14px 'Oswald', sans-serif;
+	color: #fff;
+	border-bottom: 1px solid #919191;
+	margin: 0 0 10px 0;
+}
+
+#twitter time a {
+	color: #b4aeae;
+}
+
+footer p {
+	margin: 5px 0;
+}
+
+#twitter {
+	float: left;
+	width: 300px;
+}
+
+#twitter p {
+	padding-right: 15px;
+}
+footer a {
+	color: #dbdbdb;
+}
+
+#sitemap {
+	width: 150px;
+	float: left;
+	margin-left: 20px;
+	padding-right: 15px;
+}
+
+#sitemap div {
+	display: inline-block;
+}
+
+#sitemap div + div {
+	margin-left: 40px;
+}
+
+#sitemap a {
+	display: block;
+	text-decoration: none;
+	font-size: 12px;
+	margin-bottom: 5px;
+}
+
+#sitemap a:hover {
+	text-decoration: underline;
+}
+
+#social {
+	float: left;
+	margin-left: 20px;
+	width: 130px;
+}
+
+.social-icon {
+	width: 30px;
+	height: 30px;
+
+	display: inline-block;
+	margin-right: 10px;
+}
+
+.social-icon-small  {
+	width: 16px;
+	height: 16px;
+
+	display: inline-block;
+	margin: 5px 6px 0 0;
+}
+
+.twitter {
+	background-position: 0 0;
+    background: url(../../../public/Twitter\ social\ icons\ -\ square\ -\ blue.png) no-repeat;
+    background-size: 30px, 30px;
+}
+
+.youtube {
+	background-position: -16px 0;
+    background: url(../../../public/youtube-icon.jpg) no-repeat;
+    background-size: 30px, 30px;
+}
+
+.instagram {
+	background-position: -48px 0;
+    background: url(../../../public/vk-icon.png) no-repeat;
+    background-size: 30px, 30px;
+}
+.images-container{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+
+.images-container > figure{
+    margin: 10px;
+}
+
+.images-container > figure > img{
+    width: 160px;
+    min-height: 160px;
+}
+
+.container-pageservice{
+    display: flex;
+	flex-direction: column;
+	min-height: 100%;
+}

@@ -10,10 +10,22 @@ html {
 	font-family: 'Nunito', sans-serif;
 	font-size: 22px;
 	color: rgb(0, 0, 0);
+	background: repeating-linear-gradient( 20deg, transparent 0 8px, #eee 9px 9px, transparent 10px 23px, #eee 24px 24px), repeating-linear-gradient( 65deg, transparent 0 8px, #eee 9px 9px, transparent 10px 23px, #eee 24px 24px), repeating-linear-gradient(110deg, transparent 0 8px, #eee 9px 9px, transparent 10px 23px, #eee 24px 24px), repeating-linear-gradient(155deg, transparent 0 8px, #eee 9px 9px, transparent 10px 23px, #eee 24px 24px);
+
+}
+body{
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	background: repeating-linear-gradient( 20deg, transparent 0 8px, #eee 9px 9px, transparent 10px 23px, #eee 24px 24px), repeating-linear-gradient( 65deg, transparent 0 8px, #eee 9px 9px, transparent 10px 23px, #eee 24px 24px), repeating-linear-gradient(110deg, transparent 0 8px, #eee 9px 9px, transparent 10px 23px, #eee 24px 24px), repeating-linear-gradient(155deg, transparent 0 8px, #eee 9px 9px, transparent 10px 23px, #eee 24px 24px);
+	word-wrap: break-word;
+	hyphens: auto;
 }
 
 
 #BackgroundBody {
+	
 	min-height: 100vh;
 	background-color: rgb(247, 247, 247);
 	/*было в .App*/

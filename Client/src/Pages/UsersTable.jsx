@@ -135,7 +135,7 @@ const UsersTable = (props) => {
       <Confirm
       onConfirm={() => handleDelete(row.id)}
       body="Вы уверены, что хотите удалить этого пользователя? Данный процесс необратим!"
-      confirmText="Confirm Delete"
+      confirmText="Подтвердить удаление"
       title="Подтверждение удаления">
         <Button
           className="btn-danger"         
@@ -311,7 +311,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
                   <Confirm
                             onConfirm={onDeleteRows}
                             body="Вы уверены, что хотите удалить выбранных пользователей? Данный процесс необратим!"
-                            confirmText="Confirm Delete"
+                            confirmText="Подтвердить удаление"
                             title="Подтверждение удаления">
                     <Button id='buttonFixPosition' className="btn btn-lg btn-primary btn-danger"  > Удалить строки </Button>
                   </Confirm>

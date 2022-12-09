@@ -2,6 +2,7 @@
 using SixLabors.ImageSharp.PixelFormats;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace ServerServiceCenter.Helpers
 {
@@ -44,7 +45,7 @@ namespace ServerServiceCenter.Helpers
             var userDirectory = Convert.ToBase64String(
                                         md5.ComputeHash(
                                             Encoding.UTF8.GetBytes(idService.ToString() + numberImage.ToString())));
-            userDirectory = userDirectory.Replace('/', '_').Replace('\\', '_');
+            userDirectory = Regex.Replace(userDirectory, "[^0-9a-zA-Z]+", "");
 
             return userDirectory + fileName;
         }

@@ -47,7 +47,7 @@ function App() {
 						</PrivateRoute>
 						}
 					>
-						<Route index element={<Services showToast={showToast}/>} />		
+						<Route path='/services' element={<Services showToast={showToast}/>} />		
 						<Route path='/user' element={<UsersTable showToast={showToast}/>} />
 						<Route path='/order' element={<Panel />} />
 					</Route>	
