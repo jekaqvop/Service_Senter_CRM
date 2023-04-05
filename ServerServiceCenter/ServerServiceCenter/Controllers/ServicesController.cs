@@ -38,12 +38,15 @@ namespace ServerServiceCenter.Controllers
             return serviceRepository.GetItem(id);
         }
 
-        // POST api/<ServicesController>
-        [HttpPost]
-        public void Post()
+        // POST api/<ServicesController>       
+        [HttpPost("/api/private/[controller]")]
+        public IActionResult Post()
         {
             try
             {
+                var roleCookie = Request.Cookies["role"];
+                if (roleCookie != "Admin")
+                    return StatusCode(409);
                 string title = Request.Form["title"];
                 string description = Request.Form["description"];
                 string priceStr = Request.Form["price"];
@@ -60,30 +63,58 @@ namespace ServerServiceCenter.Controllers
                     storageImagePathsRepository.Create(new StorageImagePath { IdService = newService.Id, PathImage = pahtImage, ServiceImage = newService });
                 }
                 storageImagePathsRepository.Save();
-
+                return new ObjectResult(newService);
             }
             catch (Exception ex)
             {
-                //return BadRequest(500);
-            }
-
-            //return Ok();           
+                return BadRequest(500);
+            }                
         }
 
-        // PUT api/<ServicesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Service value)
+        // PUT api/<ServicesController>/5     
+        [HttpPut("/api/private/[controller]/{id}")]
+        public async Task<IActionResult> Put(int id, [FromBody] Service value)
         {
-            serviceRepository.Update(value);
-            serviceRepository.Save();
+            try
+            {
+                var roleCookie = Request.Cookies["role"];
+                if (roleCookie != "Admin")
+                    return StatusCode(409);
+                serviceRepository.Update(value);
+                serviceRepository.Save();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(500);
+            }
         }
 
         // DELETE api/<ServicesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("/api/private/[controller]/{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            serviceRepository.Delete(id);
-            serviceRepository.Save();
+            try
+            {            
+                var roleCookie = Request.Cookies["role"];
+                if (roleCookie != "Admin")
+                    return StatusCode(409);
+                IEnumerable<StorageImagePath> storageImagePaths = storageImagePathsRepository.GetItemsForIdService(id);
+                foreach (StorageImagePath storageImagePath in storageImagePaths)
+                {
+                    FileManager.DeleteFile(storageImagePath.PathImage);
+                    storageImagePathsRepository.Delete(storageImagePath.Id);
+                }
+                storageImagePathsRepository.Save();
+
+                serviceRepository.Delete(id);
+                serviceRepository.Save();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(500);
+            }
         }
     }
 }

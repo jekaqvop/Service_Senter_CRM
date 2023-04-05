@@ -8,5 +8,5 @@
 @media only screen and (max-width: 460px), screen and (max-height: 700px) {
 .content {position:static;}
 .content a {display:block;width:100%;height:100%;position:absolute;top:0px;left:0px;font-size:0px;opacity:0;}
-.background {background-size:cover}
+.background {background-size:cover; height: 50%; margin-top: 30%;}
 }

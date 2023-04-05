@@ -263,7 +263,7 @@ const Register = () => {
 							/>
 							<FontAwesomeIcon
 								icon={faTimes}
-								className={validPhoneNumber || !email ? 'hide' : 'invalid'}
+								className={validPhoneNumber || !phoneNumber ? 'hide' : 'invalid'}
 							/>
 						</label>
 						<input

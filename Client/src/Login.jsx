@@ -58,7 +58,7 @@ const Login = (history) => {
 	return (
 		<>
 			{success ? (
-			<Navigate to="/"/>
+			<Navigate to="/account/services"/>
 			) : (
 				<div id='BackgroundBody'>
 				<section>

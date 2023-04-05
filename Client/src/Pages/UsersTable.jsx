@@ -7,38 +7,46 @@ import { useEffect, useState } from 'react';
 import axios from '../api/axios';
 import Confirm from 'react-confirm-bootstrap';
 
-import "./CSS/UsersTable.css";
+import "./CSS/StylesTable.css";
 import AddUserModal from '../components/Modals/AddUserModal';
+import Preloader from '../components/Preloader/Preloader';
 
-
-const USERS_URL = "/api/Users"
-
-const selectOptions = {
-    2: 'Admin',
-    1: 'User',
-    3: 'Master'
-  };
-  
 const LOGIN_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const USER_REGEX = /^(([А-ЯЁA-Z][а-яёa-z']+[\\-\s]?){2,3})$/;
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const PHONENUMBER_REGEX = /^(?:\+375|80)\s?\(?\d\d\)?\s?\d\d(?:\d[\\-\s]\d\d[\\-\s]\d\d|[\\-\s]\d\d[\\-\s]\d\d\d|\d{5})$/;
 
+let LoginFilter;
+let UserNameFilter;
+let EmailFilter;
+let PhoneNumberFilter;
 
 const UsersTable = (props) => {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [open, setOpen] = useState(false);
-  
- const columns = [{
+
+  const USERS_URL = "/api/private/Users"
+  const ROLES_URL = "/api/private/Roles"
+
+const [selectOptions, setSelectOptions] = useState([
+  {id: 1, roleName: 'Admin'},
+    {id: 2, roleName: 'User'},
+    {id: 3, roleName: 'Master'}
+]);
+
+ const [columns, setColumns] = useState([{
   dataField: 'id',
-  text: 'Id Пользователя',      
+  text: 'Id Пользователя',  
+  isKey: true,    
   sort: true
 }, {
   dataField: 'login',
   text: 'Логин',
+  
   filter: textFilter({
       getFilter: (filter) => {            
         LoginFilter = filter;              
@@ -112,17 +120,22 @@ const UsersTable = (props) => {
 },{
   dataField: 'idRole',
   text: 'Роль',
-  formatter: cell => selectOptions[cell],
+  formatter: cell => selectOptions.find(obj => {
+    return obj.id.toString() === cell.toString()
+  }).roleName || ' ',
   editor:{
     type: Type.SELECT,
-    options:[
-      {label: "User",value:1 },   
-      {label: "Admin",value:2 },
-      {label: "Master",value:3 }
-      ]
+    getOptions: (setOptions, { row, column }) => {
+      return selectOptions.map((item, index) => (
+       {value: item.id, label: item.roleName}
+      ));
+    }
     },
   filter: selectFilter({
-      options: selectOptions
+      options: () => {
+        return selectOptions.map((item, index) => (
+         {value: item.id, label: item.roleName}
+        ))},
   }),
   sort: true
 },
@@ -145,14 +158,34 @@ const UsersTable = (props) => {
       </Confirm>
     );
   },
-},];
+},]);
 
 
-
-let LoginFilter;
-let UserNameFilter;
-let EmailFilter;
-let PhoneNumberFilter;
+useEffect(()=>{
+  const loadDataUser = async (e) => {
+    try{
+       const response = await axios.get(
+          "/api/private/AccountPrivateData/getRole",
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+          }
+      );       
+      if(response?.data === "Admin"){
+        setIsAdmin(true);
+      }else{
+        setColumns(columns.filter(column => column.dataField !== "idRole" && column.dataField !== "id2"));
+        setIsAdmin(false);
+      }
+      
+    }catch(err){
+      setIsAdmin(false);
+    }         
+  }
+  loadDataUser();
+  
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
 const handleClick = () => {
   LoginFilter('');
@@ -168,9 +201,10 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
   const EditUsers = async (e) => {
     try{
       const response = await axios.put(
-      USERS_URL + "/" + id + "/" + newValue + "/" + dataField,      
+      USERS_URL + "/" + id + "/" + dataField,   
+      JSON.stringify(newValue.toString()),   
       {
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json-patch+json' },
         withCredentials: true,
       }
     ); 
@@ -187,7 +221,11 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
     const loadUsers = async () => {
      try{
         const response = await axios.delete(
-           USERS_URL + "/" + rowId
+           USERS_URL + "/" + rowId,
+           {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+           }
        );              
         
         setUsers(users.filter(item => item.id !== rowId));
@@ -220,7 +258,10 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
           }
         );
         const message = response?.data.messageValue; 
-        if(message === "Users Deleted") {setUsers(users.filter(item => !selectedRows.includes(item.id)));}          
+        if(message === "Users Deleted") {
+          setUsers(users.filter(item => !selectedRows.includes(item.id)));
+          setSelectedRows([]);
+        }          
         else {showToastFiveSec('error', 'Не удалось удалить выбранных пользователей');} 
       } catch (err) {
         showToastFiveSec('error', 'No Server Response');
@@ -269,7 +310,11 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
       const loadUsers = async (e) => {
         try{
            const response = await axios.get(
-              USERS_URL
+              USERS_URL,
+              {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true,
+              }
           );  
           setUsers(response.data);          
           setLoading(false);   
@@ -277,7 +322,24 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
           setLoading(false);
         }         
       }
+      const loadRoles = async (e) => {
+        try{
+           const response = await axios.get(
+              ROLES_URL,
+              {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true,
+              }
+          );  
+          setSelectOptions(response.data);          
+          setLoading(false);   
+        }catch(err){
+          setLoading(false);
+        }         
+      }
+      
       loadUsers();
+      loadRoles();
    // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
    const handleTableChange = (type, { data, cellEdit: { rowId, dataField, newValue } }) => {
@@ -303,26 +365,29 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
     return(
         <>      
         {loading ? (
-            <h1>Загрузка...</h1>) : (
+            <Preloader/>) : (
               <>    
                 <div className='tableContainer'>              
-                  <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={ handleClick }> Очистить фильтры </Button>
+                  <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={ ()=> {handleClick()} }> Очистить фильтры </Button>
                   <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={() => {setOpen(true)} }> Добавить пользователя </Button>
-                  <Confirm
-                            onConfirm={onDeleteRows}
-                            body="Вы уверены, что хотите удалить выбранных пользователей? Данный процесс необратим!"
-                            confirmText="Подтвердить удаление"
-                            title="Подтверждение удаления">
+                  {!isAdmin ? "" :(
+                    <> 
+                   
+                    <Confirm
+                    onConfirm={onDeleteRows}
+                    body="Вы уверены, что хотите удалить выбранных пользователей? Данное действие необратимо!"
+                    confirmText="Подтвердить удаление"
+                    title="Подтверждение удаления">
                     <Button id='buttonFixPosition' className="btn btn-lg btn-primary btn-danger"  > Удалить строки </Button>
-                  </Confirm>
-
+                    </Confirm>
+                    </>)}
                   <BootstrapTable 
                       id="tableUsers"
                       keyField='id' 
                       data={ users }  
                       columns={ columns } 
                       selectRow={ selectRow }
-                    
+                     
                       filter={ filterFactory() }
                       defaultSorted={DefaultSorted} 
                       cellEdit={ cellEditFactory(editCell) }

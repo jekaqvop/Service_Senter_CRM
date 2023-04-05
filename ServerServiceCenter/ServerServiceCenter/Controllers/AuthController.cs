@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using ServerServiceCenter.Helpers;
 using System.IO;
 using System.Reflection.PortableExecutable;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace ServerServiceCenter.Controllers
@@ -103,14 +104,21 @@ namespace ServerServiceCenter.Controllers
             RoleRepository roleRepository = unitOfWork.GetRoleRepository();
             Role roleNewUser = roleRepository.GetItem(findUser.IdRole);
             var jwt = jwtService.Generate(findUser.Id);
+            var md5 = MD5.Create();
+            string hashJwt = Convert.ToBase64String(md5.ComputeHash(Encoding.UTF8.GetBytes(findUser.Id.ToString())));
             Response.Cookies.Append("jwt", jwt, new CookieOptions
+            {
+                HttpOnly = true
+            });
+            
+            Response.Cookies.Append("hashJwt", hashJwt, new CookieOptions
             {
                 HttpOnly = true
             });
             
             Response.Cookies.Append("role", roleNewUser.RoleName, new CookieOptions
             {
-                HttpOnly = true
+                HttpOnly = false
             });
             
             Response.Cookies.Append("login", findUser.Login, new CookieOptions
@@ -135,8 +143,8 @@ namespace ServerServiceCenter.Controllers
             try
             {
                 var jwt = Request.Cookies["jwt"];
-                var userRole = Request.Cookies["role"];
-                var userlogin = Request.Cookies["login"];
+                var hashJwt = Request.Cookies["hashJwt"];
+                var roleCookie = Request.Cookies["role"];
                 var token = jwtService.Verify(jwt);
                 int UserId = int.Parse(token.Issuer);
                 UserRepository userRepository = unitOfWork.GetUserRepository();
@@ -145,9 +153,21 @@ namespace ServerServiceCenter.Controllers
                     return Unauthorized();
                 RoleRepository roleRepository = unitOfWork.GetRoleRepository();
                 Role roleNewUser = roleRepository.GetItem(user.IdRole);
-                if (roleNewUser.RoleName != userRole || user.Login != userlogin)
+                if (roleNewUser.RoleName != roleCookie)
                     return Unauthorized();
+                var md5 = MD5.Create();
+                string hashJwtCheck = Convert.ToBase64String(md5.ComputeHash(Encoding.UTF8.GetBytes(user.Id.ToString())));
+                if (hashJwt != hashJwtCheck)
+                    return Unauthorized();
+                Response.Cookies.Append("role", roleNewUser.RoleName, new CookieOptions
+                {
+                    HttpOnly = false
+                });
 
+                Response.Cookies.Append("login", user.Login, new CookieOptions
+                {
+                    HttpOnly = false
+                });
                 return Ok(new
                 {
                     success = true
@@ -163,6 +183,7 @@ namespace ServerServiceCenter.Controllers
         public IActionResult Logout()
         {
             Response.Cookies.Delete("jwt");
+            Response.Cookies.Delete("hashJwt");
 
             return Ok();
         }

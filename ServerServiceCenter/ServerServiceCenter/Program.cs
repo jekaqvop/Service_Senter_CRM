@@ -17,6 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<JwtService>();
+builder.Services.AddScoped<UnitOfWork>();
 
 var app = builder.Build();
 
@@ -37,10 +38,10 @@ app.UseCors(options => options.WithOrigins("http://localhost:3000")//AllowAnyOri
 app.UseStaticFiles();
 
 app.UseAuthorization();
-//app.MapWhen(context => context.Request.Path.StartsWithSegments("/api/Auth"), appBuilder =>
-//{
-//    appBuilder.UseAuthenticationMiddleware();
-//});
+app.UseWhen(context => context.Request.Path.StartsWithSegments("/api/private"), appBuilder =>
+{
+    appBuilder.UseAuthenticationMiddleware();
+});
 
 app.MapControllers();
 

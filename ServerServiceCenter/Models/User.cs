@@ -42,6 +42,18 @@ namespace Models
             this.Pwd = BCrypt.Net.BCrypt.HashPassword(viewUser.Pwd);
             this.RoleUser = role;
         }
+        
+        public User(StafferView viewUser, Role role, string password)
+        {
+            this.Id = 0;
+            
+            this.UserName = viewUser.StafferName;
+            this.Email = viewUser.Email;
+            this.PhoneNumber = viewUser.PhoneNumber;            
+            this.RoleUser = role;
+            this.Pwd = BCrypt.Net.BCrypt.HashPassword(password);
+            this.IdRole = role.Id;
+        }
 
     }
 }

@@ -35,9 +35,9 @@ namespace DBManager.Pattern.Repositories
             return db.Devices.Find(id);
         }
 
-        public Device GetRoleForName(string serialNumber)
+        public Device GetDeviceForSerialNumber(string serialNumber, string typeDevice)
         {
-            var items = db.Devices.Where(item => item.SerialNumber == serialNumber);
+            var items = db.Devices.Where(item => item.SerialNumber == serialNumber && item.TypeDevice == typeDevice);
 
             if (items.Count() != 1)
                 return null;
@@ -78,6 +78,13 @@ namespace DBManager.Pattern.Repositories
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public void DeleteDevices(int[] ids)
+        {
+            IEnumerable<Device> devices = db.Devices.Where(item => ids.Contains(item.Id));
+            if (devices != null)
+                db.Devices.RemoveRange(devices);
         }
     }
 }

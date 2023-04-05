@@ -11,7 +11,7 @@ const useLocalStorageList = (key,defaultValue) => {
 }
 
 const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState({ loading: true, data: null });
+  const [auth, setAuth] = useState({ loading: true, data: null});
   const [state, setState] = useLocalStorageList('authData', null);
   
   const setAuthData = (data) => {

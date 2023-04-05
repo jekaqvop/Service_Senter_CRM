@@ -35,7 +35,7 @@ const AddUserModal = (props) => {
 	const [PhoneNumberFocus, setPhoneNumberFocus] = useState(false);
 
 
-  const USERS_URL = "/api/Users"
+  const USERS_URL = "/api/private/Users"
 
 	useEffect(() => {
 		setValidName(USER_REGEX.test(userName));

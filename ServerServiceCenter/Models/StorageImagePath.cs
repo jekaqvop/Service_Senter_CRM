@@ -12,7 +12,7 @@ namespace Models
         public int Id { get; set; }
         public int IdService { get; set; }
         [JsonIgnore]
-        public Service ServiceImage { get; set; }
+        virtual public Service ServiceImage { get; set; }
         public string PathImage { get; set; }
     }
 }

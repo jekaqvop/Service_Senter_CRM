@@ -5,13 +5,16 @@ import "./CSS/Services.css"
 import 'bulma/css/bulma.css';
 import Button from '@material-ui/core/Button';
 import AddServices from '../components/AddService/AddService';
+import Preloader from '../components/Preloader/Preloader';
 
-const SERVICES_URL = "/api/Services"
+const SERVICES_URL = "/api/Services";
+
 
 const Services = (props) =>{
     const [loading, setLoading] = useState(false);
     const [services, setServices] = useState([]);
     const [open, setOpen] = useState(false);
+    const [openAddButton, setOpenAddButton] = useState(false);
     const loadServices = async (e) => {
       try{
          const response = await axios.get(
@@ -41,10 +44,31 @@ const Services = (props) =>{
         setServices(prevState => [ newService, ...prevState]);
       };
 
+      useEffect(()=>{
+        const loadDataUser = async (e) => {
+            try{
+               const response = await axios.get(
+                  "/api/private/AccountPrivateData/getRole",
+                  {
+                    headers: { 'Content-Type': 'application/json' },
+                    withCredentials: true,
+                  }
+              );  
+              
+              if(response?.data === "Admin")
+                  setOpenAddButton(true);
+            }catch(err){
+              
+            }         
+          }
+          loadDataUser();
+        
+    },[]);
+
        return(
         <>
             {loading ? (
-            <h1>Загрузка...</h1>) : (
+            <Preloader/>) : (
             <> 
                   <div id="bagroundBlue" className="hero is-primary">
               <div className="hero-body container">
@@ -54,6 +78,7 @@ const Services = (props) =>{
             <br />
             <div className="container">
               <div className="column columns is-multiline">
+                {!openAddButton ? "" : 
               <div className=" column is-half">
                   <div className="box">
                     <div className="media">                     
@@ -72,11 +97,16 @@ const Services = (props) =>{
                     </div>
                   </div>
                 </div>
+                }
                 {services && services.length ? (
                   services.map((service, index) => (
                     <ServiceItem
                       product={service}
                       key={index}
+                      showToastFiveSec={showToastFiveSec}
+                      services={services}
+                      setServices={setServices}
+                      openAddButton={openAddButton}
                       addToCart={()=> console.log("adding")}
                     />
                   ))
@@ -93,7 +123,7 @@ const Services = (props) =>{
                               setOpen={setOpen}
                               showToast={showToastFiveSec}
                               AddNewUser={AddNewService}
-                              loadServices={loadServices}
+                              loadservices={loadServices}                             
 
                 />      
             </>

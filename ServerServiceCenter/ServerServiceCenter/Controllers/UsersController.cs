@@ -4,6 +4,7 @@ using DBManager.Pattern.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.ModelsView;
+using ServerServiceCenter.Helpers;
 using System;
 using System.IO;
 using System.Text;
@@ -13,7 +14,7 @@ using System.Text.Json;
 
 namespace ServerServiceCenter.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/private/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -28,39 +29,50 @@ namespace ServerServiceCenter.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public async Task<IEnumerable<User>> Get()
+        public async Task<IActionResult> Get()
         {
-            //string json = JsonSerializer.Serialize<IEnumerable<User>>();
-            IEnumerable<User> users = userRepository.GetList();
-            return users;
+            try
+            {
+                var roleCookie = Request.Cookies["role"];
+                if (roleCookie != "Admin" && roleCookie != "Master")
+                    return StatusCode(409);
+                RoleRepository roleRepository = unitOfWork.GetRoleRepository();
+                Role userRole = roleRepository.GetRoleForName("User");
+                int roleIdUser = 0;
+                if (userRole != null)
+                    roleIdUser = userRole.Id;
+                IEnumerable<User> users = userRepository.GetList().Where(item => item.IdRole == roleIdUser);
+                return new ObjectResult(users);
+            }
+            catch
+            {
+                return BadRequest(500);
+            }
         }
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
-        public async Task<User> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            User user = userRepository.GetItem(id);
-            return user;
+            try
+            {
+                var roleCookie = Request.Cookies["role"];
+                if (roleCookie != "Admin" && roleCookie != "Master")
+                    return StatusCode(409);
+                User user = userRepository.GetItem(id);
+                return new ObjectResult(user);
+            }
+            catch
+            {
+                return BadRequest(500);
+            }
         }
 
         // POST api/<ValuesController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] RegUser viewuser)
+        public async Task<IActionResult> Post([FromBody] StafferView viewuser)
         {
-            
             Message messageRegister = new Message();
-            //var reader = Request.BodyReader;
-            //var stream = reader.AsStream();
-            //using (MemoryStream memoryStream = new MemoryStream())
-            //{
-            //    stream.CopyTo(memoryStream);
-            //    memoryStream.Position = 0;
-            //    var bytes = memoryStream.ToArray();
-            //    var json = Encoding.UTF8.GetString(bytes);
-            //    viewuser = JsonSerializer.Deserialize<RegUser>(json);
-            //}
-              
-            
             try
             {
                 if (viewuser == null)
@@ -71,6 +83,9 @@ namespace ServerServiceCenter.Controllers
                 else if (viewuser != null)
                 {
 
+                    var roleCookie = Request.Cookies["role"];
+                    if (roleCookie != "Admin" && roleCookie != "Master")
+                        return StatusCode(409);
                     UserRepository userRepository = unitOfWork.GetUserRepository();
                     string messageFindUser = null;
                     User findUser = userRepository.FindUser(ref messageFindUser, null, viewuser.PhoneNumber, viewuser.Email);
@@ -89,16 +104,19 @@ namespace ServerServiceCenter.Controllers
                             User findUserLogin = userRepository.FindUser(ref messageFindUser, newLogin);
                             if (findUser == null && messageFindUser != "User found")
                                 break;
-                        }                      
+                        }
+                        string newPassword = RegUser.RandomString(newLogin.Length + newLogin.Length % 7);
 
                         messageRegister.MessageValue = messageFindUser;
                         RoleRepository roleRepository = unitOfWork.GetRoleRepository();
-                        Role roleNewUser = roleRepository.GetRoleForName("User");
-                        User newUser = new User(viewuser, roleNewUser);
+                        Role roleNewUser = roleRepository.GetItem(viewuser.StafferRole);
+                        User newUser = new User(viewuser, roleNewUser, newPassword);
                         newUser.Login = newLogin;
                         userRepository.Create(newUser);
                         userRepository.Save();
-
+                        Mail.SendEmail("Вы были зарегестрированы в сервисном центре ServiceCenter.\nВаш логин: "
+                            + newUser.Login + "\nВаш пароль: " + newPassword + "\nЧтобы повысить безопастность, просьба сменить пароль на свой собственный, войдя в аккаунт.",
+                            newUser.Email);
                         messageRegister.MessageValue = "New user created!";
                         Response.StatusCode = 201;
                         Response.ContentType = "application/json";
@@ -115,49 +133,82 @@ namespace ServerServiceCenter.Controllers
         }
 
         // PUT api/<ValuesController>/5
-        [HttpPut("{id}/{newValue}/{dataField}")]
-        public async Task Put(int id, string newValue, string dataField)
+        [HttpPut("{id}/{dataField}")]
+        public async Task<IActionResult> Put(int id, string dataField, [FromBody] string newValue)
         {
-            User user = userRepository.GetItem(id);
-            switch (dataField)
+            try
             {
-                case "login":
-                    user.Login = newValue;
-                    break;
-                case "userName":
-                    user.UserName = newValue;
-                    break;
-                case "email":
-                    user.Email = newValue;
-                    break;
-                case "phoneNumber":
-                    user.PhoneNumber = newValue;
-                    break;
-                case "idRole":
-                    user.IdRole = int.Parse(newValue);
-                    break;
+                var roleCookie = Request.Cookies["role"];
+                if (roleCookie != "Admin" && roleCookie != "Master")
+                    return StatusCode(409);
+                User user = userRepository.GetItem(id);
+                switch (dataField)
+                {
+                    case "login":
+                        user.Login = newValue;
+                        break;
+                    case "userName":
+                        user.UserName = newValue;
+                        break;
+                    case "email":
+                        user.Email = newValue;
+                        break;
+                    case "phoneNumber":
+                        user.PhoneNumber = newValue;
+                        break;
+                    case "idRole":
+                        user.IdRole = int.Parse(newValue);
+                        break;
+                }
+                userRepository.Update(user);
+                userRepository.Save();
+                return Ok();
             }
-            userRepository.Update(user);
-            userRepository.Save();
+            catch
+            {
+                return BadRequest(500);
+            }
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-        public async Task Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            userRepository.Delete(id);
-            userRepository.Save();
+            try
+            {
+                var roleCookie = Request.Cookies["role"];
+                if (roleCookie != "Admin")
+                    return StatusCode(409);
+                userRepository.Delete(id);
+                userRepository.Save();
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest(500);
+            }
+
         }
 
-        
+
         [HttpPost("DeleteUsers")]
         public async Task<IActionResult> DeleteUsers([FromBody] int[] idUsers)
-        {                
-            userRepository.DeleteUsers(idUsers);
-            userRepository.Save();
-            Response.StatusCode = 201;
-            Response.ContentType = "application/json";
-            return new ObjectResult(new Message("Users Deleted"));
+        {
+            try
+            {
+                var roleCookie = Request.Cookies["role"];
+                if (roleCookie != "Admin")
+                    return StatusCode(409);
+                userRepository.DeleteUsers(idUsers);
+                userRepository.Save();
+                Response.StatusCode = 201;
+                Response.ContentType = "application/json";
+                return new ObjectResult(new Message("Users Deleted"));
+            }
+            catch
+            {
+                return BadRequest(500);
+            }
         }
     }
 }

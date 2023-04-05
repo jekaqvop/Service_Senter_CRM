@@ -26,6 +26,7 @@ namespace ServerServiceCenter.Helpers
             return new JwtSecurityTokenHandler().WriteToken(securityToken);
 
         }
+
         public JwtSecurityToken Verify(string jwt)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

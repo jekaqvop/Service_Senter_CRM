@@ -1,10 +1,12 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
 import axios from '../api/axios';
+import Preloader from '../components/Preloader/Preloader';
 import './CSS/ServiceItemPage.css';
 
 const SERVICES_URL = "/api/Services";
 const IMAGES_URL = "/api/Images";
-const BASE_URL = "https://localhost:44340";
+const BASE_URL = "http://192.168.68.107:5000";
+//const BASE_URL = "https://localhost:44340";
 
 const ServicePageid = (props) => {
     const [loading, setLoading] = useState(true);
@@ -39,7 +41,7 @@ const ServicePageid = (props) => {
                    }
                );  
                console.log(response?.data);
-               setImages(response?.data);  
+               response?.data ? setImages(response?.data) : setImages([{}]);  
              }catch(err){
                setLoading(false);
              } 
@@ -49,22 +51,21 @@ const ServicePageid = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 	return (
-	<>{ loading ? (<div>Загрузка...</div>) : (      
+	<>{ loading ? (<Preloader/>) : (      
          <div className='container-pageservice'>
 			<div id="wrapper">
 		        <header>
                    
                         <nav>
                             <ul className="top-menu">
-                                <li><a href="/home/">HOME</a></li>
-                                <li className="active">ABOUT US</li>
-                                <li><a href="/services/">SERVICES</a></li>
-                                <li><a href="/partners/">PARTNERS</a></li>
-                                <li><a href="/customers/">CUSTOMERS</a></li>
-                                <li><a href="/projects/">PROJECTS</a></li>
-                                <li><a href="/careers/">CAREERS</a></li>
+                                <li ><a  href="/">HOME</a></li>
+                             
+                                <li className="active">SERVICES</li>
+                                <li id='right'><a href="/register/">REGISTER</a></li>
+                                <li id='right'><a href="/login/">LOGIN</a></li>
                               
                             </ul>
+                            
                         </nav>
                     </header>		       
 		        <section>
@@ -84,27 +85,22 @@ const ServicePageid = (props) => {
                     </div>                  
                 </section>
 	        </div>
-	        <footer>
+            <footer>
                 <div id="footer">
                     <div id="twitter">
                         <h3>TWITTER FEED</h3>
                         
                         <p>
-                            In ultricies pellentesque massa a porta. Aliquam ipsum enim, hendrerit ut porta nec, ullamcorper et nulla. In eget mi dui, sit amet scelerisque nunc. Aenean aug
+                        Одной из приоритетных задач сервисного является продвижение качественных услуг в сфере компьютерного сервиса. 
                         </p>
                     </div>
                     <div id="sitemap">
                         <h3>SITEMAP</h3>
                         <div>
-                            <a href="/home/">Home</a>
-                            <a href="/about/">About</a>
+                            <a href="/home/">Home</a>                          
                             <a href="/services/">Services</a>
                         </div>
-                        <div>
-                            <a href="/partners/">Partners</a>
-                            <a href="/customers/">Support</a>
-                            <a href="/contact/">Contact</a>
-                        </div>
+                       
                     </div>
                     <div id="social">
                         <h3>SOCIAL NETWORKS</h3>

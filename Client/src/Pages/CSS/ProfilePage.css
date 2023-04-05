@@ -1,0 +1,29 @@
+.centered-conteiner{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-data{
+    float: right;
+    font-family: 'Nunito', sans-serif;
+font-size: 22px;
+padding: 0.25rem;
+border-radius: 0.5rem;
+color: #000;
+}
+
+.centered-conteiner > section{
+    margin: 10px;
+    width: 80%;
+}
+
+.centered-conteiner label{
+    font-size: 1.2rem;
+}
+
+.centered-conteiner input{
+    height: 40px;
+    margin-top: 7px;
+}

@@ -6,6 +6,7 @@
 #bagroundBlue{
     background-color: #308efe;
     color: #fff;
+    font-size: 0.8rem;
 }
   
 #borderBlueAndText{
@@ -30,4 +31,16 @@
 #buttonAddService{
     font-size: 1.3rem;
     min-height: 78px;
+    padding: 2.45rem;
 }
+
+#delete_blue_button{
+    background-color: transparent;
+    border-color: #308efe;
+    color: #308efe;
+    margin-right: 10px;
+}
+
+.media div {
+    margin-right: 0;
+  }

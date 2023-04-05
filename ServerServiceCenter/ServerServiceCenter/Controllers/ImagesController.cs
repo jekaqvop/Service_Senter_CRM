@@ -39,23 +39,5 @@ namespace ServerServiceCenter.Controllers
             }
             return storageImages.FirstOrDefault();
         }
-
-        // POST api/<ImagesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<ImagesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ImagesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

@@ -19,6 +19,7 @@ namespace DBManager.Pattern
         }
 
         private UserRepository userRepository;
+        private OrderRepository orderRepository;
         private DeviceRepository deviceRepository;
         private ServiceRepository serviceRepository;
         private ServicesPerformedRepository servicesPerformedRepository;
@@ -37,6 +38,13 @@ namespace DBManager.Pattern
             if (userRepository == null)
                 userRepository = new UserRepository(context);
             return userRepository;            
+        } 
+        
+        public OrderRepository GetOrderRepository()
+        {           
+            if (orderRepository == null)
+                orderRepository = new OrderRepository(context);
+            return orderRepository;            
         }
 
         public RoleRepository GetRoleRepository()

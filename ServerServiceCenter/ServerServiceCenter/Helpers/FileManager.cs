@@ -1,4 +1,5 @@
-﻿using SixLabors.ImageSharp;
+﻿using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Security.Cryptography;
 using System.Text;
@@ -34,17 +35,27 @@ namespace ServerServiceCenter.Helpers
                     case "gif":
                         image.SaveAsGif(filePath);
                         break;
-                }
+                }                
             }
+            
             return filePath.Replace("wwwroot/", "");
         }
 
+        public static void DeleteFile(string path)        
+        {            
+            if (File.Exists("wwwroot/" + path))
+            {
+                File.Delete("wwwroot/" + path);
+            }                             
+        }
+        
         public static string GetImagePath(int idService, int numberImage, string fileName)
         {
             MD5 md5 = MD5.Create();
             var userDirectory = Convert.ToBase64String(
                                         md5.ComputeHash(
                                             Encoding.UTF8.GetBytes(idService.ToString() + numberImage.ToString())));
+            userDirectory = BCrypt.Net.BCrypt.HashPassword(userDirectory);
             userDirectory = Regex.Replace(userDirectory, "[^0-9a-zA-Z]+", "");
 
             return userDirectory + fileName;

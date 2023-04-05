@@ -31,12 +31,27 @@ nav li {
 	list-style-position: inside;
 	font: 14px 'Oswald', sans-serif;
 	padding: 10px;
+	min-width: 150px;
 }
 
 .top-menu li {
-	display: inline-block;
+	display: inline-block;		
 	padding: 10px 30px;
-	margin: 0;
+	margin: 0px 10px;
+	width: 150px;
+	text-align: center;
+	font-size: 1rem;
+}
+
+.top-menu > .active{
+	text-align: center;
+	border: 2px solid #308efe; /* Параметры рамки */
+	
+}
+
+.top-menu > #right{
+	text-align: center;
+	border: 2px solid #308efe; /* Параметры рамки */
 }
 
 .top-menu li.active {
@@ -224,4 +239,22 @@ footer a {
     display: flex;
 	flex-direction: column;
 	min-height: 100%;
+}
+
+#right{
+	float: right;
+	background: transparent;
+}
+
+#maxWidth{
+	max-width: 80%;
+}
+
+.container > div > div{
+	margin: auto;
+}
+
+#mini_image{
+	height: 96px;
+	width: 20vh;
 }

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
 import axios from '../api/axios';
+import Preloader from '../components/Preloader/Preloader';
 
 const Auth_URL = "/api/Auth/User";
 
@@ -69,14 +70,14 @@ const  PrivateRoute = ({children }) => {
   if (loading ) { 
        return (    
         <div id='BackgroundBody'>
-          <p>Loading...</p>   
+          <Preloader/>
         </div>         
     );
   }  
   else if(loading2){
         return (    
           <div id='BackgroundBody'>
-            <p>Loading...</p>   
+            <Preloader/>
           </div>          
     );
   }

@@ -22,7 +22,7 @@ const styles = theme => ({
       'height': '90%',
     }
   });  
- const SERVICES_URL = "/api/Services"
+ const SERVICES_URL = "/api/private/Services"
 const AddServices = (props) => {
   const serviceRef = React.useRef(null);
   const [title, setTitle] = useState('');
@@ -57,7 +57,7 @@ const AddServices = (props) => {
 			props.showToast("warning", 'Цена должна быть численной.');
 			return;
 		}
-    var serviceFile = new FormData();
+    let serviceFile = new FormData();
     var i = 0;
     function dataURLtoFile(dataurl, filename) {
       var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
@@ -89,18 +89,28 @@ const AddServices = (props) => {
 					headers: { 'Content-Type': 'application/json' },
 					withCredentials: true,
 				}
-			);		
-				
-      handleClose();
-      props.loadservices();
-      
+			);	
+      if(response?.data === "Такого пользователя не существует!")
+        props.showToast("error", 'Такого пользователя не существует!');
+      else if(response?.data === "Ошибка получения доступа!")
+        props.showToast("error", 'Ошибка получения доступа!');
+      else{
+        setTitle('');
+        setPrice('');
+        setdescription('');
+        setImages([]);      
+        handleClose();
+        props.loadservices();
+        props.showToast("success", 'Услуга добавлена!');
+      }   
+     
 		} catch (err) {
 			if (!err?.response) {
 				props.showToast("error", 'Сервер недоступен. Попробуйте позже.');
 			} else if (err.response?.status === 409) {
 				props.showToast("error", 'Такая почта или номер телефона уже используются.');
 			} else {
-				props.showToast("error", 'Возникла ошибка при добавлении пользователя!');
+				props.showToast("error", 'Возникла ошибка при добавлении услуги!');
 			}			
 		}
 	};
