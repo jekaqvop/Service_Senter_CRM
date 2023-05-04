@@ -152,7 +152,7 @@ const selectOptions = [
     return (
       <Confirm
       onConfirm={() => handleDelete(row.id)}
-      body="Вы уверены, что хотите удалить этого пользователя? Данный процесс необратим!"
+      body="Вы уверены, что хотите удалить это заказ? Данный процесс необратим!"
       confirmText="Подтвердить удаление"
       title="Подтверждение удаления">
         <Button
@@ -359,7 +359,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
                       onTableChange={ handleTableChange }
                       remote={{cellEdit: true}}
                     
-                      noDataIndication="Пользователей нет"
+                      noDataIndication="Заказов нет"
                       striped
                       hover 
                       />         

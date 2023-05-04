@@ -19,8 +19,7 @@ namespace Models
         public string PhoneNumber { get; set; }
         [JsonIgnore]
         public string Pwd { get; set; }
-        [JsonIgnore]
-        public string? Token { get; set; }
+
         public int IdRole { get; set; }
         [JsonIgnore]
         public Role RoleUser { get; set; }

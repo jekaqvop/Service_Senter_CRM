@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../api/axios';
-import ServiceItem from '../components/ServiceItem';
 import "./CSS/Services.css"
 import 'bulma/css/bulma.css';
-import Button from '@material-ui/core/Button';
-import AddServices from '../components/AddService/AddService';
 import Preloader from '../components/Preloader/Preloader';
 import MyOrderItem from '../components/MyOrderItem';
 
@@ -13,7 +10,6 @@ const ORDERS_URL = "/api/private/AccountPrivateData";
 const MyOrders = (props) =>{
     const [loading, setLoading] = useState(false);
     const [orders, setOrders] = useState([]);
-    const [open, setOpen] = useState(false);
     const loadServices = async (e) => {
       try{
          const response = await axios.get(

@@ -1,67 +1,128 @@
-import React, { useState } from "react";
-import Avartar from "../components/chatComponents/Avartar";
-import MessagesContainer from "../components/chatComponents/MessagesContainer";
-import MessageTextBoxContainer from "../components/chatComponents/MessageTextBoxContainer";
-import SendButton from "../components/chatComponents/SendButton";
-import "./CSS/Messanger.css";
+import React, { useEffect, useState } from "react";
 import "../components/chatComponents/CSS_Chat/chat_interface.css";
 import "../components/chatComponents/CSS_Chat/temporary.css";
+import Chat from "../components/chatComponents/Chat";
+import Lobby from "../components/chatComponents/Lobby";
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import axios from "../api/axios";
 
 
-const Messenger = () =>{
-    const [Messages, setMessages] = useState([]);
-    const [Current_message, setCurrent_message] = useState("");
-      
+const Messenger = () =>{ 
+  const [connection, setConnection] = useState();
+  const [messages, setMessages] = useState([]);
+  const [currRoom, setCurrRoom] = useState(0);
+  const [current_message, setCurrent_message] = useState("");
+  const [images, setImages] = useState([]);
 
-  const addMessageBox = (enter=true) => {
-    
-    setMessages(prevState => [...prevState, Current_message]);
-   
-  }
+  const CreateConnect = async () => {   
+      try {
+        const connection = new HubConnectionBuilder()
+          .withUrl("https://localhost:44340/chat")
+          .configureLogging(LogLevel.Information)
+          .build();
+  
+          connection.on("ReceiveMessage", message => {            
+            setMessages(messages => [...messages, message]);
+          });
 
-  const handleClick = () => {
-    addMessageBox();
-    setCurrent_message("");  
-  }
+          connection.on("SetMessages", (messages)=>{
+            setMessages(messages);          
+          }); 
 
-  const onChange = (e) => {   
-      setCurrent_message(e)  
-  }
-
-    const _handleKeyPress = (e) => {
-        let enter_pressed = false;
-        if(e.key === "Enter"){
-          enter_pressed = true;
-        }
+          connection.on("LoadMoreMessages", (moreMessages) =>{
+            setMessages(prevState => [...moreMessages, ...prevState])
+          });
        
-    } 
-    return(
-        <>
-        <div className="messanger">
-          <div className="container_rooms">
-              <div>
-              <ul className="messages" >
-                <li className={`message left appeared`}>
-                  <Avartar></Avartar>
-                  <div >
-                      <div className="text">fsfsdfsdf</div>
-                  </div>
-                </li>
-                </ul>
-              </div>
-          </div>
-          <div className="chat_window">
-          <MessagesContainer messages={Messages}></MessagesContainer>
-            <div className="bottom_wrapper clearfix">
-              <MessageTextBoxContainer 
-                _handleKeyPress={_handleKeyPress} 
-                onChange={onChange} 
-                message={Current_message}></MessageTextBoxContainer>
-              <SendButton handleClick={handleClick}></SendButton>
-            </div>
-            
-          </div>
-        </div>       
+          connection.onclose(e => {
+            setConnection();       
+            setCurrRoom(0);
+          });
+  
+          await connection.start();
+          setConnection(connection);
+      } catch (e) {
+        console.log(e);
+      }    
+  };
+  
+  useEffect(()=>{
+    if(connection){
+      connection.invoke("JoinRoom", currRoom);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [connection]);
+
+  const sendImage = async (images) =>{
+    let serviceFile = new FormData();
+      var i = 0;
+      function dataURLtoFile(dataurl, filename) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, {type:mime});
+    }
+    
+    
+      images.forEach(element=>{
+        var fileType = element.data_url.substring("data:image/".length, element.data_url.indexOf(";base64"));
+        var file = dataURLtoFile(element.data_url, i + '.' + fileType);
+        serviceFile.append('images[' + i + ']', file);
+        i += 1;
+      });
+      
+    const response = await axios.post(
+      "/api/ImageUpload/" + currRoom,
+      serviceFile,
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      }
+    ).then(()=> setImages([]));  
+  }
+
+  const sendMessage = async () => {   
+    try {
+      
+      if(images.length)
+        sendImage(images);
+
+      if(current_message)
+        await connection.invoke("SendMessage", current_message, currRoom);
+
+      setCurrent_message('');
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const closeConnection = async () => {
+    try {
+      await connection.stop();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const openChat = async (id) => {
+      setCurrRoom(id);
+      CreateConnect();
+      
+  }  
+
+  const loadMoreMessages = () =>{
+    connection.invoke('LoadMoreMessages', currRoom, messages.length);
+  }
+    
+  return(
+        <>     
+      <hr className='line' />
+        {!connection
+          ? <Lobby openChat={openChat} setCurrRoom={setCurrRoom}/>
+          : <Chat Current_message={current_message} setCurrent_message={setCurrent_message}
+          sendMessage={sendMessage} messages={messages} closeConnection={closeConnection}
+          images={images} setImages={setImages} loadMoreMessages={loadMoreMessages}/>}      
         </>
     );
 }

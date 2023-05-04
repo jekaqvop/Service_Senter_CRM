@@ -132,7 +132,7 @@ namespace ServerServiceCenter.Controllers
                 deviceRepository.Save();
                 Response.StatusCode = 201;
                 Response.ContentType = "application/json";
-                return new ObjectResult(new Message("Devices Deleted"));
+                return new ObjectResult(new MessageForView("Devices Deleted"));
             }
             catch (Exception e)
             {

@@ -5,7 +5,7 @@ import axios from "../api/axios";
 import Confirm from 'react-confirm-bootstrap';
 
 const IMAGES_URL = "/api/Images";
-const BASE_URL = "http://192.168.68.107:5000";
+const BASE_URL = "https://localhost:44340";
 const SERVICESPRIVATE_URL = "/api/private/Services";
 
 const ServiceItem = props => {
@@ -66,7 +66,7 @@ const DelteService = (id) =>{
           <div className="media-content">
             <b style={{ textTransform: "capitalize" }}>
               {product.title}{" "}
-              <span id="bagroundBlue" className="tag is-primary">{product.price === 0 ? "Бесплатно" : product.price} </span>
+              <span id="bagroundBlue" className="tag is-primary">{product.price === 0 ? "Бесплатно" : ("От " + product.price)} </span>
             </b>
             <div>{product.description.substring(0, 101)}...</div>           
             <div className="is-clearfix">

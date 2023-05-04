@@ -8,35 +8,35 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DBManager.Pattern.Repositories
-{
-    public class OrderRepository : IRepository<Order>
+{    
+    public class RoomUsersRepository : IRepository<RoomUser>
     {
         private AppDbContext db;
 
-        public OrderRepository(AppDbContext context)
+        public RoomUsersRepository(AppDbContext context)
         {
             this.db = context;
         }
-        public void Create(Order item)
+        public void Create(RoomUser item)
         {
-            db.Orders.Add(item);
+            db.RoomUsers.Add(item);
         }
 
         public void Delete(int id)
         {
-            Order item = db.Orders.Find(id);
+            RoomUser item = db.RoomUsers.Find(id);
             if (item != null)
-                db.Orders.Remove(item);
+                db.RoomUsers.Remove(item);
         }
 
-        public Order GetItem(int id)
+        public RoomUser GetItem(int id)
         {
-            return db.Orders.Find(id);
+            return db.RoomUsers.Find(id);
         }
 
-        public IEnumerable<Order> GetList()
+        public IEnumerable<RoomUser> GetList()
         {
-            return db.Orders;
+            return db.RoomUsers;
         }
 
         public void Save()
@@ -44,7 +44,7 @@ namespace DBManager.Pattern.Repositories
             db.SaveChanges();
         }
 
-        public void Update(Order item)
+        public void Update(RoomUser item)
         {
             db.Entry(item).State = EntityState.Modified;
         }
@@ -71,9 +71,9 @@ namespace DBManager.Pattern.Repositories
 
         public void DeleteOrders(int[] ids)
         {
-            IEnumerable<Order> devices = db.Orders.Where(item => ids.Contains(item.Id));
+            IEnumerable<RoomUser> devices = db.RoomUsers.Where(item => ids.Contains(item.Id));
             if (devices != null)
-                db.Orders.RemoveRange(devices);
+                db.RoomUsers.RemoveRange(devices);
         }
     }
 }

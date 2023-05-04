@@ -5,7 +5,7 @@ import './CSS/ServiceItemPage.css';
 
 const SERVICES_URL = "/api/Services";
 const IMAGES_URL = "/api/Images";
-const BASE_URL = "http://192.168.68.107:5000";
+const BASE_URL = "https://localhost:44340";
 //const BASE_URL = "https://localhost:44340";
 
 const ServicePageid = (props) => {

@@ -3,6 +3,8 @@ import { Navigate } from 'react-router-dom';
 import axios from './api/axios';
 import './index.css';
 import { AuthContext } from './context/AuthContext';
+import Preloader from './components/Preloader/Preloader';
+
 const LOGIN_URL = "/api/Auth/login";
 
 const Login = (history) => {
@@ -13,6 +15,7 @@ const Login = (history) => {
 	const [Password, setPassword] = useState('');
 	const [errMsg, setErrMsg] = useState('');
 	const [success, setSuccess] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const { setAuthData } = useContext(AuthContext);
 
@@ -27,6 +30,7 @@ const Login = (history) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();		
 		try {
+			setIsLoading(true);
 			const response = await axios.post(
 				LOGIN_URL,
 				JSON.stringify({ Login, Password }),
@@ -40,15 +44,17 @@ const Login = (history) => {
 			setSuccess(response?.data?.success);
 			setLogin('');
 			setPassword('');
+			setIsLoading(false);
 		} catch (err) {
+			setIsLoading(false);
 			if (!err?.response) {
-				setErrMsg('No Server Response');
+				setErrMsg('Сервер не отвечает. Повторите попытку позже.');
 			} else if (err.response?.status === 400) {
-				setErrMsg('Missing Username or Password');
+				setErrMsg('Неверный логин или пароль');
 			} else if (err.response?.status === 401) {
-				setErrMsg('Unauthorized');
+				setErrMsg('Сервер вас разлогинил');
 			} else {
-				setErrMsg('Login Failed');
+				setErrMsg('Неверный логин');
 			}
 			errRef.current.focus();
 		}
@@ -60,6 +66,7 @@ const Login = (history) => {
 			{success ? (
 			<Navigate to="/account/services"/>
 			) : (
+				isLoading ? <Preloader/> : (
 				<div id='BackgroundBody'>
 				<section>
 					<p
@@ -69,12 +76,12 @@ const Login = (history) => {
 					>
 						{errMsg}
 					</p>
-					<h1 id='title-singreg'> Sign In</h1>
+					<h1 id='title-singreg'>Вход</h1>
 					<form onSubmit={handleSubmit}>
-						<label htmlFor="username">Username:</label>
+						<label htmlFor="login">Логин:</label>
 						<input
 							type="text"
-							id="username"
+							id="login"
 							ref={userRef}
 							autoComplete="off"
 							onChange={(e) => setLogin(e.target.value)}
@@ -82,7 +89,7 @@ const Login = (history) => {
 							required
 						/>
 
-						<label htmlFor="password">Password:</label>
+						<label htmlFor="password">Пароль:</label>
 						<input
 							type="password"
 							id="password"
@@ -90,17 +97,18 @@ const Login = (history) => {
 							value={Password}
 							required
 						/>
-						<button id='button-sing'>Sign In</button>
+						<button id='button-sing'>Войти</button>
 					</form>
 					<p>
-						Need an Account?
+						Нет аккаунта?
 						<br />
 						<span className="line" >
-							<a href="/register">Sign Up</a>
+							<a href="/register">Зарегистрироваться</a>
 						</span>
 					</p>
 				</section>
 				</div>
+			)
 			)}
 		</>
 	);

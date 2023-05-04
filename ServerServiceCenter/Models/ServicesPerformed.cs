@@ -15,7 +15,5 @@ namespace Models
         virtual public int IdService { get; set; }
         virtual public Service Service { get; set; }    
 
-        //public ICollection<Order> Orders { get; set; }
-        //public ICollection<Service> Services { get; set; }
     }
 }

@@ -1,0 +1,49 @@
+.cAvkWb .contacts .contact {
+    flex-direction: row;
+    -moz-box-pack: start;
+    justify-content: flex-start;
+    padding: 0.4rem;
+    gap: 1rem;
+  }
+
+  .cAvkWb .contact {
+    background-color: rgba(106, 160, 226, 0.22);
+    min-height: 5rem;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    display: flex;
+    -moz-box-align: center;
+    align-items: center;
+    -moz-box-pack: center;
+    justify-content: center;
+    transition: all 0.5s ease-in-out 0s;
+  }
+
+.contacts .contact:hover {
+    filter: brightness(50%);
+  }
+
+  .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .cAvkWb .contacts .contact .username h3 {
+    color: white;
+    display: block;
+  }
+
+  .contact{
+    width: 40%;
+    font-size: 30px;
+    margin: 7px;
+  }
+
+  .contacts{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }

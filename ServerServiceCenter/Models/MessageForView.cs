@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class Message
+    public class MessageForView
     {
-        public Message() { }
-        public Message(string messageValue)
+        public MessageForView() { }
+        public MessageForView(string messageValue)
         {
             MessageValue = messageValue;
         }

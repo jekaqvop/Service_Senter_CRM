@@ -69,7 +69,7 @@ const sidebarNavItemsUser = [
     {
         display: 'Мессенджер',
         icon: <i className='bx bx-male'></i>,
-        to: '/account/im',
+        to: '/account/messages',
         section: 'messages'
     },
     {
@@ -96,7 +96,7 @@ const sidebarNavItemsMaster = [
     {
         display: 'Мессенджер',
         icon: <i className='bx bx-male'></i>,
-        to: '/account/im',
+        to: '/account/messages',
         section: 'messages'
     },
     {
@@ -241,8 +241,7 @@ const Sidebar = () => {
                                     Выйти из акаунта
                                 </Button>     
                             </div>
-                        </Box>
-                           
+                        </Box>                           
                 </div>
             </div>
         </div>

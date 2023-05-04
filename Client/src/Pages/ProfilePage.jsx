@@ -334,7 +334,7 @@ const ProfilePage = (props) => {
                   </div>
                   <div>
                      <label htmlFor="password">
-                        Старый пароль:
+                        Текущий пароль:
                         <FontAwesomeIcon
                            icon={faCheck}
                            className={validOldPwd ? 'valid' : 'hide'}
@@ -418,7 +418,7 @@ const ProfilePage = (props) => {
                   </div>
                      <div>
                      <label htmlFor="confirm_pwd">
-                     Подтвердите новый пароль:
+                     Повторите новый пароль:
                         <FontAwesomeIcon
                            icon={faCheck}
                            className={validMatch && matchPwd ? 'valid' : 'hide'}

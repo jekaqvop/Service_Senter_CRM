@@ -30,41 +30,41 @@ const Auth_URL = "/api/Auth/User";
 const  PrivateRoute = ({children }) => {
   const { auth } = useContext(AuthContext);
   const { loading } = auth;
-  const[isAuth, setIsAuth] = useState();
-  const[statusCode, setStatusCode] = useState(400);
-  const[loading2, setLoading2] = useState(true);
+  //const[isAuth, setIsAuth] = useState();
+  //const[statusCode, setStatusCode] = useState(400);
+  //const[loading2, setLoading2] = useState(true);
 
-  useEffect( () => {
-    (
-      async () =>  {
+  //useEffect( () => {
+  //  (
+  //    async () =>  {
 
-        try {
-          const response = await axios.get(
-            Auth_URL,				
-            {
-              headers: { 'Content-Type': 'application/json' },
-              withCredentials: true,
-            }
-          );  
-          
-          
-          setStatusCode(response?.status);
-          setIsAuth(response?.data?.success);
-        //console.log(isAuth + " responce");
-        } catch (err) {
-          //console.log("error");
-          setStatusCode(err?.response?.status);
-          setIsAuth(false);
-        }
-        
-      }
-    )(); }, [])
+  //      //try {
+  //      //  const response = await axios.get(
+  //      //    Auth_URL,				
+  //      //    {
+  //      //      headers: { 'Content-Type': 'application/json' },
+  //      //      withCredentials: true,
+  //      //    }
+  //      //  );  
+  //      //  
+  //      //  
+  //      //  setStatusCode(response?.status);
+  //      //  setIsAuth(response?.data?.success);
+  //      ////console.log(isAuth + " responce");
+  //      //} catch (err) {
+  //      //  //console.log("error");
+  //      //  setStatusCode(err?.response?.status);
+  //      //  setIsAuth(false);
+  //      //}
+  //      setIsAuth(true);
+  //    }
+  //  )(); }, [])
 
-    useEffect(()=>{     
-      if(isAuth === false || isAuth === true){
-        setLoading2(false);
-      }        
-    }, [statusCode, isAuth]);
+  //  useEffect(()=>{     
+  //    if(isAuth === false || isAuth === true){
+  //      setLoading2(false);
+  //    }        
+  //  }, [statusCode, isAuth]);
 
 
   if (loading ) { 
@@ -74,15 +74,15 @@ const  PrivateRoute = ({children }) => {
         </div>         
     );
   }  
-  else if(loading2){
-        return (    
-          <div id='BackgroundBody'>
-            <Preloader/>
-          </div>          
-    );
-  }
+  //else if(loading2){
+  //      return (    
+  //        <div id='BackgroundBody'>
+  //          <Preloader/>
+  //        </div>          
+  //  );
+  //}
   //(statusCode < 400 || statusCode >= 500) 
-   return (auth.data && isAuth && statusCode !== 401) ? children : <Navigate to="/Login" />;
+   return (auth.data) ? children : <Navigate to="/Login" />;
 };
 
 export default PrivateRoute;

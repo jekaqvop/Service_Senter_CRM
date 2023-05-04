@@ -139,7 +139,7 @@ const Register = () => {
 					>
 						{errMsg}
 					</p>
-					<h1 id='title-singreg'>Register</h1>
+					<h1 id='title-singreg'>Регистрация</h1>
 					
 					<form onSubmit={handleSubmit}>
 					<label htmlFor="login">
@@ -156,13 +156,13 @@ const Register = () => {
 						<input
 							type="text"
 							id="login"		
-							ref={userRef}				
-							autoComplete="off"
+							ref={userRef}		
 							onChange={(e) => setLogin(e.target.value)}
 							value={login}
 							required
 							aria-invalid={validLogin ? 'false' : 'true'}
 							aria-describedby="uidnote"
+							autocomplete="new-login"
 							onFocus={() => setLoginFocus(true)}
 							onBlur={() => setLoginFocus(false)}
 						/>
@@ -194,9 +194,8 @@ const Register = () => {
 						</label>
 						<input
 							type="text"
-							id="username"
-							
-							autoComplete="off"
+							id="username"						
+							autocomplete="new-fio"
 							onChange={(e) => setUser(e.target.value)}
 							value={userName}
 							required
@@ -232,9 +231,8 @@ const Register = () => {
 						</label>
 						<input
 							type="text"
-							id="email"
-							
-							autoComplete="off"
+							id="email"							
+							autocomplete="off"
 							onChange={(e) => setEmail(e.target.value)}
 							value={email}
 							required
@@ -269,7 +267,6 @@ const Register = () => {
 						<input
 							type="text"
 							id="phoneNumber"
-							
 							autoComplete="off"
 							onChange={(e) => setPhoneNumber(e.target.value)}
 							value={phoneNumber}
@@ -290,7 +287,7 @@ const Register = () => {
 							<br />
 							Должны быть только цифры.
 							<br />
-							Номер должен быть в формате +378/80 xx xxx xx xx или +378/80 xx xxxxxxx
+							Номер должен быть в формате +375/80 xx xxx xx xx или +375/80 xx xxxxxxx
 						</p>
 						
 						
@@ -308,6 +305,7 @@ const Register = () => {
 						<input
 							type="password"
 							id="password"
+							autocomplete="new-password"
 							onChange={(e) => setPwd(e.target.value)}
 							value={pwd}
 							required
@@ -348,6 +346,7 @@ const Register = () => {
 						<input
 							type="password"
 							id="confirm_pwd"
+							autocomplete="new-password"
 							onChange={(e) => setMatchPwd(e.target.value)}
 							value={matchPwd}
 							required
@@ -369,14 +368,14 @@ const Register = () => {
 						<button id='button-sing'
 							disabled={!validEmail|| !validLogin || !validPhoneNumber || !validName || !validPwd || !validMatch ? true : false}
 						>
-							Sign Up
+							Зарегистрироваться
 						</button>
 					</form>
 					<p>
-						Already registered?
+						Уже зарегистрированны?
 						<br />
 						<span className="line">
-							<a href="/login">Sign In</a>
+							<a href="/login">Войти</a>
 						</span>
 					</p>
 				</section>

@@ -72,7 +72,7 @@ namespace ServerServiceCenter.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] StafferView viewuser)
         {
-            Message messageRegister = new Message();
+            MessageForView messageRegister = new MessageForView();
             try
             {
                 if (viewuser == null)
@@ -109,7 +109,7 @@ namespace ServerServiceCenter.Controllers
 
                         messageRegister.MessageValue = messageFindUser;
                         RoleRepository roleRepository = unitOfWork.GetRoleRepository();
-                        Role roleNewUser = roleRepository.GetItem(viewuser.StafferRole);
+                        Role roleNewUser = roleRepository.GetList().Where(r => r.RoleName.Equals("User")).FirstOrDefault();
                         User newUser = new User(viewuser, roleNewUser, newPassword);
                         newUser.Login = newLogin;
                         userRepository.Create(newUser);
@@ -203,7 +203,7 @@ namespace ServerServiceCenter.Controllers
                 userRepository.Save();
                 Response.StatusCode = 201;
                 Response.ContentType = "application/json";
-                return new ObjectResult(new Message("Users Deleted"));
+                return new ObjectResult(new MessageForView("Users Deleted"));
             }
             catch
             {

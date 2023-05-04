@@ -18,6 +18,9 @@ namespace DBManager
         public DbSet<Service> Services { get; set; }
         public DbSet<StorageImagePath> StorageImagesPaths { get; set; }
         public DbSet<ServicesPerformed> ServicesPerformeds { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<RoomUser> RoomUsers { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
            : base(options)
@@ -35,6 +38,17 @@ namespace DBManager
             modelBuilder.Entity<Service>().HasMany(ua => ua.ServicesPerformeds).WithOne(u => u.Service).HasForeignKey(u => u.IdService).OnDelete(DeleteBehavior.ClientSetNull);
             modelBuilder.Entity<User>().HasMany(ua => ua.OrdersMasters).WithOne(u => u.Master).HasForeignKey(u => u.IdMaster).OnDelete(DeleteBehavior.ClientSetNull);
             modelBuilder.Entity<Service>().HasMany(ua => ua.StorageImagesPaths).WithOne(u => u.ServiceImage).HasForeignKey(u => u.IdService).OnDelete(DeleteBehavior.ClientCascade);
+            modelBuilder.Entity<Room>().HasMany(ua => ua.Messages).WithOne(u => u.Room).HasForeignKey(u => u.RoomId).OnDelete(DeleteBehavior.ClientSetNull);
+
+            
+        }
+
+        public void InitializeData()
+        {
+            this.Roles.Add(new Role { Id = 1, RoleName = "User" });
+            this.Roles.Add(new Role {  Id = 2, RoleName = "Admin" });
+            this.Roles.Add(new Role { Id = 3, RoleName = "Master" });
+            this.SaveChanges();
         }
     }
 }

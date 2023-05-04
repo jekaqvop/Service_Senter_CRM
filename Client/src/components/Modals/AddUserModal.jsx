@@ -63,11 +63,10 @@ const AddUserModal = (props) => {
 			props.showToast("warning", 'Заполните поля правильно!');
 			return;
 		}
-		try {
-      let login = "f", pwd = "g", matchPwd = "h";
+		try {      
 			const response = await axios.post(
 				USERS_URL,
-				JSON.stringify({ login, userName, email, phoneNumber, pwd, matchPwd }),
+				JSON.stringify({ stafferName: userName, email: email, phoneNumber: phoneNumber, stafferRole: 0 }),
 				{
 					headers: { 'Content-Type': 'application/json' },
 					withCredentials: true,
@@ -214,7 +213,7 @@ const AddUserModal = (props) => {
                 <br />
                 Должны быть только цифры.
                 <br />
-                Номер должен быть в формате +378/80 xx xxx xx xx или +378/80 xx xxxxxxx
+                Номер должен быть в формате +375/80 xx xxx xx xx или +375/80 xx xxxxxxx
               </p>  
               </div>   
             </form>

@@ -43,14 +43,14 @@ namespace ServerServiceCenter.Middleware
                 if (user == null)
                 {
                     httpContext.Response.StatusCode = 401;
-                    return new ObjectResult(new Message("Такого пользователя не существует!"));
+                    return new ObjectResult(new MessageForView("Такого пользователя не существует!"));
                 }
                 RoleRepository roleRepository = unitOfWork.GetRoleRepository();
                 Role roleNewUser = roleRepository.GetItem(user.IdRole);
                 if (roleNewUser.RoleName != roleCookie)
                 {
                     httpContext.Response.StatusCode = 401;
-                    return new BadRequestObjectResult(new Message("Ошибка получения доступа!"));
+                    return new BadRequestObjectResult(new MessageForView("Ошибка получения доступа!"));
                 }
                     
                 var md5 = MD5.Create();
@@ -58,7 +58,7 @@ namespace ServerServiceCenter.Middleware
                 if (hashJwt != hashJwtCheck)
                 {
                     httpContext.Response.StatusCode = 401;
-                    return new ObjectResult(new Message("Ошибка получения доступа!"));
+                    return new ObjectResult(new MessageForView("Ошибка получения доступа!"));
                 }
                 await _next.Invoke(httpContext);
                 
@@ -66,9 +66,9 @@ namespace ServerServiceCenter.Middleware
             catch(Exception ex)
             {
                 httpContext.Response.StatusCode = 401;
-                return new BadRequestObjectResult(new Message("Ошибка получения доступа!"));
+                return new BadRequestObjectResult(new MessageForView("Ошибка получения доступа!"));
             }
-            return new ObjectResult(new Message(""));
+            return new ObjectResult(new MessageForView(""));
         }
     }
 

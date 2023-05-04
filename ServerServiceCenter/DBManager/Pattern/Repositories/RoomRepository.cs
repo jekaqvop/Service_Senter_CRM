@@ -9,34 +9,44 @@ using System.Threading.Tasks;
 
 namespace DBManager.Pattern.Repositories
 {
-    public class OrderRepository : IRepository<Order>
+    public class RoomRepository : IRepository<Room>
     {
         private AppDbContext db;
 
-        public OrderRepository(AppDbContext context)
+        public RoomRepository(AppDbContext context)
         {
             this.db = context;
         }
-        public void Create(Order item)
+        public void Create(Room item)
         {
-            db.Orders.Add(item);
+            db.Rooms.Add(item);
         }
 
         public void Delete(int id)
         {
-            Order item = db.Orders.Find(id);
+            Room item = db.Rooms.Find(id);
             if (item != null)
-                db.Orders.Remove(item);
+                db.Rooms.Remove(item);
         }
 
-        public Order GetItem(int id)
+        public Room GetItem(int id)
         {
-            return db.Orders.Find(id);
+            return db.Rooms.Find(id);
         }
 
-        public IEnumerable<Order> GetList()
+        public Room GetRoomForName(string roomName)
         {
-            return db.Orders;
+            var rooms = db.Rooms.Where(room => room.Name == roomName);
+
+            if (rooms.Count() != 1)
+                return null;
+
+            return rooms.FirstOrDefault();
+        }
+
+        public IEnumerable<Room> GetList()
+        {
+            return db.Rooms;
         }
 
         public void Save()
@@ -44,7 +54,7 @@ namespace DBManager.Pattern.Repositories
             db.SaveChanges();
         }
 
-        public void Update(Order item)
+        public void Update(Room item)
         {
             db.Entry(item).State = EntityState.Modified;
         }
@@ -67,13 +77,6 @@ namespace DBManager.Pattern.Repositories
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        public void DeleteOrders(int[] ids)
-        {
-            IEnumerable<Order> devices = db.Orders.Where(item => ids.Contains(item.Id));
-            if (devices != null)
-                db.Orders.RemoveRange(devices);
         }
     }
 }

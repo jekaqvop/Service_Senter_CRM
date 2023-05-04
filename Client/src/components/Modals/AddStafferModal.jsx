@@ -219,7 +219,7 @@ const AddStafferModal = (props) => {
                 <br />
                 Должны быть только цифры.
                 <br />
-                Номер должен быть в формате +378/80 xx xxx xx xx или +378/80 xx xxxxxxx
+                Номер должен быть в формате +375/80 xx xxx xx xx или +375/80 xx xxxxxxx
               </p>  
               </div>   
               <div className="text-field">

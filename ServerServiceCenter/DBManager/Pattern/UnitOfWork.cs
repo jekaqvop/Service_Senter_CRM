@@ -1,6 +1,7 @@
 ﻿using DataBaseManager.Pattern.Repositories;
 using DBManager.Pattern.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,31 @@ namespace DBManager.Pattern
         private ServicesPerformedRepository servicesPerformedRepository;
         private RoleRepository roleRepository;
         private StorageImagePathsRepository storageImagePathsRepository;
+        private RoomRepository roomRepository;
+        private RoomUsersRepository roomUsersRepository;
+        private MessageRepository messageRepository;
 
+        public MessageRepository GetMessageRepository()
+        {           
+            if (messageRepository == null)
+                messageRepository = new MessageRepository(context);
+            return messageRepository;            
+        }  
+        
+        public RoomUsersRepository GetRoomUsersRepository()
+        {           
+            if (roomUsersRepository == null)
+                roomUsersRepository = new RoomUsersRepository(context);
+            return roomUsersRepository;            
+        } 
+        
+        public RoomRepository GetRoomRepository()
+        {           
+            if (roomRepository == null)
+                roomRepository = new RoomRepository(context);
+            return roomRepository;            
+        } 
+        
         public StorageImagePathsRepository GetStorageImagePathsRepository()
         {           
             if (storageImagePathsRepository == null)

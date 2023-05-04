@@ -193,7 +193,7 @@ namespace ServerServiceCenter.Controllers
                 orderRepository.Save();
                 Response.StatusCode = 201;
                 Response.ContentType = "application/json";
-                return new ObjectResult(new Message("Orders Deleted"));
+                return new ObjectResult(new MessageForView("Orders Deleted"));
             }
             catch
             {

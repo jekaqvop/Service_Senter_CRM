@@ -60,6 +60,17 @@ namespace ServerServiceCenter.Controllers
             string role = unitOfWork.GetRoleRepository().GetItem(user.IdRole).RoleName;
             return new ObjectResult(role);
         }
+        
+        [HttpGet("me")]
+        public IActionResult GetMe()
+        {
+            var jwt = Request.Cookies["jwt"];
+            var hashJwt = Request.Cookies["hashJwt"];
+            var token = jwtService.Verify(jwt);
+            int UserId = int.Parse(token.Issuer);
+            var user = userRepository.GetItem(UserId);          
+            return new ObjectResult(user);
+        }
 
         [HttpGet("myOrders")]
         public IActionResult GetOrders()

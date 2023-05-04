@@ -71,7 +71,7 @@ namespace ServerServiceCenter.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] StafferView viewuser)
         {
-            Message messageRegister = new Message();          
+            MessageForView messageRegister = new MessageForView();          
             try
             {
                 if (viewuser == null)
@@ -202,7 +202,7 @@ namespace ServerServiceCenter.Controllers
                 userRepository.Save();
                 Response.StatusCode = 201;
                 Response.ContentType = "application/json";
-                return new ObjectResult(new Message("Users Deleted"));
+                return new ObjectResult(new MessageForView("Users Deleted"));
             }
             catch
             {

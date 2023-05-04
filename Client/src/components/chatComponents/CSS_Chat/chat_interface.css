@@ -3,7 +3,7 @@
   position: relative;
   width: calc(100% - 20px);
   max-width: 800px;
-  height: 500px;
+  /*height: 500px;*/
   border-radius: 10px;
   background-color: #fff;
   top: 50%;
@@ -11,7 +11,7 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   background-color: #f8f8f8;
   overflow: hidden;
-  height: calc(100% - 95px);
+  height: calc(100% - 100px);
   /*margin: 2% auto;*/
 }
 
@@ -199,3 +199,44 @@
 #msg_input{
     color: black;
 }
+
+.addimage_message {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  transition: all 0.2s linear;
+  float: left;
+  margin-top: -71px;
+  margin-left:10px;
+  position: relative;
+}
+
+.clearfix{
+  display: flex;
+}
+
+.bottom_wrapper > div:first-child{
+  margin-left: 50px;
+  margin-right: 10px;
+}
+
+.loadMessages > div:first-child{
+  max-height: 100px;
+  margin-bottom: 20px;
+}
+
+.infoPanel{
+  width: calc(100% - 20px);
+  max-width: 800px;
+  border-radius: 10px;
+}
+
+.messanger{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15%;
+  margin-top: -90px;
+}
+

@@ -30,8 +30,8 @@ namespace ServerServiceCenter.Controllers
        
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegUser viewuser)
-        {   
-            Message messageRegister = new Message();
+        {
+            MessageForView messageRegister = new MessageForView();
             
             try
             {                
@@ -106,31 +106,42 @@ namespace ServerServiceCenter.Controllers
             var jwt = jwtService.Generate(findUser.Id);
             var md5 = MD5.Create();
             string hashJwt = Convert.ToBase64String(md5.ComputeHash(Encoding.UTF8.GetBytes(findUser.Id.ToString())));
-            Response.Cookies.Append("jwt", jwt, new CookieOptions
-            {
-                HttpOnly = true
-            });
-            
-            Response.Cookies.Append("hashJwt", hashJwt, new CookieOptions
-            {
-                HttpOnly = true
-            });
-            
+          
             Response.Cookies.Append("role", roleNewUser.RoleName, new CookieOptions
             {
-                HttpOnly = false
+                HttpOnly = false,
+                SameSite = SameSiteMode.None,
+                Secure = true
             });
             
             Response.Cookies.Append("login", findUser.Login, new CookieOptions
             {
-                HttpOnly = false
+                HttpOnly = false,
+                SameSite = SameSiteMode.None,
+                Secure = true
             });
             
             Response.Cookies.Append("success", true.ToString(), new CookieOptions
             {
-                HttpOnly = true
+                HttpOnly = true,
+                SameSite = SameSiteMode.None,
+                Secure = true
             });
-           
+
+            Response.Cookies.Append("jwt", jwt, new CookieOptions
+            {
+                HttpOnly = true,
+                SameSite = SameSiteMode.None,
+                Secure = true
+            });
+
+            Response.Cookies.Append("hashJwt", hashJwt, new CookieOptions
+            {
+                HttpOnly = true,
+                SameSite = SameSiteMode.None,
+                Secure = true
+            });
+
             return Ok(new
             {
                 success = true

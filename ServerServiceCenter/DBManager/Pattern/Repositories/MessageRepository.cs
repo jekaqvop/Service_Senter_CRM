@@ -9,34 +9,35 @@ using System.Threading.Tasks;
 
 namespace DBManager.Pattern.Repositories
 {
-    public class OrderRepository : IRepository<Order>
+    public class MessageRepository : IRepository<Message>
     {
+
         private AppDbContext db;
 
-        public OrderRepository(AppDbContext context)
+        public MessageRepository(AppDbContext context)
         {
             this.db = context;
         }
-        public void Create(Order item)
+        public void Create(Message item)
         {
-            db.Orders.Add(item);
+            db.Messages.Add(item);
         }
 
         public void Delete(int id)
         {
-            Order item = db.Orders.Find(id);
+            Message item = db.Messages.Find(id);
             if (item != null)
-                db.Orders.Remove(item);
+                db.Messages.Remove(item);
         }
 
-        public Order GetItem(int id)
+        public Message GetItem(int id)
         {
-            return db.Orders.Find(id);
+            return db.Messages.Find(id);
         }
-
-        public IEnumerable<Order> GetList()
+      
+        public IEnumerable<Message> GetList()
         {
-            return db.Orders;
+            return db.Messages;
         }
 
         public void Save()
@@ -44,7 +45,7 @@ namespace DBManager.Pattern.Repositories
             db.SaveChanges();
         }
 
-        public void Update(Order item)
+        public void Update(Message item)
         {
             db.Entry(item).State = EntityState.Modified;
         }
@@ -69,11 +70,11 @@ namespace DBManager.Pattern.Repositories
             GC.SuppressFinalize(this);
         }
 
-        public void DeleteOrders(int[] ids)
+        public void DeleteMessages(int[] ids)
         {
-            IEnumerable<Order> devices = db.Orders.Where(item => ids.Contains(item.Id));
+            IEnumerable<Message> devices = db.Messages.Where(item => ids.Contains(item.Id));
             if (devices != null)
-                db.Orders.RemoveRange(devices);
+                db.Messages.RemoveRange(devices);
         }
     }
 }

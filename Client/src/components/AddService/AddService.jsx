@@ -68,8 +68,6 @@ const AddServices = (props) => {
       return new File([u8arr], filename, {type:mime});
   }
   
-  //Usage example:
-  
     images.forEach(element=>{
       var fileType = element.data_url.substring("data:image/".length, element.data_url.indexOf(";base64"));
       var file = dataURLtoFile(element.data_url, i + '.' + fileType);
