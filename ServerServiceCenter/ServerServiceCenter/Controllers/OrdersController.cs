@@ -69,8 +69,10 @@ namespace ServerServiceCenter.Controllers
                 Order order = orderRepository.GetItem(id);
                 User client = usersRep.GetItem(order.IdMaster);
                 User master = usersRep.GetItem(order.IdClient);
+                Device device = deviceRepository.GetItem(order.IdDevice);
                 if (master != null) { order.Master = master; }
                 if(client!= null) { order.Client = client; }  
+                if(device != null) { order.Device = device; }   
                 return new ObjectResult(order);
             }
             catch
@@ -93,8 +95,8 @@ namespace ServerServiceCenter.Controllers
                 int userId = int.Parse(token.Issuer);
                 UserRepository userRepository = unitOfWork.GetUserRepository();
                 var user = userRepository.GetItem(userId);
-                IEnumerable<Order> ordersFind = orderRepository.GetList().Where(item => item.IdDevice == newOrderView.SelectDevice);
-                if (ordersFind.Count() != 0)
+                IEnumerable<Order> ordersFind = orderRepository.GetList().Where(item => !item.Status.Equals("Заказ завершён") && item.IdDevice == newOrderView.SelectDevice);
+                if (ordersFind.ToList().Count() != 0)
                     return BadRequest(409);
                 Order order = new Order(newOrderView, userId);
                 orderRepository.Create(order);
@@ -131,22 +133,27 @@ namespace ServerServiceCenter.Controllers
                     case "status":
                         if (newValue.Equals("Начат ремонт"))
                         {
-                            order.Status = newValue;
                             var jwt = Request.Cookies["jwt"];
                             var token = jwtService.Verify(jwt);
                             int userId = int.Parse(token.Issuer);
                             order.IdMaster = userId;
+                            order.Repair_start_date = DateTime.Now;
                         }
                         else if (newValue.Equals("Ремонт закончен"))
                         {
-                            order.Status = newValue;
-                                Mail.SendEmail("Ваше устпройство починено. Пожалуйста, оплатите услуги и заберите своё устройство.", client.Email);
+                            order.Repair_completion_date = DateTime.Now;
+                            Mail.SendEmail("Ваше устпройство починено. Пожалуйста, оплатите услуги и заберите своё устройство.", client.Email);
                         }
-                        else
-                            order.Status = newValue;                   
+                        else if (newValue.Equals("Заказ завершён")) order.Date_issue = DateTime.Now;
+                        order.Status = newValue;                   
                         break;
                     case "description":
                         order.Description = newValue;
+                        break;
+                    case "priceOrder":
+                        decimal result = 0;
+                        bool check = decimal.TryParse(newValue, out result);
+                        order.PriceOrder = result;
                         break;
                 }
                 orderRepository.Update(order);

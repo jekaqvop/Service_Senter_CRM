@@ -75,3 +75,35 @@ ul.check-list li {
     text-decoration: underline;
     font-size: 1rem;
   }
+
+.container-pageservice{
+  display: flex;
+	flex-direction: column;
+	min-height: 100%;
+}
+
+#wrapper {
+	max-width: 960px;
+	margin: auto;
+  min-height: calc(100vh - 132px);
+  margin-top: 0.7%;
+  flex-grow: 1;
+  height: 100%;
+}
+
+footer {
+  display: flex;
+  flex: 0 0 auto;
+	background: #7e7e7e;
+	color: #dbdbdb;
+	font-size: 11px;
+  flex-shrink: 0;
+
+}
+
+#footer {
+	max-width: 960px;
+	margin: auto;
+	padding: 10px 0;
+	min-height: 120px;
+}

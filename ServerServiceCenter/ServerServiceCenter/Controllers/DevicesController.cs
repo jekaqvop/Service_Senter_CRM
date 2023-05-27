@@ -22,13 +22,30 @@ namespace ServerServiceCenter.Controllers
             this.unitOfWork = unitOfWork;
             this.deviceRepository = unitOfWork.GetDeviceRepository();
         }
+
         // GET: api/<DevicesController>
-        [HttpGet]
-        public async Task<IEnumerable<Device>> Get()
+        [HttpGet("notuse")]
+        public async Task<IEnumerable<Device>> GetNotUser()
         {
-            return deviceRepository.GetList();
+            var DevOrd = unitOfWork.GetOrderRepository().GetList().ToList();
+            var listDev = deviceRepository.GetList().ToList();
+            var data = listDev.Where(d => !DevOrd.Any(o => o.IdDevice == d.Id && !o.Status.Equals("Заказ завершён")));
+            return data;
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<Device>> GetList()
+        {           
+            return deviceRepository.GetList().ToList();
+        }
+
+        [HttpGet("{curCountItems}/{countItems}")]
+        public async Task<IEnumerable<Device>> GetPage(int curCountItems, int countItems)
+        {
+            var result = deviceRepository.GetList().SkipLast(curCountItems).TakeLast(countItems).ToList();
+            return result; 
+        }
+      
         // GET api/<DevicesController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)

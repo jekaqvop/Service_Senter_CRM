@@ -103,7 +103,10 @@ const Login = (history) => {
 						Нет аккаунта?
 						<br />
 						<span className="line" >
-							<a href="/register">Зарегистрироваться</a>
+							<a href="/register">Зарегистрироваться</a>							
+						</span>
+						<span className="line" >
+							<a href="/">На главную страницу</a>					
 						</span>
 					</p>
 				</section>

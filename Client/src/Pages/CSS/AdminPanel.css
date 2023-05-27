@@ -1,0 +1,73 @@
+.adminPanel{
+    margin-left: -3%;
+    margin-right: 2%;
+}
+
+.css-inswfa{
+    padding-top: 0;
+}
+
+
+  body {
+    line-height: 1.5;
+  }
+
+  .sidebar {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: #303030;
+    letter-spacing: 0px;
+    font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  }
+
+.adminPanel > div:first-child {
+  padding-top: 0;
+}
+
+.miniStatistics{
+  display: flex;
+}
+
+.miniStatistics > div {
+  margin: 0 10px 20px 10px;
+ 
+}
+
+.miniStatistics > div:first-child{
+  margin-left: 0;
+}
+
+.miniStatistics > div:last-child {
+  margin-right: 0;
+}
+
+.chakra-ui-light {
+  overflow-x: visible;
+  background: transparent;
+  height: 100%;
+}
+
+.chakra-toast-portal{
+  position: fixed;
+}
+
+.app{
+  height: auto;
+}
+
+body > .chakra-toast-portal{
+  width: 100%;
+}
+
+main > div {
+  height: 100%;
+}
+
+html{
+  min-height: 100%;
+}
+
+.loading{
+  text-align: center;
+  justify-content: center;
+}

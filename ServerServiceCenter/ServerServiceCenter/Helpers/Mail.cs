@@ -30,7 +30,7 @@ namespace ServerServiceCenter.Helpers
             }
             catch
             {
-
+                Console.WriteLine("Ошибка отправления пиьсма");
             }
         }
     }

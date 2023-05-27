@@ -100,7 +100,7 @@ const AddDeviceModal = (props) => {
 			if (!err?.response) {
 				props.showToast("error", 'Сервер недоступен. Попробуйте позже.');
 			} else if (err.response?.status === 409) {
-				props.showToast("error", 'Такая устройство уже существует.');
+				props.showToast("error", 'Такое устройство уже существует.');
 			} else {
 				props.showToast("error", 'Возникла ошибка при добавлении устройства!');
 			}			

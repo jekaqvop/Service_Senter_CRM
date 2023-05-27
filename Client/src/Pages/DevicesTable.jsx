@@ -161,7 +161,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
   return { async: true };
 }
   const handleDelete = async (rowId) => {
-    const loadDevices = async () => {
+    const deleteDevices = async () => {
      try{
         const response = await axios.delete(
            DEVICES_URL + "/" + rowId,
@@ -177,7 +177,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
         showToastFiveSec('error', "Не удалось удалить строку с id равным " + rowId);
       }         
     }
-    loadDevices();
+    deleteDevices();
   };
 
   const DefaultSorted = [{
@@ -246,7 +246,9 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
     selected: selectedRows,
     onSelect: handleOnSelect,
     onSelectAll: handleOnSelectAll
-  };     
+  };  
+  
+  const [pageNumber, setPageNumber] = useState(1);
 
    useEffect(()=>{
     setLoading(true);
@@ -263,6 +265,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
           setLoading(false);   
         }catch(err){
           setLoading(false);
+          showToastFiveSec('error', 'Не удалось загрузить список устройств');
         }         
       }    
       
@@ -294,17 +297,18 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
         {loading ? (
             <Preloader/>) : (
               <>    
-                <div className='tableContainer'>              
-                  <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={ handleClick }> Очистить фильтры </Button>
-                  <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={() => {setOpen(true)} }> Добавить устройство</Button>
+                <div className='tableContainer'>   
+                <div id='buttonFixPosition'>         
+                  <Button  className="btn btn-lg btn-primary" onClick={ handleClick }> Очистить фильтры </Button>
+                  <Button  className="btn btn-lg btn-primary" onClick={() => {setOpen(true)} }> Добавить устройство</Button>
                   <Confirm
                             onConfirm={onDeleteRows}
                             body="Вы уверены, что хотите удалить выбранные устройства? Данное действие необратимо!"
                             confirmText="Подтвердить удаление"
                             title="Подтверждение удаления">
-                    <Button id='buttonFixPosition' className="btn btn-lg btn-primary btn-danger"  > Удалить строки </Button>
+                    <Button className="btn btn-lg btn-primary btn-danger"  > Удалить выбранные устройства </Button>
                   </Confirm>
-
+                  </div>  
                   <BootstrapTable 
                       id="tableUsers"
                       keyField='id' 

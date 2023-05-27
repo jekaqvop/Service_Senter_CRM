@@ -114,8 +114,8 @@ namespace ServerServiceCenter.Controllers
                         userRepository.Create(newUser);
                         userRepository.Save();
                         Mail.SendEmail("Вы были зарегестрированы в сервисном центре ServiceCenter.\nВаш логин: "
-                            + newUser.Login + "\nВаш пароль: " + newPassword + "\nЧтобы повысить безопастность, просьба сменить пароль на свой собственный, войдя в аккаунт.",
-                            newUser.Email);
+                           + newUser.Login + "\nВаш пароль: " + newPassword + "\nЧтобы повысить безопастность, просьба сменить пароль на свой собственный, войдя в аккаунт.",
+                           newUser.Email);
                         messageRegister.MessageValue = "New user created!";
                         Response.StatusCode = 201;
                         Response.ContentType = "application/json";

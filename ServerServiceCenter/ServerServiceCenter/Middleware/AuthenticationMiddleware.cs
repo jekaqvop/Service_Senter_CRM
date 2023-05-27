@@ -66,7 +66,7 @@ namespace ServerServiceCenter.Middleware
             catch(Exception ex)
             {
                 httpContext.Response.StatusCode = 401;
-                return new BadRequestObjectResult(new MessageForView("Ошибка получения доступа!"));
+                return new UnauthorizedObjectResult(new MessageForView("Ошибка получения доступа!"));
             }
             return new ObjectResult(new MessageForView(""));
         }

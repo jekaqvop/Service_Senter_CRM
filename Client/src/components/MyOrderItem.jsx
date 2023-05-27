@@ -25,7 +25,7 @@ const MyOrderItem = props => {
                Номер телефона матера: {!order.master ? "не существует" : order.master.phoneNumber}
               </div>
               <div>
-               Дата подачи в сервис: { new Date(order.date_acceptance).getDate() + "."
+               Дата принятия в сервис: { new Date(order.date_acceptance).getDate() + "."
                 + (new Date(order.date_acceptance).getMonth()+1)  + "." 
                 + new Date(order.date_acceptance).getFullYear() + " "  
                 + new Date(order.date_acceptance).getHours() + ":"  

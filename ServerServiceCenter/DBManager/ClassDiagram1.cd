@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DBManager.Pattern.Repositories.DeviceRepository" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAIAAACAQEEAAAAABAAAAAAEAAEAAAAAAAAAAAAI=</HashCode>
+      <FileName>Pattern\Repositories\DeviceRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DBManager.Pattern.Repositories.MessageRepository" BaseTypeListCollapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAIAAACAQAEQAAAAAAAAAAAEAAEAAAAAAAAAAAAI=</HashCode>
+      <FileName>Pattern\Repositories\MessageRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DBManager.Pattern.Repositories.OrderRepository" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAIAAACAQAEAAAAAAAAAAAAEAAEAAAEAAAAAAAAI=</HashCode>
+      <FileName>Pattern\Repositories\OrderRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DBManager.Pattern.Repositories.RoleRepository" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAIAAACAQAEAAAAAAAAAAAAEAAEAAAAAAAAAAEAI=</HashCode>
+      <FileName>Pattern\Repositories\RoleRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DBManager.Pattern.Repositories.RoomRepository" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="1" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAYAAIAAACAQAEAAAAAAAAAAAAEAAEAAAAAAAAAQAAI=</HashCode>
+      <FileName>Pattern\Repositories\RoomRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DBManager.Pattern.Repositories.RoomUsersRepository" BaseTypeListCollapsed="true">
+    <Position X="7" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAIAAACAQAEAAAAAAAAAAAAEAAEAAAEAAAAAAAAI=</HashCode>
+      <FileName>Pattern\Repositories\RoomUsersRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DBManager.Pattern.Repositories.ServiceRepository" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="5.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAYAAIAAACAQAEAgAAAAAAAAAAEAAEAAAAAAAAAAAAI=</HashCode>
+      <FileName>Pattern\Repositories\ServiceRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DBManager.Pattern.Repositories.ServicesPerformedRepository" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAIAAACAQAEAAAAAAAAAAAAEAAEAAAAAAAAAAAAI=</HashCode>
+      <FileName>Pattern\Repositories\ServicesPerformedRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DBManager.Pattern.Repositories.StorageImagePathsRepository" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="4.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAYAAIAAACAQAEAAAAAAAAAAAAEAAEAIAAAAAAAAAAI=</HashCode>
+      <FileName>Pattern\Repositories\StorageImagePathsRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DataBaseManager.Pattern.Repositories.UserRepository" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAYAAIAAACAQAEAAAAAAAAAAAAEAAEAAgAAAAAAAAAI=</HashCode>
+      <FileName>Pattern\Repositories\UserRepository.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DBManager.Pattern.UnitOfWork" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AANCAAAAACDgqAAAQAAAIBAAAAAAACAQAABIAIAAAQA=</HashCode>
+      <FileName>Pattern\UnitOfWork.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="context" />
+      <Field Name="deviceRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="DBManager.AppDbContext" Collapsed="true">
+    <Position X="7" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gQEAACAAAAAAAAAAAAAAAAACUgABAAAIAAgAAQAAAAA=</HashCode>
+      <FileName>AppDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

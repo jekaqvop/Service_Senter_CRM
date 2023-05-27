@@ -16,6 +16,12 @@ const sidebarNavItemsAdmin = [
         section: 'services'
     },
     {
+        display: 'Статистика',
+        icon: <i className='bx bx-receipt'></i>,
+        to: '/account/adminpanel',
+        section: 'adminpanel'
+    },
+    {
         display: 'Устройства',
         icon: <i className='bx bx-devices'></i>,
         to: '/account/devices',
@@ -128,6 +134,8 @@ const Sidebar = () => {
     const location = useLocation();
     const { setAuthData, auth} = useContext(AuthContext);
     const [sidebarNavItems, setSidebarNavItems] = useState(sidebarNavItemsUser);
+    const [curUser, setCurUser] = useState('');
+   
     useEffect(()=>{
         const loadDataUser = async (e) => {
             try{
@@ -139,18 +147,31 @@ const Sidebar = () => {
                   }
               );  
               
-                  if(response?.data === "Master")
-                        setSidebarNavItems(sidebarNavItemsMaster);
-                    else if(response?.data === "Admin")
-                        setSidebarNavItems(sidebarNavItemsAdmin);
-                    else
-                        setSidebarNavItems(sidebarNavItemsUser);  
+                  if(response?.data === "Master"){
+                   
+                    setSidebarNavItems(sidebarNavItemsMaster);                   
+                  }                        
+                  else if(response?.data === "Admin"){                     
+                      setSidebarNavItems(sidebarNavItemsAdmin);
+                  }                        
+                  else if(response?.data === "User"){                     
+                      setSidebarNavItems(sidebarNavItemsUser);  
+                  }
+                  const response2 = await axios.get(
+                    "/api/private/AccountPrivateData/me",
+                    {
+                      headers: { 'Content-Type': 'application/json' },
+                      withCredentials: true,
+                    }
+                ); 
+                setCurUser(response2.data);
+                  
             }catch(err){
               
             }         
           }
           loadDataUser();
-        
+       
     },[]);
 
     useEffect(()=>{
@@ -203,12 +224,34 @@ const Sidebar = () => {
        
     }, [location, sidebarNavItems]);
 
+    function formatFullName(fullName) {
+        // Разбиваем строку на массив имени, фамилии и отчества
+        const names = fullName.split(' ');
+      
+        if (names.length >= 3) {
+          // Получаем первую букву имени, первую букву отчества и фамилию
+          const lastName = names[0].charAt(0).toUpperCase();
+          const firstNameInitial = names[1];
+          const middleNameInitial = names[2].charAt(0).toUpperCase();
+      
+          // Соединяем полученные значения в формат "Е.С. Авхачёв"
+          const formattedName = `${firstNameInitial} ${middleNameInitial}. ${lastName}.`;
+      
+          return formattedName;
+        }
+      
+        // Если строка ФИО не содержит необходимых данных, возвращаем исходную строку
+        return fullName;
+      }
+      
+
     return( 
     <>
         <div >        
             <div className='sidebar'>
                 <div className="sidebar__logo">
-                    CRM System
+                    Приветствую<br/>
+                    <a href='/account/profile'>{formatFullName(curUser.userName)}</a>
                 </div>
                 <div ref={sidebarRef} className="sidebar__menu">
                     <div

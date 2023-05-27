@@ -10,9 +10,12 @@ import Confirm from 'react-confirm-bootstrap';
 import "./CSS/StylesTable.css";
 import AddOrderModal from '../components/Modals/AddOrderModal';
 import Preloader from '../components/Preloader/Preloader';
+import DetailsOrder from '../components/Modals/DetailsOrder';
+import Multiselect from 'multiselect-react-dropdown';
 
 
 const DESCRIPTION_REGEX = /^[^_]{5,20000}$/;
+const PRICE_REGEX = /^[0-9,]*$/;
 
 
 let serialNumberFilter;
@@ -22,6 +25,8 @@ let DescriptonFilter;
 let PhoneNumberFilter;
 let IdOrderFilter;
 let StatusOrderFilter;
+let PriceFilter;
+let TypeFilter;
 
 
 const OrdersTable = (props) => {
@@ -30,14 +35,17 @@ const OrdersTable = (props) => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   const [open, setOpen] = useState(false);
+  const [openDetails, setOpenDetails] = useState(false);
+  const [idOrder, setIdOrder] = useState(0);
 
   const ORDERS_URL = "/api/private/Orders"
 
 const selectOptions = [
-  {id: 0,  status:'Заказ принят'},
-  {id: 1, status:'Начат ремонт'},
-  {id: 2, status:'Ремонт закончен'},
-  {id: 3, status:'Заказ завершён'}
+  {id: 0, status:'Заказ принят'},
+  {id: 1, status:'Начат ремонт'},  
+  {id: 2, status:'На согласовании'},
+  {id: 3, status:'Ремонт закончен'},
+  {id: 4, status:'Заказ завершён'},
 ];
   
   
@@ -142,7 +150,47 @@ const selectOptions = [
   dataField: 'device.typeDevice',
   text: 'Тип устройства',
   editable: false,
+  filter: textFilter({
+    getFilter: (filter) => {            
+      TypeFilter = filter;              
+    }            
+  }),
   sort: true
+},
+{
+  dataField: 'priceOrder',
+  text: 'Цена заказа',
+  editable: true,
+  filter: textFilter({
+    getFilter: (filter) => {
+      PriceFilter = filter;
+    }
+  }),
+  validator: (newValue, row, column) => {          
+    if (!newValue || !PRICE_REGEX.test(newValue)) {
+      return {
+        valid: false,
+        message: 'Только целые и дробные цисла'
+      };             
+    } 
+    return true;
+  },
+  sort: true
+},
+{
+  dataField: "id3",
+  text: "",
+  editable: false,
+  formatter: (cellContent, row) => {
+    return (     
+        <Button
+          className="btn-danger"   
+          onClick={() => {setIdOrder(row.id); setOpenDetails(true); }}      
+        >
+          Подробнее
+        </Button>    
+    );
+  },
 },
 {
   dataField: "id2",
@@ -163,7 +211,8 @@ const selectOptions = [
       </Confirm>
     );
   },
-},];
+},
+];
 
 
 const handleClick = () => {
@@ -303,6 +352,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
           setLoading(false);   
         }catch(err){
           setLoading(false);
+          showToastFiveSec('error', 'Не удалось загрузить список заказов');
         }         
       }
     
@@ -335,17 +385,19 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
         {loading ? (
             <Preloader/>) : (
               <>    
-                <div className='tableContainer'>              
-                  <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={()=> handleClick() }> Очистить фильтры </Button>
-                  <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={() => {setOpen(true)} }> Создать заказ </Button>
+                <div className='tableContainer'>  
+                <div id='buttonFixPosition'>    
+               
+                  <Button className="btn btn-lg btn-primary" onClick={()=> handleClick() }> Очистить фильтры </Button>
+                  <Button className="btn btn-lg btn-primary" onClick={() => {setOpen(true)} }> Создать заказ </Button>
                   <Confirm
                             onConfirm={onDeleteRows}
                             body="Вы уверены, что хотите удалить выбранных пользователей? Данный процесс необратим!"
                             confirmText="Подтвердить удаление"
                             title="Подтверждение удаления">
-                    <Button id='buttonFixPosition' className="btn btn-lg btn-primary btn-danger"  > Удалить строки </Button>
+                    <Button className="btn btn-lg btn-primary btn-danger"  > Удалить выбранные заказы </Button>
                   </Confirm>
-
+                  </div>
                   <BootstrapTable 
                       id="tableUsers"
                       keyField='id' 
@@ -368,7 +420,13 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
                               setOpen={setOpen}
                               showToast={showToastFiveSec}
                               AddNewOrder={AddNewOrder}
-                />      
+                              orders={orders}
+                />  
+                <DetailsOrder open={openDetails}
+                              setOpen={setOpenDetails}
+                              showToast={showToastFiveSec}                             
+                              idOrder={idOrder}
+                />          
               </>
           )
         }

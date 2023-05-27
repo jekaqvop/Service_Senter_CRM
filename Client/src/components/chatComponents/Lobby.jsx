@@ -57,7 +57,7 @@ const Lobby = (props) => {
         (<>
             <div className='container_contacts'>
              <div className='sc-bcXHqe cAvkWb'>
-                <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={() => setOpenAddRoom(true)}> Создать чат </Button>
+                <Button className="btn btn-lg btn-primary" onClick={() => setOpenAddRoom(true)}> Создать чат </Button>
                 <div className='contacts'>  
                     {rooms.map((item)=>{
                         return <Room id={item.id} openChat={openChat} chatName={item.name}/>

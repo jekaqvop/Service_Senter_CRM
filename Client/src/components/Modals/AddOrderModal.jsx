@@ -13,59 +13,57 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./CSS/AddUsersModal.css";
 import axios from '../../api/axios';
+import { Picky } from 'react-picky';
+import './CSS/AddUsersModal.css';
 
 const Order_REGEX = /^(([А-ЯЁA-Z][а-яёa-z']+[\\-\s]?){2,3})$/;
 
 const REGEX = /^[A-zА-я0-9-_\\/\s]{2,23}$/;
 const USERS_URL = "/api/private/Users";
-const DEVICES_URL = "/api/private/Devices" ;
+const DEVICES_URL = "/api/private/Devices/notuse" ;
 const OrderS_URL = "/api/private/Orders"
 
-const AddOrderModal = (props) => {
-     
+const AddOrderModal = (props) => {    
 
     const [Devices, setDevices] = useState([]);
-    const [selectDevice, setSelectDevice] = useState();
+    const [selectDevice, setSelectDevice] = useState(null);
     const [users, setUsers] = useState([]);
-    const [selectUser, setSelectUser] = useState();
+    const [selectUser, setSelectUser] = useState(null);
     
 	const [description, setdescription] = useState('');
 	const [validDescription, setvalidDescription] = useState(false);
 	const [descriptionFocus, setdescriptionFocus] = useState(false)
-
+  const loadUsers = async (e) => {
+    try{
+       const response = await axios.get(
+          USERS_URL,
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+          }
+      );  
+      setUsers(response.data);          
+     
+    }catch(err){
+     
+    }         
+  }
+  const loadDevices = async (e) => {
+    try{
+       const response = await axios.get(
+        DEVICES_URL,
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+          }
+      );  
+      setDevices(response.data);          
+    
+    }catch(err){
+     
+    }         
+  }    
     useEffect(()=>{
-       
-        const loadUsers = async (e) => {
-          try{
-             const response = await axios.get(
-                USERS_URL,
-                {
-                  headers: { 'Content-Type': 'application/json' },
-                  withCredentials: true,
-                }
-            );  
-            setUsers(response.data);          
-            setSelectUser(response.data[0].id);
-          }catch(err){
-           
-          }         
-        }
-        const loadDevices = async (e) => {
-          try{
-             const response = await axios.get(
-              DEVICES_URL,
-                {
-                  headers: { 'Content-Type': 'application/json' },
-                  withCredentials: true,
-                }
-            );  
-            setDevices(response.data);          
-            setSelectDevice(response.data[0].id);
-          }catch(err){
-           
-          }         
-        }    
-        
         loadDevices();
        
         loadUsers();
@@ -97,10 +95,11 @@ const AddOrderModal = (props) => {
         props.showToast("warning", 'Заполните поля правильно!');
         return;
     }
-    try {
+    try {    
+      console.log(JSON.stringify({Description: description, SelectDevice:  selectDevice.id, SelectUser: selectUser.id}));
         const response = await axios.post(
             OrderS_URL,
-            JSON.stringify({ description, selectDevice, selectUser}),
+            JSON.stringify({ description, selectDevice:  selectDevice.id, selectUser: selectUser.id}),
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true,
@@ -120,14 +119,14 @@ const AddOrderModal = (props) => {
         if (!err?.response) {
             props.showToast("error", 'Сервер недоступен. Попробуйте позже.');
         } else if (err.response?.status === 409) {
-            props.showToast("error", 'Такая почта или номер телефона уже используются.');
+            props.showToast("error", 'Ошибка');
         } else {
             props.showToast("error", 'Возникла ошибка при создании заказа!');
         }			
     }
 };
   return (
-    <div>    
+    <div id='height-max50'>    
         <Dialog open={props.open} onClose={handleClose}>
           <DialogTitle>
           Создание заказа
@@ -175,17 +174,36 @@ const AddOrderModal = (props) => {
              
                 
               </label>
-              <select
-              className="text-field__input"
-                    name="usersSelect"
-                    value={selectDevice}
-                    onChange={handleChangeDevice}                    
-                >
-                    {
-                  Devices.map((device, index) => (
-                    <option value={device.id}>{device.typeDevice} {device.model}: {device.serialNumber}</option>
-                    ))}
-                </select>
+              <Picky
+                        options={Devices}
+                        labelKey="serialNumber"                       
+                        valueKey="id"
+                        multiple={false}
+                        includeFilter                       
+                        value={selectDevice}                        
+                        onChange={setSelectDevice}
+                        render={({
+                            style,
+                            isSelected,
+                            item,
+                            selectValue,
+                            labelKey,                           
+                            valueKey,
+                            multiple,
+                          }) => {
+                            return (
+                              <li
+                              style={style}  
+                                className={(isSelected ? 'selected' : '') } 
+                                key={item[valueKey]} // required
+                                onClick={() => selectValue(item)}
+                              >                               
+                                <input type="radio" checked={isSelected} readOnly />
+                                <span >{item[labelKey] + " " + item["model"] + " " + item["typeDevice"]}</span>
+                              </li>
+                            );
+                          }}
+                        />                                   
                 </div>
                          
             </form>
@@ -195,18 +213,34 @@ const AddOrderModal = (props) => {
               <label htmlFor="OrderDescription" className="text-field__label" for="idClient">
               Клиент
               </label>
-              <select
-              className="text-field__input"
-                    name="usersSelect"
-                    value={selectUser}
-                    onChange={handleChangeUsers}
-                    
-                >
-                    {
-                  users.map((user, index) => (
-                    <option value={user.id}>{user.userName}: {user.phoneNumber}</option>
-                    ))}
-                </select>
+              <Picky
+                        options={users}
+                        labelKey="userName"                       
+                        valueKey="id"
+                        multiple={true}
+                        includeFilter                       
+                        value={selectUser}                        
+                        onChange={setSelectUser}
+                        render={({
+                            style,
+                            isSelected,
+                            item,
+                            selectValue,
+                            labelKey,                           
+                            valueKey,
+                          }) => {
+                            return (
+                              <li
+                              style={style} 
+                                key={item[valueKey]} // required
+                                onClick={() => selectValue(item)}
+                              >                               
+                                <input type="radio" checked={isSelected} readOnly />
+                                <span >{item[labelKey] + " " + item["phoneNumber"]}</span>
+                              </li>
+                            );
+                          }}
+                        />
                 </div>
         </DialogContent>
         <DialogActions>

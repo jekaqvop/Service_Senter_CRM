@@ -28,6 +28,7 @@ const Services = (props) =>{
         setLoading(false);   
       }catch(err){
         setLoading(false);
+        showToastFiveSec('error', 'Не удалось загрузить список услуг');
       }         
     };
     useEffect(()=>{
@@ -58,7 +59,7 @@ const Services = (props) =>{
               if(response?.data === "Admin")
                   setOpenAddButton(true);
             }catch(err){
-              
+              showToastFiveSec('error', 'Не удалось получить вашу роль');
             }         
           }
           loadDataUser();

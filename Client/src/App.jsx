@@ -18,13 +18,13 @@ import Services from './Pages/Services';
 import ServicePage from './Pages/ServicePage';
 import StaffersTable from './Pages/StaffersTable';
 import DevicesTable from './Pages/DevicesTable';
-import Preloader from './components/Preloader/Preloader';
 import OrdersTable from './Pages/OrdersTable';
 import MainPage from './Pages/MainPage';
 import ServicesPublicPage from './Pages/ServicesPublicPage';
 import ProfilePage from './Pages/ProfilePage';
 import MyOrders from './Pages/MyOrders';
 import Messanger from './Pages/Messanger';
+import AdminPanel from './Pages/AdminPanel';
 
 
 function App() {
@@ -53,23 +53,26 @@ function App() {
 					
 					<Route path="/services" exact element={<ServicesPublicPage showToast={showToast}/>} />					
 					<Route path="/register" exact element={<Register showToast={showToast}/>} />					
-					<Route path="/login" element={<Login />} />			
+					<Route path="/login" element={<Login />} />		
+							
 					<Route path="/account/" element={
 						<PrivateRoute>
 							<AppLayout/>
 						</PrivateRoute>
 						}
 					>						
-						<Route path="/account/profile" exact element={<ProfilePage showToast={showToast}/>} />				
-						<Route path="/account/myOrders" exact element={<MyOrders showToast={showToast}/>} />				
+						<Route path="/account/profile" exact element={<ProfilePage showToast={showToast}/>} />	
+						<Route path="/account/myOrders" exact element={<MyOrders showToast={showToast}/>} />			
+						<Route path="/account/adminpanel" exact element={<AdminPanel showToast={showToast}/>} />
 						<Route path='/account/services' element={<Services showToast={showToast}/>} />		
 						<Route path='/account/orders' element={<OrdersTable showToast={showToast}/>} />		
 						<Route path='/account/users' element={<UsersTable showToast={showToast}/>} />
 						<Route path='/account/devices' element={<DevicesTable showToast={showToast}/>} />
 						<Route path='/account/staffers' element={<StaffersTable showToast={showToast}/>} />
-						<Route path='/account/order' element={<Panel showToast={showToast}/>} />
+					
 						<Route path="/account/messages" element={<Messanger showToast={showToast}/>} />
 					</Route>	
+				
 					<Route path="/seviceItemPage/:id" element={<ServicePage showToast={showToast}/>} />
 					<Route path="*" element={<ErrorPage />} />	
 				</Routes>

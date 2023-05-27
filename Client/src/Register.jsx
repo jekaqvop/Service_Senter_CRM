@@ -333,7 +333,7 @@ const Register = () => {
 						</p>
 
 						<label htmlFor="confirm_pwd">
-						Подтвердите пароль:
+						Повторите пароль:
 							<FontAwesomeIcon
 								icon={faCheck}
 								className={validMatch && matchPwd ? 'valid' : 'hide'}
@@ -362,7 +362,7 @@ const Register = () => {
 							}
 						>
 							<FontAwesomeIcon icon={faInfoCircle} />
-							Must match the first password input field.
+							Должно совпадать с первым полем ввода пароля.
 						</p>
 
 						<button id='button-sing'

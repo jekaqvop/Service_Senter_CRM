@@ -18,7 +18,7 @@ namespace Models
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         [JsonIgnore]
-        public string Pwd { get; set; }
+        public string? Pwd { get; set; }
 
         public int IdRole { get; set; }
         [JsonIgnore]

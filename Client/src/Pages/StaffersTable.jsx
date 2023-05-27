@@ -10,6 +10,7 @@ import Confirm from 'react-confirm-bootstrap';
 import "./CSS/StylesTable.css";
 import AddStafferModal from '../components/Modals/AddStafferModal';
 import Preloader from '../components/Preloader/Preloader';
+import { getRolesAll } from '../api/utils/rolesAPI';
 
 
 
@@ -32,12 +33,11 @@ const StaffersTable = (props) => {
   const [open, setOpen] = useState(false);
 
   const USERS_URL = "/api/private/Staffers";
-  const ROLES_URL = "/api/private/Roles";
 
 const [selectOptions, setSelectOptions] = useState([
-    {id: 1, roleName: 'User'},
-    {id: 2, roleName: 'Admin'},
-    {id: 3, roleName: 'Master'}
+  {id: 1, roleName: 'User'},
+  {id: 2, roleName: 'Admin'},
+  {id: 3, roleName: 'Master'}
 ]);
  
  const columns = [{
@@ -185,7 +185,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
   return { async: true };
 }
   const handleDelete = async (rowId) => {
-    const loadUsers = async () => {
+    const deleteUsers = async () => {
      try{
         const response = await axios.delete(
            USERS_URL + "/" + rowId,
@@ -201,7 +201,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
         showToastFiveSec('error', "Не удалось удалить строку с id равным " + rowId);
       }         
     }
-    loadUsers();
+    deleteUsers();
   };
 
   const DefaultSorted = [{
@@ -291,32 +291,24 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
                 withCredentials: true,
               }
           );  
-          setUsers(response.data);          
+          setUsers(response.data);   
+          const dataRoles = await getRolesAll();    
+          setSelectOptions(dataRoles);  
           setLoading(false);   
         }catch(err){
           setLoading(false);
-        }         
-      }
-      const loadRoles = async (e) => {
-        try{
-           const response = await axios.get(
-              ROLES_URL,
-              {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true,
-              }
-          );  
-          setSelectOptions(response?.data);          
-          setLoading(false);   
-        }catch(err){
-          setLoading(false);
+          showToastFiveSec('error', 'Не загрузить список сотрудников');
         }         
       }
       
       loadUsers();
-      loadRoles();
+     
    // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
+   
+   useEffect(()=>{
+    console.log(selectOptions);     
+   }, [selectOptions])
    const handleTableChange = (type, { data, cellEdit: { rowId, dataField, newValue } }) => {
    
     const result = data.map((row) => {
@@ -342,17 +334,18 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
         {loading ? (
             <Preloader/>) : (
               <>    
-                <div className='tableContainer'>              
-                  <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={ ()=> handleClick() }> Очистить фильтры </Button>
-                  <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={() => {setOpen(true)} }> Добавить Сотрудника </Button>
+                <div className='tableContainer'> 
+                <div className='tableContainer'>               
+                  <Button className="btn btn-lg btn-primary" onClick={ ()=> handleClick() }> Очистить фильтры </Button>
+                  <Button className="btn btn-lg btn-primary" onClick={() => {setOpen(true)} }> Добавить Сотрудника </Button>
                   <Confirm
                             onConfirm={onDeleteRows}
                             body="Вы уверены, что хотите удалить выбранных сотрудников? Данный процесс необратим!"
                             confirmText="Подтвердить удаление"
                             title="Подтверждение удаления">
-                    <Button id='buttonFixPosition' className="btn btn-lg btn-primary btn-danger"  > Удалить строки </Button>
+                    <Button className="btn btn-lg btn-primary btn-danger"  > Удалить выбранных сотрудников </Button>
                   </Confirm>
-
+                </div>
                   <BootstrapTable 
                       id="tableUsers"
                       keyField='id' 

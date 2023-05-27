@@ -10,6 +10,7 @@ import Confirm from 'react-confirm-bootstrap';
 import "./CSS/StylesTable.css";
 import AddUserModal from '../components/Modals/AddUserModal';
 import Preloader from '../components/Preloader/Preloader';
+import { getRolesAll } from '../api/utils/rolesAPI';
 
 const LOGIN_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const USER_REGEX = /^(([А-ЯЁA-Z][а-яёa-z']+[\\-\s]?){2,3})$/;
@@ -29,14 +30,14 @@ const UsersTable = (props) => {
 
   const [open, setOpen] = useState(false);
 
-  const USERS_URL = "/api/private/Users"
-  const ROLES_URL = "/api/private/Roles"
+  const [pageNumber, setPageNumber] = useState(1); // Номер текущей страницы
 
-const [selectOptions, setSelectOptions] = useState([
-  {id: 1, roleName: 'Admin'},
-    {id: 2, roleName: 'User'},
+  const USERS_URL = "/api/private/Users";
+  const [selectOptions, setSelectOptions] = useState([
+    {id: 1, roleName: 'User'},
+    {id: 2, roleName: 'Admin'},
     {id: 3, roleName: 'Master'}
-]);
+  ]);
 
  const [columns, setColumns] = useState([{
   dataField: 'id',
@@ -218,7 +219,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
   return { async: true };
 }
   const handleDelete = async (rowId) => {
-    const loadUsers = async () => {
+    const deleteUsers = async () => {
      try{
         const response = await axios.delete(
            USERS_URL + "/" + rowId,
@@ -234,7 +235,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
         showToastFiveSec('error', "Не удалось удалить строку с id равным " + rowId);
       }         
     }
-    loadUsers();
+    deleteUsers();
   };
 
   const DefaultSorted = [{
@@ -316,32 +317,66 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
                 withCredentials: true,
               }
           );  
-          setUsers(response.data);          
+          setUsers(response.data); 
+          const dataRoles = await getRolesAll();    
+          setSelectOptions(dataRoles);     
           setLoading(false);   
         }catch(err){
           setLoading(false);
+          showToastFiveSec('error', 'Не загрузить список сотрудников');
         }         
       }
-      const loadRoles = async (e) => {
-        try{
-           const response = await axios.get(
-              ROLES_URL,
-              {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true,
-              }
-          );  
-          setSelectOptions(response.data);          
-          setLoading(false);   
-        }catch(err){
-          setLoading(false);
-        }         
-      }
+     
       
       loadUsers();
-      loadRoles();
+     
    // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
+   
+  
+ // useEffect(()=>{      
+ //
+ //  window.addEventListener('scroll', handleScroll);
+ //  return () => {
+ //    window.removeEventListener('scroll', handleScroll);
+ //  };     
+ //  setLoading(false);  
+ // }, []);
+
+ // const loadItems = async () => {
+ // 
+ //  const dataRoles = await getRolesAll();    
+ //  setSelectOptions(dataRoles);
+ //
+ //  try{
+ //    const response = await axios.get(
+ //       USERS_URL + "/" + pageNumber,
+ //       {
+ //         headers: { 'Content-Type': 'application/json' },
+ //         withCredentials: true,
+ //       }
+ //   );  
+ //   setUsers((prevItems) => [...prevItems, ...response?.data]); 
+ //  
+ // }catch(err){
+ //   setLoading(false);
+ //   showToastFiveSec('error', 'Не загрузить список сотрудников');
+ // }  
+ //  setPageNumber((prevPageNumber) => prevPageNumber + 1);    
+ //};
+
+
+ // const handleScroll = () => {
+ //  // Проверяем, достигли ли мы конца страницы
+ //  if (
+ //    window.innerHeight + document.documentElement.scrollTop ===
+ //    document.documentElement.offsetHeight
+ //  ) {
+ //    loadItems();
+ //  }
+ //};
+
+
    const handleTableChange = (type, { data, cellEdit: { rowId, dataField, newValue } }) => {
    
     const result = data.map((row) => {
@@ -367,20 +402,21 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
         {loading ? (
             <Preloader/>) : (
               <>    
-                <div className='tableContainer'>              
-                  <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={ ()=> {handleClick()} }> Очистить фильтры </Button>
-                  <Button id='buttonFixPosition' className="btn btn-lg btn-primary" onClick={() => {setOpen(true)} }> Добавить пользователя </Button>
+                <div className='tableContainer'> 
+                <div id='buttonFixPosition'>     
+                  <Button className="btn btn-lg btn-primary" onClick={ ()=> {handleClick()} }> Очистить фильтры </Button>
+                  <Button className="btn btn-lg btn-primary" onClick={() => {setOpen(true)} }> Добавить пользователя </Button>
                   {!isAdmin ? "" :(
-                    <> 
-                   
+                    <>                    
                     <Confirm
                     onConfirm={onDeleteRows}
                     body="Вы уверены, что хотите удалить выбранных пользователей? Данное действие необратимо!"
                     confirmText="Подтвердить удаление"
                     title="Подтверждение удаления">
-                    <Button id='buttonFixPosition' className="btn btn-lg btn-primary btn-danger"  > Удалить строки </Button>
+                    <Button className="btn btn-lg btn-primary btn-danger"  > Удалить выбранных клиенов </Button>
                     </Confirm>
                     </>)}
+                    </div>        
                   <BootstrapTable 
                       id="tableUsers"
                       keyField='id' 
