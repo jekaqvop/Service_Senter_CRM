@@ -2,277 +2,169 @@ use ServiceSenterDb;
 
 INSERT INTO [dbo].[Devices] ([TypeDevice], [Model], [SerialNumber], [Manufacturer]) 
 VALUES 
-    ('Телефон', 'Samsung Galaxy S21', 'SN123456', 'Samsung'),
-    ('Ноутбук', 'HP Pavilion', 'SN789012', 'HP'),
-    ('Планшет', 'iPad Air', 'SN345678', 'Apple'),
-    ('Телефон', 'iPhone 12', 'SN901234', 'Apple'),
-    ('Компьютер', 'Dell OptiPlex', 'SN567890', 'Dell'),
-    ('Телевизор', 'LG OLED55C1', 'SN123789', 'LG'),
-    ('Телефон', 'Xiaomi Redmi Note 10', 'SN890123', 'Xiaomi'),
-    ('Планшет', 'Samsung Galaxy Tab S7', 'SN234567', 'Samsung'),
-    ('Компьютер', 'Lenovo ThinkCentre', 'SN456789', 'Lenovo'),
-    ('Телевизор', 'Sony Bravia X90J', 'SN789012', 'Sony'),
-    ('Телефон', 'Google Pixel 5', 'SN345678', 'Google'),
-    ('Ноутбук', 'Acer Aspire 5', 'SN901234', 'Acer'),
-    ('Планшет', 'Huawei MatePad Pro', 'SN567890', 'Huawei'),
-    ('Телевизор', 'TCL 55C715', 'SN123789', 'TCL'),
-    ('Телефон', 'OnePlus 9 Pro', 'SN890123', 'OnePlus'),
-    ('Компьютер', 'ASUS ROG Strix G15', 'SN234567', 'ASUS'),
-    ('Ноутбук', 'MSI Stealth 15M', 'SN456789', 'MSI'),
-    ('Планшет', 'Amazon Fire HD 10', 'SN789012', 'Amazon'),
-    ('Телевизор', 'Hisense U8G', 'SN345678', 'Hisense'),
-    ('Телефон', 'Motorola Moto G Power', 'SN901234', 'Motorola');
+    (N'РўРµР»РµС„РѕРЅ', 'Samsung Galaxy S21', 'SN123456', 'Samsung'),
+    (N'РќРѕСѓС‚Р±СѓРє', 'HP Pavilion', 'SN789012', 'HP'),
+    (N'РџР»Р°РЅС€РµС‚', 'iPad Air', 'SN345678', 'Apple'),
+    (N'РўРµР»РµС„РѕРЅ', 'iPhone 12', 'SN901234', 'Apple'),
+    (N'РљРѕРјРїСЊСЋС‚РµСЂ', 'Dell OptiPlex', 'SN567890', 'Dell'),
+    (N'РўРµР»РµРІРёР·РѕСЂ', 'LG OLED55C1', 'SN123789', 'LG'),
+    (N'РўРµР»РµС„РѕРЅ', 'Xiaomi Redmi Note 10', 'SN890123', 'Xiaomi'),
+    (N'РџР»Р°РЅС€РµС‚', 'Samsung Galaxy Tab S7', 'SN234567', 'Samsung'),
+    (N'РљРѕРјРїСЊСЋС‚РµСЂ', 'Lenovo ThinkCentre', 'SN456789', 'Lenovo'),
+    (N'РўРµР»РµРІРёР·РѕСЂ', 'Sony Bravia X90J', 'SN789012', 'Sony'),
+    (N'РўРµР»РµС„РѕРЅ', 'Google Pixel 5', 'SN345678', 'Google'),
+    (N'РќРѕСѓС‚Р±СѓРє', 'Acer Aspire 5', 'SN901234', 'Acer'),
+    (N'РџР»Р°РЅС€РµС‚', 'Huawei MatePad Pro', 'SN567890', 'Huawei'),
+    (N'РўРµР»РµРІРёР·РѕСЂ', 'TCL 55C715', 'SN123789', 'TCL'),
+    (N'РўРµР»РµС„РѕРЅ', 'OnePlus 9 Pro', 'SN890123', 'OnePlus'),
+    (N'РљРѕРјРїСЊСЋС‚РµСЂ', 'ASUS ROG Strix G15', 'SN234567', 'ASUS'),
+    (N'РќРѕСѓС‚Р±СѓРє', 'MSI Stealth 15M', 'SN456789', 'MSI'),
+    (N'РџР»Р°РЅС€РµС‚', 'Amazon Fire HD 10', 'SN789012', 'Amazon'),
+    (N'РўРµР»РµРІРёР·РѕСЂ', 'Hisense U8G', 'SN345678', 'Hisense'),
+    (N'РўРµР»РµС„РѕРЅ', 'Motorola Moto G Power', 'SN901234', 'Motorola');
 
 delete from Devices;
 
-INSERT INTO [dbo].[Messages] ([UserId], [RoomId], [MessageText], [MessageImage], [TimeSend]) 
-VALUES 
-    (1, 1, 'Привет!', NULL, '2023-05-15 10:00:00'),
-    (1, 2, 'Как дела?', NULL, '2023-05-15 11:30:00'),
-    (2, 1, 'Привет! Чем могу помочь?', NULL, '2023-05-25 12:15:00'),
-    (2, 3, 'Здравствуйте! У вас вопросы по заказу?', NULL, '2023-05-15 14:00:00'),
-    (3, 2, 'Добрый день! У меня проблема с устройством.', NULL, '2023-05-26 09:30:00'),
-    (3, 3, 'Как долго будет выполняться ремонт?', NULL, '2023-05-16 11:00:00'),
-    (4, 1, 'Здравствуйте! Я хотел бы записаться на ремонт.', NULL, '2023-05-26 13:45:00'),
-    (4, 2, 'Какие услуги вы предоставляете?', NULL, '2023-05-17 08:30:00'),
-    (5, 3, 'Спасибо за быстрый ответ!', NULL, '2023-05-17 10:15:00'),
-    (5, 1, 'Когда можно будет забрать устройство?', NULL, '2023-05-17 12:00:00'),
-    (6, 2, 'Мне нужна помощь с настройкой устройства.', NULL, '2023-05-17 14:30:00'),
-    (6, 3, 'Какие варианты оплаты доступны?', NULL, '2023-05-18 09:45:00'),
-    (7, 1, 'У меня проблемы с интернет-соединением.', NULL, '2023-05-18 11:15:00'),
-    (7, 2, 'Какие документы нужны для ремонта?', NULL, '2023-05-18 13:00:00'),
-    (8, 3, 'Спасибо за информацию!', NULL, '2023-05-19 08:30:00'),
-    (8, 1, 'Какой срок гарантии на ремонт?', NULL, '2023-05-19 10:00:00'),
-    (9, 2, 'У меня проблема с зарядкой устройства.', NULL, '2023-05-19 12:45:00'),
-    (9, 3, 'Какие дополнительные услуги вы предлагаете?', NULL, '2023-05-19 14:15:00'),
-    (10, 1, 'У меня сломался экран на телефоне.', NULL, '2023-05-10 09:30:00'),
-    (10, 2, 'Какие методы оплаты принимаются?', NULL, '2023-05-10 11:00:00');
-
 INSERT INTO [dbo].[Users] ([Login], [UserName], [Email], [PhoneNumber], [IdRole])
-VALUES ('IvanIvanov1983', 'Иванов Иван', 'ivanov_ivan@example.com', '+375291234567', 1),
-       ('Petrova1985', 'Петрова Анна', 'petrova_anna@example.com', '+375331234567', 1),
-       ('AlexSidorov', 'Сидоров Александр', 'sidorov_alex@example.com', '+375441234567', 1),
-       ('ElenaKuznetsova', 'Кузнецова Елена', 'kuznetsova_elena@example.com', '+375251234567', 1),
-       ('AdminUser', 'Админов Петр', 'admin@example.com', '+375171234567', 2),
-       ('MikhailMaster', 'Мастеров Михаил', 'master@example.com', '+375551234567', 3),
-       ('NikolayIvanov', 'Иванов Николай', 'nikolay_ivanov@example.com', '+375631234567', 1),
-       ('MariaSergeeva', 'Сергеева Мария', 'sergeeva_maria@example.com', '+375731234567', 1),
-       ('MaximAdmin', 'Админ Максим', 'maxim_admin@example.com', '+375441234567', 2),
-       ('SvetlanaPetrova', 'Петрова Светлана', 'svetlana_petrova@example.com', '+375291234567', 1),
-       ('IgorSidorov', 'Сидоров Игорь', 'igor_sidorov@example.com', '+375331234567', 1),
-       ('MasterUser', 'Мастеров Иван', 'master@example.com', '+375551234567', 3),
-       ('ElenaKuzmina', 'Кузьмина Елена', 'kuzmina_elena@example.com', '+375251234567', 1),
-       ('IvanAdmin', 'Админов Иван', 'admin@example.com', '+375171234567', 2),
-       ('SergeyMaster', 'Мастеров Сергей', 'master@example.com', '+375551234567', 3),
-       ('OlgaIvanova', 'Иванова Ольга', 'olga_ivanova@example.com', '+375631234567', 1),
-       ('AnnaSergeeva', 'Сергеева Анна', 'sergeeva_anna@example.com', '+375731234567', 1),
-       ('IvanAdmin1', 'Админов Иван', 'admin1@example.com', '+375441234567', 2),
-       ('MariaPetrova', 'Петрова Мария', 'maria_petrova@example.com', '+375291234567', 1),
-       ('IgorSidorov1', 'Сидоров Игорь', 'igor_sidorov1@example.com', '+375331234567', 1),
-       ('MasterUser1', 'Мастеров Иван', 'master1@example.com', '+375551234567', 3);
+VALUES (N'IvanIvanov1983', N'РРІР°РЅРѕРІ РРІР°РЅ', 'ivanov_ivan@example.com', '+375291234567', 1),
+       (N'Petrova1985', N'РџРµС‚СЂРѕРІР° РђРЅРЅР°', 'petrova_anna@example.com', '+375331234567', 1),
+       (N'AlexSidorov', N'РЎРёРґРѕСЂРѕРІ РђР»РµРєСЃР°РЅРґСЂ', 'sidorov_alex@example.com', '+375441234567', 1),
+       (N'ElenaKuznetsova', N'РљСѓР·РЅРµС†РѕРІР° Р•Р»РµРЅР°', 'kuznetsova_elena@example.com', '+375251234567', 1),
+       (N'AdminUser', N'РђРґРјРёРЅРѕРІ РџРµС‚СЂ', 'admin@example.com', '+375171234567', 2),
+       (N'MikhailMaster', N'РњР°СЃС‚РµСЂРѕРІ РњРёС…Р°РёР»', 'master@example.com', '+375551234567', 3),
+       (N'NikolayIvanov', N'РРІР°РЅРѕРІ РќРёРєРѕР»Р°Р№', 'nikolay_ivanov@example.com', '+375631234567', 1),
+       (N'MariaSergeeva', N'РЎРµСЂРіРµРµРІР° РњР°СЂРёСЏ', 'sergeeva_maria@example.com', '+375731234567', 1),
+       (N'MaximAdmin', N'РђРґРјРёРЅ РњР°РєСЃРёРј', 'maxim_admin@example.com', '+375441234567', 2),
+       (N'SvetlanaPetrova', N'РџРµС‚СЂРѕРІР° РЎРІРµС‚Р»Р°РЅР°', 'svetlana_petrova@example.com', '+375291234567', 1),
+       (N'IgorSidorov', N'РЎРёРґРѕСЂРѕРІ РРіРѕСЂСЊ', 'igor_sidorov@example.com', '+375331234567', 1),
+       (N'MasterUser', N'РњР°СЃС‚РµСЂРѕРІ РРІР°РЅ', 'master@example.com', '+375551234567', 3),
+       (N'ElenaKuzmina', N'РљСѓР·СЊРјРёРЅР° Р•Р»РµРЅР°', 'kuzmina_elena@example.com', '+375251234567', 1),
+       (N'IvanAdmin', N'РђРґРјРёРЅРѕРІ РРІР°РЅ', 'admin@example.com', '+375171234567', 2),
+       (N'SergeyMaster', N'РњР°СЃС‚РµСЂРѕРІ РЎРµСЂРіРµР№', 'master@example.com', '+375551234567', 3),
+       (N'OlgaIvanova', N'РРІР°РЅРѕРІР° РћР»СЊРіР°', 'olga_ivanova@example.com', '+375631234567', 1),
+       (N'AnnaSergeeva', N'РЎРµСЂРіРµРµРІР° РђРЅРЅР°', 'sergeeva_anna@example.com', '+375731234567', 1),
+       (N'IvanAdmin1', N'РђРґРјРёРЅРѕРІ РРІР°РЅ', 'admin1@example.com', '+375441234567', 2),
+       (N'MariaPetrova', N'РџРµС‚СЂРѕРІР° РњР°СЂРёСЏ', 'maria_petrova@example.com', '+375291234567', 1),
+       (N'IgorSidorov1', N'РЎРёРґРѕСЂРѕРІ РРіРѕСЂСЊ', 'igor_sidorov1@example.com', '+375331234567', 1),
+       (N'MasterUser1', N'РњР°СЃС‚РµСЂРѕРІ РРІР°РЅ', 'master1@example.com', '+375551234567', 3);
 
---клиенты
+--РєР»РёРµРЅС‚С‹
 INSERT INTO [dbo].[Users] ([Login], [UserName], [Email], [PhoneNumber], [IdRole])
-VALUES ('ViktorSmirnov1991', 'Смирнов Виктор', 'smirnov_viktor@example.com', '+375331234567', 1),
-       ('NataliaKuznetsova1986', 'Кузнецова Наталья', 'kuznetsova_natalia@example.com', '+375251234567', 1),
-       ('IgorPopov1993', 'Попов Игорь', 'popov_igor@example.com', '+375291234567', 1),
-       ('TatianaIvanova1981', 'Иванова Татьяна', 'ivanova_tatiana@example.com', '+375441234567', 1),
-       ('AndreySergeev1988', 'Сергеев Андрей', 'sergeev_andrey@example.com', '+375331234567', 1),
-       ('EkaterinaKozlova1994', 'Козлова Екатерина', 'kozlova_ekaterina@example.com', '+375251234567', 1),
-       ('PavelVasiliev1983', 'Васильев Павел', 'vasiliev_pavel@example.com', '+375291234567', 1),
-       ('SvetlanaIvanova1990', 'Иванова Светлана', 'ivanova_svetlana@example.com', '+375441234567', 1),
-       ('ArtemSidorov1985', 'Сидоров Артем', 'sidorov_artem@example.com', '+375331234567', 1),
-       ('MariaSmirnova1982', 'Смирнова Мария', 'smirnova_maria@example.com', '+375251234567', 1),
-       ('DmitryPopov1997', 'Попов Дмитрий', 'popov_dmitry@example.com', '+375291234567', 1),
-       ('ElenaKuznetsova1989', 'Кузнецова Елена', 'kuznetsova_elena@example.com', '+375441234567', 1),
-       ('SergeyIvanov1984', 'Иванов Сергей', 'ivanov_sergey@example.com', '+375331234567', 1),
-       ('AnnaSidorova1992', 'Сидорова Анна', 'sidorova_anna@example.com', '+375251234567', 1),
-       ('MaximSmirnov1987', 'Смирнов Максим', 'smirnov_maxim@example.com', '+375291234567', 1),
-       ('OlgaPopova1995', 'Попова Ольга', 'popova_olga@example.com', '+375441234567', 1),
-       ('IvanKuznetsov1983', 'Кузнецов Иван', 'kuznetsov_ivan@example.com', '+375331234567', 1),
-       ('MariaIvanova1991', 'Иванова Мария', 'ivanova_maria@example.com', '+375251234567', 1),
-       ('AlexSidorov1986', 'Сидоров Алексей', 'sidorov_alex@example.com', '+375291234567', 1),
-       ('ElenaSmirnova1984', 'Смирнова Елена', 'smirnova_elena@example.com', '+375441234567', 1),
-       ('DmitryKuznetsov1993', 'Кузнецов Дмитрий', 'kuznetsov_dmitry@example.com', '+375331234567', 1),
-       ('OlgaVasilieva1992', 'Васильева Ольга', 'vasilieva_olga@example.com', '+375251234567', 1),
-       ('SergeyPopov1985', 'Попов Сергей', 'popov_sergey@example.com', '+375291234567', 1),
-       ('AnnaKozlova1990', 'Козлова Анна', 'kozlova_anna@example.com', '+375441234567', 1),
-       ('MaximIvanov1988', 'Иванов Максим', 'ivanov_maxim@example.com', '+375331234567', 1),
-       ('ElenaSergeeva1987', 'Сергеева Елена', 'sergeeva_elena@example.com', '+375251234567', 1),
-       ('ViktorSmirnov1989', 'Смирнов Виктор', 'smirnov_viktor@example.com', '+375291234567', 1),
-       ('NataliaKuznetsova1984', 'Кузнецова Наталья', 'kuznetsova_natalia@example.com', '+375441234567', 1),
-       ('IgorPopov1992', 'Попов Игорь', 'popov_igor@example.com', '+375331234567', 1),
-       ('TatianaIvanova1987', 'Иванова Татьяна', 'ivanova_tatiana@example.com', '+375251234567', 1),
-       ('AndreySergeev1995', 'Сергеев Андрей', 'sergeev_andrey@example.com', '+375291234567', 1),
-       ('EkaterinaKozlova1983', 'Козлова Екатерина', 'kozlova_ekaterina@example.com', '+375441234567', 1),
-       ('PavelVasiliev1990', 'Васильев Павел', 'vasiliev_pavel@example.com', '+375331234567', 1),
-       ('SvetlanaIvanova1986', 'Иванова Светлана', 'ivanova_svetlana@example.com', '+375251234567', 1),
-       ('ArtemSidorov1982', 'Сидоров Артем', 'sidorov_artem@example.com', '+375291234567', 1),
-       ('MariaSmirnova1991', 'Смирнова Мария', 'smirnova_maria@example.com', '+375441234567', 1),
-       ('DmitryPopov1985', 'Попов Дмитрий', 'popov_dmitry@example.com', '+375331234567', 1),
-       ('ElenaKuznetsova1993', 'Кузнецова Елена', 'kuznetsova_elena@example.com', '+375251234567', 1),
-       ('SergeyIvanov1981', 'Иванов Сергей', 'ivanov_sergey@example.com', '+375291234567', 1),
-       ('AnnaSidorova1989', 'Сидорова Анна', 'sidorova_anna@example.com', '+375441234567', 1),
-       ('MaximSmirnov1987', 'Смирнов Максим', 'smirnov_maxim@example.com', '+375331234567', 1),
-       ('OlgaPopova1995', 'Попова Ольга', 'popova_olga@example.com', '+375251234567', 1),
-       ('IvanKuznetsov1984', 'Кузнецов Иван', 'kuznetsov_ivan@example.com', '+375291234567', 1),
-       ('MariaIvanova1992', 'Иванова Мария', 'ivanova_maria@example.com', '+375441234567', 1),
-       ('AlexSidorov1983', 'Сидоров Алексей', 'sidorov_alex@example.com', '+375331234567', 1),
-       ('ElenaSmirnova1991', 'Смирнова Елена', 'smirnova_elena@example.com', '+375251234567', 1),
-       ('DmitryKuznetsov1988', 'Кузнецов Дмитрий', 'kuznetsov_dmitry@example.com', '+375291234567', 1),
-       ('OlgaVasilieva1990', 'Васильева Ольга', 'vasilieva_olga@example.com', '+375441234567', 1),
-       ('SergeyPopov1987', 'Попов Сергей', 'popov_sergey@example.com', '+375331234567', 1),
-       ('AnnaKozlova1985', 'Козлова Анна', 'kozlova_anna@example.com', '+375251234567', 1),
-       ('MaximIvanov1993', 'Иванов Максим', 'ivanov_maxim@example.com', '+375291234567', 1),
-       ('ElenaSergeeva1992', 'Сергеева Елена', 'sergeeva_elena@example.com', '+375441234567', 1),
-       ('ViktorSmirnov1989', 'Смирнов Виктор', 'smirnov_viktor@example.com', '+375331234567', 1),
-       ('NataliaKuznetsova1984', 'Кузнецова Наталья', 'kuznetsova_natalia@example.com', '+375251234567', 1),
-       ('IgorPopov1992', 'Попов Игорь', 'popov_igor@example.com', '+375291234567', 1),
-       ('TatianaIvanova1987', 'Иванова Татьяна', 'ivanova_tatiana@example.com', '+375441234567', 1);
+VALUES ('ViktorSmirnov1991', 'РЎРјРёСЂРЅРѕРІ Р’РёРєС‚РѕСЂ', 'smirnov_viktor@example.com', '+375331234567', 1),
+       ('NataliaKuznetsova1986', 'РљСѓР·РЅРµС†РѕРІР° РќР°С‚Р°Р»СЊСЏ', 'kuznetsova_natalia@example.com', '+375251234567', 1),
+       ('IgorPopov1993', 'РџРѕРїРѕРІ РРіРѕСЂСЊ', 'popov_igor@example.com', '+375291234567', 1),
+       ('TatianaIvanova1981', 'РРІР°РЅРѕРІР° РўР°С‚СЊСЏРЅР°', 'ivanova_tatiana@example.com', '+375441234567', 1),
+       ('AndreySergeev1988', 'РЎРµСЂРіРµРµРІ РђРЅРґСЂРµР№', 'sergeev_andrey@example.com', '+375331234567', 1),
+       ('EkaterinaKozlova1994', 'РљРѕР·Р»РѕРІР° Р•РєР°С‚РµСЂРёРЅР°', 'kozlova_ekaterina@example.com', '+375251234567', 1),
+       ('PavelVasiliev1983', 'Р’Р°СЃРёР»СЊРµРІ РџР°РІРµР»', 'vasiliev_pavel@example.com', '+375291234567', 1),
+       ('SvetlanaIvanova1990', 'РРІР°РЅРѕРІР° РЎРІРµС‚Р»Р°РЅР°', 'ivanova_svetlana@example.com', '+375441234567', 1),
+       ('ArtemSidorov1985', 'РЎРёРґРѕСЂРѕРІ РђСЂС‚РµРј', 'sidorov_artem@example.com', '+375331234567', 1),
+       ('MariaSmirnova1982', 'РЎРјРёСЂРЅРѕРІР° РњР°СЂРёСЏ', 'smirnova_maria@example.com', '+375251234567', 1),
+       ('DmitryPopov1997', 'РџРѕРїРѕРІ Р”РјРёС‚СЂРёР№', 'popov_dmitry@example.com', '+375291234567', 1),
+       ('ElenaKuznetsova1989', 'РљСѓР·РЅРµС†РѕРІР° Р•Р»РµРЅР°', 'kuznetsova_elena@example.com', '+375441234567', 1),
+       ('SergeyIvanov1984', 'РРІР°РЅРѕРІ РЎРµСЂРіРµР№', 'ivanov_sergey@example.com', '+375331234567', 1),
+       ('AnnaSidorova1992', 'РЎРёРґРѕСЂРѕРІР° РђРЅРЅР°', 'sidorova_anna@example.com', '+375251234567', 1),
+       ('MaximSmirnov1987', 'РЎРјРёСЂРЅРѕРІ РњР°РєСЃРёРј', 'smirnov_maxim@example.com', '+375291234567', 1),
+       ('OlgaPopova1995', 'РџРѕРїРѕРІР° РћР»СЊРіР°', 'popova_olga@example.com', '+375441234567', 1),
+       ('IvanKuznetsov1983', 'РљСѓР·РЅРµС†РѕРІ РРІР°РЅ', 'kuznetsov_ivan@example.com', '+375331234567', 1),
+       ('MariaIvanova1991', 'РРІР°РЅРѕРІР° РњР°СЂРёСЏ', 'ivanova_maria@example.com', '+375251234567', 1),
+       ('AlexSidorov1986', 'РЎРёРґРѕСЂРѕРІ РђР»РµРєСЃРµР№', 'sidorov_alex@example.com', '+375291234567', 1),
+       ('ElenaSmirnova1984', 'РЎРјРёСЂРЅРѕРІР° Р•Р»РµРЅР°', 'smirnova_elena@example.com', '+375441234567', 1),
+       ('DmitryKuznetsov1993', 'РљСѓР·РЅРµС†РѕРІ Р”РјРёС‚СЂРёР№', 'kuznetsov_dmitry@example.com', '+375331234567', 1),
+       ('OlgaVasilieva1992', 'Р’Р°СЃРёР»СЊРµРІР° РћР»СЊРіР°', 'vasilieva_olga@example.com', '+375251234567', 1),
+       ('SergeyPopov1985', 'РџРѕРїРѕРІ РЎРµСЂРіРµР№', 'popov_sergey@example.com', '+375291234567', 1),
+       ('AnnaKozlova1990', 'РљРѕР·Р»РѕРІР° РђРЅРЅР°', 'kozlova_anna@example.com', '+375441234567', 1),
+       ('MaximIvanov1988', 'РРІР°РЅРѕРІ РњР°РєСЃРёРј', 'ivanov_maxim@example.com', '+375331234567', 1),
+       ('ElenaSergeeva1987', 'РЎРµСЂРіРµРµРІР° Р•Р»РµРЅР°', 'sergeeva_elena@example.com', '+375251234567', 1),
+       ('ViktorSmirnov1989', 'РЎРјРёСЂРЅРѕРІ Р’РёРєС‚РѕСЂ', 'smirnov_viktor@example.com', '+375291234567', 1),
+       ('NataliaKuznetsova1984', 'РљСѓР·РЅРµС†РѕРІР° РќР°С‚Р°Р»СЊСЏ', 'kuznetsova_natalia@example.com', '+375441234567', 1),
+       ('IgorPopov1992', 'РџРѕРїРѕРІ РРіРѕСЂСЊ', 'popov_igor@example.com', '+375331234567', 1),
+       ('TatianaIvanova1987', 'РРІР°РЅРѕРІР° РўР°С‚СЊСЏРЅР°', 'ivanova_tatiana@example.com', '+375251234567', 1),
+       ('AndreySergeev1995', 'РЎРµСЂРіРµРµРІ РђРЅРґСЂРµР№', 'sergeev_andrey@example.com', '+375291234567', 1),
+       ('EkaterinaKozlova1983', 'РљРѕР·Р»РѕРІР° Р•РєР°С‚РµСЂРёРЅР°', 'kozlova_ekaterina@example.com', '+375441234567', 1),
+       ('PavelVasiliev1990', 'Р’Р°СЃРёР»СЊРµРІ РџР°РІРµР»', 'vasiliev_pavel@example.com', '+375331234567', 1),
+       ('SvetlanaIvanova1986', 'РРІР°РЅРѕРІР° РЎРІРµС‚Р»Р°РЅР°', 'ivanova_svetlana@example.com', '+375251234567', 1),
+       ('ArtemSidorov1982', 'РЎРёРґРѕСЂРѕРІ РђСЂС‚РµРј', 'sidorov_artem@example.com', '+375291234567', 1),
+       ('MariaSmirnova1991', 'РЎРјРёСЂРЅРѕРІР° РњР°СЂРёСЏ', 'smirnova_maria@example.com', '+375441234567', 1),
+       ('DmitryPopov1985', 'РџРѕРїРѕРІ Р”РјРёС‚СЂРёР№', 'popov_dmitry@example.com', '+375331234567', 1),
+       ('ElenaKuznetsova1993', 'РљСѓР·РЅРµС†РѕРІР° Р•Р»РµРЅР°', 'kuznetsova_elena@example.com', '+375251234567', 1),
+       ('SergeyIvanov1981', 'РРІР°РЅРѕРІ РЎРµСЂРіРµР№', 'ivanov_sergey@example.com', '+375291234567', 1),
+       ('AnnaSidorova1989', 'РЎРёРґРѕСЂРѕРІР° РђРЅРЅР°', 'sidorova_anna@example.com', '+375441234567', 1),
+       ('MaximSmirnov1987', 'РЎРјРёСЂРЅРѕРІ РњР°РєСЃРёРј', 'smirnov_maxim@example.com', '+375331234567', 1),
+       ('OlgaPopova1995', 'РџРѕРїРѕРІР° РћР»СЊРіР°', 'popova_olga@example.com', '+375251234567', 1),
+       ('IvanKuznetsov1984', 'РљСѓР·РЅРµС†РѕРІ РРІР°РЅ', 'kuznetsov_ivan@example.com', '+375291234567', 1),
+       ('MariaIvanova1992', 'РРІР°РЅРѕРІР° РњР°СЂРёСЏ', 'ivanova_maria@example.com', '+375441234567', 1),
+       ('AlexSidorov1983', 'РЎРёРґРѕСЂРѕРІ РђР»РµРєСЃРµР№', 'sidorov_alex@example.com', '+375331234567', 1),
+       ('ElenaSmirnova1991', 'РЎРјРёСЂРЅРѕРІР° Р•Р»РµРЅР°', 'smirnova_elena@example.com', '+375251234567', 1),
+       ('DmitryKuznetsov1988', 'РљСѓР·РЅРµС†РѕРІ Р”РјРёС‚СЂРёР№', 'kuznetsov_dmitry@example.com', '+375291234567', 1),
+       ('OlgaVasilieva1990', 'Р’Р°СЃРёР»СЊРµРІР° РћР»СЊРіР°', 'vasilieva_olga@example.com', '+375441234567', 1),
+       ('SergeyPopov1987', 'РџРѕРїРѕРІ РЎРµСЂРіРµР№', 'popov_sergey@example.com', '+375331234567', 1),
+       ('AnnaKozlova1985', 'РљРѕР·Р»РѕРІР° РђРЅРЅР°', 'kozlova_anna@example.com', '+375251234567', 1),
+       ('MaximIvanov1993', 'РРІР°РЅРѕРІ РњР°РєСЃРёРј', 'ivanov_maxim@example.com', '+375291234567', 1),
+       ('ElenaSergeeva1992', 'РЎРµСЂРіРµРµРІР° Р•Р»РµРЅР°', 'sergeeva_elena@example.com', '+375441234567', 1),
+       ('ViktorSmirnov1989', 'РЎРјРёСЂРЅРѕРІ Р’РёРєС‚РѕСЂ', 'smirnov_viktor@example.com', '+375331234567', 1),
+       ('NataliaKuznetsova1984', 'РљСѓР·РЅРµС†РѕРІР° РќР°С‚Р°Р»СЊСЏ', 'kuznetsova_natalia@example.com', '+375251234567', 1),
+       ('IgorPopov1992', 'РџРѕРїРѕРІ РРіРѕСЂСЊ', 'popov_igor@example.com', '+375291234567', 1),
+       ('TatianaIvanova1987', 'РРІР°РЅРѕРІР° РўР°С‚СЊСЏРЅР°', 'ivanova_tatiana@example.com', '+375441234567', 1);
 
 INSERT INTO [dbo].[Users] ([Login], [UserName], [Email], [PhoneNumber], [IdRole]) values
-	   ('AndreySergeev1995', 'Сергеев Андрей', 'sergeev_andrey@example.com', '+375331234567', 1),
-       ('EkaterinaKozlova1983', 'Козлова Екатерина', 'kozlova_ekaterina@example.com', '+375251234567', 1),
-       ('PavelVasiliev1990', 'Васильев Павел', 'vasiliev_pavel@example.com', '+375291234567', 1),
-       ('SvetlanaIvanova1986', 'Иванова Светлана', 'ivanova_svetlana@example.com', '+375441234567', 1),
-       ('ArtemSidorov1982', 'Сидоров Артем', 'sidorov_artem@example.com', '+375331234567', 1),
-       ('MariaSmirnova1991', 'Смирнова Мария', 'smirnova_maria@example.com', '+375251234567', 1),
-       ('DmitryPopov1985', 'Попов Дмитрий', 'popov_dmitry@example.com', '+375291234567', 1),
-       ('ElenaKuznetsova1993', 'Кузнецова Елена', 'kuznetsova_elena@example.com', '+375441234567', 1),
-       ('SergeyIvanov1981', 'Иванов Сергей', 'ivanov_sergey@example.com', '+375331234567', 1),
-       ('AnnaSidorova1989', 'Сидорова Анна', 'sidorova_anna@example.com', '+375251234567', 1),
-       ('MaximSmirnov1987', 'Смирнов Максим', 'smirnov_maxim@example.com', '+375291234567', 1),
-       ('OlgaPopova1995', 'Попова Ольга', 'popova_olga@example.com', '+375441234567', 1),
-       ('IvanKuznetsov1984', 'Кузнецов Иван', 'kuznetsov_ivan@example.com', '+375331234567', 1),
-       ('MariaIvanova1992', 'Иванова Мария', 'ivanova_maria@example.com', '+375441234567', 1),
-       ('AlexSidorov1983', 'Сидоров Алексей', 'sidorov_alex@example.com', '+375331234567', 1),
-       ('ElenaSmirnova1991', 'Смирнова Елена', 'smirnova_elena@example.com', '+375251234567', 1),
-       ('DmitryKuznetsov1988', 'Кузнецов Дмитрий', 'kuznetsov_dmitry@example.com', '+375291234567', 1),
-       ('OlgaVasilieva1990', 'Васильева Ольга', 'vasilieva_olga@example.com', '+375441234567', 1),
-       ('SergeyPopov1987', 'Попов Сергей', 'popov_sergey@example.com', '+375331234567', 1),
-       ('AnnaKozlova1985', 'Козлова Анна', 'kozlova_anna@example.com', '+375251234567', 1),
-       ('MaximIvanov1993', 'Иванов Максим', 'ivanov_maxim@example.com', '+375291234567', 1),
-       ('ElenaSergeeva1992', 'Сергеева Елена', 'sergeeva_elena@example.com', '+375441234567', 1),
-       ('ViktorSmirnov1989', 'Смирнов Виктор', 'smirnov_viktor@example.com', '+375331234567', 1),
-       ('NataliaKuznetsova1984', 'Кузнецова Наталья', 'kuznetsova_natalia@example.com', '+375251234567', 1),
-       ('IgorPopov1992', 'Попов Игорь', 'popov_igor@example.com', '+375291234567', 1),
-       ('TatianaIvanova1987', 'Иванова Татьяна', 'ivanova_tatiana@example.com', '+375441234567', 1),
-       ('AndreySergeev1995', 'Сергеев Андрей', 'sergeev_andrey@example.com', '+375331234567', 1),
-       ('EkaterinaKozlova1983', 'Козлова Екатерина', 'kozlova_ekaterina@example.com', '+375251234567', 1),
-       ('PavelVasiliev1990', 'Васильев Павел', 'vasiliev_pavel@example.com', '+375291234567', 1),
-       ('SvetlanaIvanova1986', 'Иванова Светлана', 'ivanova_svetlana@example.com', '+375441234567', 1),
-       ('ArtemSidorov1982', 'Сидоров Артем', 'sidorov_artem@example.com', '+375331234567', 1),
-       ('MariaSmirnova1991', 'Смирнова Мария', 'smirnova_maria@example.com', '+375251234567', 1),
-       ('DmitryPopov1985', 'Попов Дмитрий', 'popov_dmitry@example.com', '+375291234567', 1),
-       ('ElenaKuznetsova1993', 'Кузнецова Елена', 'kuznetsova_elena@example.com', '+375441234567', 1);
-
-
-
-INSERT INTO [dbo].[Orders] ([IdDevice], [IdMaster], [IdClient], [Status], [Date_acceptance], [Repair_start_date], [Repair_completion_date], [Date_issue], [Description], [PriceOrder]) 
-VALUES 
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 1), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 1), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 1), 
-	'Заказ принят', '2023-04-01 10:00:00', NULL, NULL, NULL, 'Не включается', 100.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 2), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 2), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 2), 
-	 'Начат ремонт', '2023-04-05 11:30:00', '2023-04-07 12:00:00', NULL, NULL, 'Требуется замена жесткого диска', 150.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 3), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 2), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 3), 
-	 'На согласовании', '2023-04-10 12:15:00', NULL, NULL, NULL, 'Проблема с зарядкой', 50.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 4), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 3), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 2), 
-	 'Ремонт закончен', '2023-04-15 09:30:00', '2023-04-17 10:00:00', '2023-04-19 13:45:00', '2023-04-20 14:00:00', 'Замена аккумулятора', 80.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 5), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 4), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 4), 
-	 'Заказ завершён', '2023-04-20 11:00:00', '2023-04-23 11:30:00', '2023-04-25 15:30:00', '2023-04-27 16:00:00', 'Проблема с сенсорным экраном', 120.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber =6), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 4), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 5), 
-	 'Заказ принят', '2023-04-25 13:45:00', NULL, NULL, NULL, 'Требуется замена камеры', 70.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 7), 	 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 3), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 7),
-	'Начат ремонт', '2023-04-30 08:30:00', '2023-05-02 09:00:00', NULL, NULL, 'Не работает кнопка питания', 90.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 8), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 3), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 14), 
-	 'На согласовании', '2023-05-05 10:15:00', NULL, NULL, NULL, 'Требуется замена микрофона', 60.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 9), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 1), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 13), 
-	 'Ремонт закончен', '2023-05-10 12:00:00', '2023-05-12 12:30:00', '2023-05-14 16:00:00', '2023-05-15 16:30:00', 'Проблема с динамиком', 40.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 10), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 1), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 16), 
-	 'Заказ завершён', '2023-05-15 14:30:00', '2023-05-18 15:00:00', '2023-05-20 17:30:00', '2023-05-21 18:00:00', 'Замена задней крышки', 30.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 11), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 2), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 10), 
-	 'Заказ принят', '2023-05-20 09:45:00', NULL, NULL, NULL, 'Проблема с Wi-Fi', 110.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 12), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 3), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 9), 
-	 'Начат ремонт', '2023-05-25 11:15:00', '2023-05-27 11:30:00', NULL, NULL, 'Требуется замена разъема для наушников', 100.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 13), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 3), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 8), 
-	 'На согласовании', '2023-05-30 13:00:00', NULL, NULL, NULL, 'Не работает камера', 70.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 14), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 1), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 15), 
-	 'Ремонт закончен', '2023-04-04 08:30:00', '2023-04-04 09:00:00', '2023-04-08 12:30:00', '2023-04-09 13:00:00', 'Замена кнопки громкости', 50.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 15), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 1), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 7), 
-	 'Заказ завершён', '2023-04-09 10:00:00', '2023-04-11 10:30:00', '2023-04-13 14:00:00', '2023-04-14 14:30:00', 'Замена экрана', 200.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 16), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 2), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 11), 
-	 'Заказ принят', '2023-04-14 12:15:00', NULL, NULL, NULL, 'Проблема с батареей', 70.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 17), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 1), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 14), 
-	 'Начат ремонт', '2023-04-19 08:30:00', '2023-04-21 09:00:00', NULL, NULL, 'Требуется замена антенны', 80.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 18), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 3), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 10), 
-	 'На согласовании', '2023-04-24 10:15:00', NULL, NULL, NULL, 'Проблема с микрофоном', 60.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 19), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 2), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 14), 
-	 'Ремонт закончен', '2023-04-29 12:00:00', '2023-07-01 12:30:00', '2023-07-03 16:00:00', '2023-07-04 16:30:00', 'Замена дисплея', 150.00),
-    ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 20), 
-	 (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 1), 
-	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 8), 
-	 'Заказ завершён', '2023-07-04 14:30:00', '2023-07-04 15:00:00', '2023-07-08 17:30:00', '2023-07-09 18:00:00', 'Проблема с разъемом питания', 90.00);
+	   (N'AndreySergeev1995', N'РЎРµСЂРіРµРµРІ РђРЅРґСЂРµР№', 'sergeev_andrey@example.com', '+375331234567', 1),
+       (N'EkaterinaKozlova1983', N'РљРѕР·Р»РѕРІР° Р•РєР°С‚РµСЂРёРЅР°', 'kozlova_ekaterina@example.com', '+375251234567', 1),
+       (N'PavelVasiliev1990', N'Р’Р°СЃРёР»СЊРµРІ РџР°РІРµР»', 'vasiliev_pavel@example.com', '+375291234567', 1),
+       (N'SvetlanaIvanova1986', N'РРІР°РЅРѕРІР° РЎРІРµС‚Р»Р°РЅР°', 'ivanova_svetlana@example.com', '+375441234567', 1),
+       (N'ArtemSidorov1982', N'РЎРёРґРѕСЂРѕРІ РђСЂС‚РµРј', 'sidorov_artem@example.com', '+375331234567', 1),
+       (N'MariaSmirnova1991', N'РЎРјРёСЂРЅРѕРІР° РњР°СЂРёСЏ', 'smirnova_maria@example.com', '+375251234567', 1),
+       (N'DmitryPopov1985', N'РџРѕРїРѕРІ Р”РјРёС‚СЂРёР№', 'popov_dmitry@example.com', '+375291234567', 1),
+       (N'ElenaKuznetsova1993', N'РљСѓР·РЅРµС†РѕРІР° Р•Р»РµРЅР°', 'kuznetsova_elena@example.com', '+375441234567', 1),
+       (N'SergeyIvanov1981', N'РРІР°РЅРѕРІ РЎРµСЂРіРµР№', 'ivanov_sergey@example.com', '+375331234567', 1),
+       (N'AnnaSidorova1989', N'РЎРёРґРѕСЂРѕРІР° РђРЅРЅР°', 'sidorova_anna@example.com', '+375251234567', 1),
+       (N'MaximSmirnov1987', N'РЎРјРёСЂРЅРѕРІ РњР°РєСЃРёРј', 'smirnov_maxim@example.com', '+375291234567', 1),
+       (N'OlgaPopova1995', N'РџРѕРїРѕРІР° РћР»СЊРіР°', 'popova_olga@example.com', '+375441234567', 1),
+       (N'IvanKuznetsov1984', N'РљСѓР·РЅРµС†РѕРІ РРІР°РЅ', 'kuznetsov_ivan@example.com', '+375331234567', 1),
+       (N'MariaIvanova1992', N'РРІР°РЅРѕРІР° РњР°СЂРёСЏ', 'ivanova_maria@example.com', '+375441234567', 1),
+       (N'AlexSidorov1983', N'РЎРёРґРѕСЂРѕРІ РђР»РµРєСЃРµР№', 'sidorov_alex@example.com', '+375331234567', 1),
+       (N'ElenaSmirnova1991', N'РЎРјРёСЂРЅРѕРІР° Р•Р»РµРЅР°', 'smirnova_elena@example.com', '+375251234567', 1),
+       (N'DmitryKuznetsov1988', N'РљСѓР·РЅРµС†РѕРІ Р”РјРёС‚СЂРёР№', 'kuznetsov_dmitry@example.com', '+375291234567', 1),
+       (N'OlgaVasilieva1990', N'Р’Р°СЃРёР»СЊРµРІР° РћР»СЊРіР°', 'vasilieva_olga@example.com', '+375441234567', 1),
+       (N'SergeyPopov1987', N'РџРѕРїРѕРІ РЎРµСЂРіРµР№', 'popov_sergey@example.com', '+375331234567', 1),
+       (N'AnnaKozlova1985', N'РљРѕР·Р»РѕРІР° РђРЅРЅР°', 'kozlova_anna@example.com', '+375251234567', 1),
+       (N'MaximIvanov1993', N'РРІР°РЅРѕРІ РњР°РєСЃРёРј', 'ivanov_maxim@example.com', '+375291234567', 1),
+       (N'ElenaSergeeva1992', N'РЎРµСЂРіРµРµРІР° Р•Р»РµРЅР°', 'sergeeva_elena@example.com', '+375441234567', 1),
+       (N'ViktorSmirnov1989', N'РЎРјРёСЂРЅРѕРІ Р’РёРєС‚РѕСЂ', 'smirnov_viktor@example.com', '+375331234567', 1),
+       (N'NataliaKuznetsova1984', N'РљСѓР·РЅРµС†РѕРІР° РќР°С‚Р°Р»СЊСЏ', 'kuznetsova_natalia@example.com', '+375251234567', 1),
+       (N'IgorPopov1992', N'РџРѕРїРѕРІ РРіРѕСЂСЊ', 'popov_igor@example.com', '+375291234567', 1),
+       (N'TatianaIvanova1987', N'РРІР°РЅРѕРІР° РўР°С‚СЊСЏРЅР°', 'ivanova_tatiana@example.com', '+375441234567', 1),
+       (N'AndreySergeev1995', N'РЎРµСЂРіРµРµРІ РђРЅРґСЂРµР№', 'sergeev_andrey@example.com', '+375331234567', 1),
+       (N'EkaterinaKozlova1983', N'РљРѕР·Р»РѕРІР° Р•РєР°С‚РµСЂРёРЅР°', 'kozlova_ekaterina@example.com', '+375251234567', 1),
+       (N'PavelVasiliev1990', N'Р’Р°СЃРёР»СЊРµРІ РџР°РІРµР»', 'vasiliev_pavel@example.com', '+375291234567', 1),
+       (N'SvetlanaIvanova1986', N'РРІР°РЅРѕРІР° РЎРІРµС‚Р»Р°РЅР°', 'ivanova_svetlana@example.com', '+375441234567', 1),
+       (N'ArtemSidorov1982', N'РЎРёРґРѕСЂРѕРІ РђСЂС‚РµРј', 'sidorov_artem@example.com', '+375331234567', 1),
+       (N'MariaSmirnova1991', N'РЎРјРёСЂРЅРѕРІР° РњР°СЂРёСЏ', 'smirnova_maria@example.com', '+375251234567', 1),
+       (N'DmitryPopov1985', N'РџРѕРїРѕРІ Р”РјРёС‚СЂРёР№', 'popov_dmitry@example.com', '+375291234567', 1),
+       (N'ElenaKuznetsova1993', N'РљСѓР·РЅРµС†РѕРІР° Р•Р»РµРЅР°', 'kuznetsova_elena@example.com', '+375441234567', 1);
 
 
 INSERT INTO [dbo].[Rooms] ([Name])
-VALUES ('Комната Обсуждений'),
-       ('Чат для Вопросов'),
-       ('Групповой Чат'),
-       ('Приватный Чат'),
-       ('Комната Деловых Переговоров'),
-       ('Чат для Творчества'),
-       ('Комната Отдыха'),
-       ('Общий Чат'),
-       ('Чат для Игр'),
-       ('Группа Поддержки'),
-       ('Комната Совещаний'),
-       ('Чат для Новостей'),
-       ('Комната Обучения'),
-       ('Чат для Знакомств'),
-       ('Чат для Развлечений'),
-       ('Комната Планирования'),
-       ('Общий Чат для Коллег'),
-       ('Группа Друзей'),
-       ('Комната Тайного Общения'),
-       ('Чат для Информации');
+VALUES (N'РљРѕРјРЅР°С‚Р° РћР±СЃСѓР¶РґРµРЅРёР№'),
+       (N'Р§Р°С‚ РґР»СЏ Р’РѕРїСЂРѕСЃРѕРІ'),
+       (N'Р“СЂСѓРїРїРѕРІРѕР№ Р§Р°С‚'),
+       (N'РџСЂРёРІР°С‚РЅС‹Р№ Р§Р°С‚'),
+       (N'РљРѕРјРЅР°С‚Р° Р”РµР»РѕРІС‹С… РџРµСЂРµРіРѕРІРѕСЂРѕРІ'),
+       (N'Р§Р°С‚ РґР»СЏ РўРІРѕСЂС‡РµСЃС‚РІР°'),
+       (N'РљРѕРјРЅР°С‚Р° РћС‚РґС‹С…Р°'),
+       (N'РћР±С‰РёР№ Р§Р°С‚'),
+       (N'Р§Р°С‚ РґР»СЏ РРіСЂ'),
+       (N'Р“СЂСѓРїРїР° РџРѕРґРґРµСЂР¶РєРё'),
+       (N'РљРѕРјРЅР°С‚Р° РЎРѕРІРµС‰Р°РЅРёР№'),
+       (N'Р§Р°С‚ РґР»СЏ РќРѕРІРѕСЃС‚РµР№'),
+       (N'РљРѕРјРЅР°С‚Р° РћР±СѓС‡РµРЅРёСЏ'),
+       (N'Р§Р°С‚ РґР»СЏ Р—РЅР°РєРѕРјСЃС‚РІ'),
+       (N'Р§Р°С‚ РґР»СЏ Р Р°Р·РІР»РµС‡РµРЅРёР№'),
+       (N'РљРѕРјРЅР°С‚Р° РџР»Р°РЅРёСЂРѕРІР°РЅРёСЏ'),
+       (N'РћР±С‰РёР№ Р§Р°С‚ РґР»СЏ РљРѕР»Р»РµРі'),
+       (N'Р“СЂСѓРїРїР° Р”СЂСѓР·РµР№'),
+       (N'РљРѕРјРЅР°С‚Р° РўР°Р№РЅРѕРіРѕ РћР±С‰РµРЅРёСЏ'),
+       (N'Р§Р°С‚ РґР»СЏ РРЅС„РѕСЂРјР°С†РёРё');
 
 INSERT INTO [dbo].[RoomUsers] ([UserId], [RoomId])
 VALUES ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = 19), 
@@ -288,94 +180,127 @@ VALUES ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber
        ((SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 3) AS foo WHERE rownumber = 2), 
 	(SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users where IdRole = 1) AS foo WHERE rownumber = 3));
 
--- Заполнение таблицы Services
-INSERT INTO [dbo].[Services] ([Title], [Description], [Price])
-VALUES ('Диагностика устройства', 'Диагностика устройства для выявления неисправностей и определения причины поломки. Включает проверку аппаратной и программной составляющих.', 25.00),
-       ('Замена дисплея', 'Замена поврежденного дисплея на вашем устройстве. Включает демонтаж старого дисплея и установку нового.', 80.00),
-       ('Ремонт системной платы', 'Ремонт системной платы устройства. Включает замену неисправных компонентов и восстановление работоспособности.', 120.00),
-       ('Замена аккумулятора', 'Замена изношенного или поврежденного аккумулятора на вашем устройстве. Включает демонтаж старого аккумулятора и установку нового.', 40.00),
-       ('Установка программного обеспечения', 'Установка и настройка программного обеспечения на вашем устройстве. Включает установку операционной системы и необходимых приложений.', 30.00),
-       ('Чистка от пыли и грязи', 'Чистка устройства от пыли и грязи для поддержания его работоспособности и производительности.', 15.00),
-       ('Восстановление данных', 'Восстановление удаленных или поврежденных данных на вашем устройстве. Включает использование специализированных программ и техник восстановления.', 60.00),
-       ('Настройка сетевых подключений', 'Настройка и установка сетевых подключений на вашем устройстве. Включает подключение к Wi-Fi, настройку сетевых параметров и проверку связи.', 25.00),
-       ('Замена разъемов', 'Замена поврежденных или неисправных разъемов (USB, HDMI, аудио и т. д.) на вашем устройстве. Включает демонтаж старого разъема и установку нового.', 35.00),
-       ('Ремонт клавиатуры', 'Ремонт поврежденной или неисправной клавиатуры на вашем устройстве. Включает замену клавиш и ремонт электрических контактов.', 50.00);
+	
+INSERT INTO [dbo].[Messages] ([UserId], [RoomId], [MessageText], [MessageImage], [TimeSend]) 
+VALUES 
+    (1, 1, N'РџСЂРёРІРµС‚!', NULL, '2023-05-15 10:00:00'),
+    (1, 2, N'РљР°Рє РґРµР»Р°?', NULL, '2023-05-15 11:30:00'),
+    (2, 1, N'РџСЂРёРІРµС‚! Р§РµРј РјРѕРіСѓ РїРѕРјРѕС‡СЊ?', NULL, '2023-05-25 12:15:00'),
+    (2, 3, N'Р—РґСЂР°РІСЃС‚РІСѓР№С‚Рµ! РЈ РІР°СЃ РІРѕРїСЂРѕСЃС‹ РїРѕ Р·Р°РєР°Р·Сѓ?', NULL, '2023-05-15 14:00:00'),
+    (3, 2, N'Р”РѕР±СЂС‹Р№ РґРµРЅСЊ! РЈ РјРµРЅСЏ РїСЂРѕР±Р»РµРјР° СЃ СѓСЃС‚СЂРѕР№СЃС‚РІРѕРј.', NULL, '2023-05-26 09:30:00'),
+    (3, 3, N'РљР°Рє РґРѕР»РіРѕ Р±СѓРґРµС‚ РІС‹РїРѕР»РЅСЏС‚СЊСЃСЏ СЂРµРјРѕРЅС‚?', NULL, '2023-05-16 11:00:00'),
+    (4, 1, N'Р—РґСЂР°РІСЃС‚РІСѓР№С‚Рµ! РЇ С…РѕС‚РµР» Р±С‹ Р·Р°РїРёСЃР°С‚СЊСЃСЏ РЅР° СЂРµРјРѕРЅС‚.', NULL, '2023-05-26 13:45:00'),
+    (4, 2, N'РљР°РєРёРµ СѓСЃР»СѓРіРё РІС‹ РїСЂРµРґРѕСЃС‚Р°РІР»СЏРµС‚Рµ?', NULL, '2023-05-17 08:30:00'),
+    (5, 3, N'РЎРїР°СЃРёР±Рѕ Р·Р° Р±С‹СЃС‚СЂС‹Р№ РѕС‚РІРµС‚!', NULL, '2023-05-17 10:15:00'),
+    (5, 1, N'РљРѕРіРґР° РјРѕР¶РЅРѕ Р±СѓРґРµС‚ Р·Р°Р±СЂР°С‚СЊ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ?', NULL, '2023-05-17 12:00:00'),
+    (6, 2, N'РњРЅРµ РЅСѓР¶РЅР° РїРѕРјРѕС‰СЊ СЃ РЅР°СЃС‚СЂРѕР№РєРѕР№ СѓСЃС‚СЂРѕР№СЃС‚РІР°.', NULL, '2023-05-17 14:30:00'),
+    (6, 3, N'РљР°РєРёРµ РІР°СЂРёР°РЅС‚С‹ РѕРїР»Р°С‚С‹ РґРѕСЃС‚СѓРїРЅС‹?', NULL, '2023-05-18 09:45:00'),
+    (7, 1, N'РЈ РјРµРЅСЏ РїСЂРѕР±Р»РµРјС‹ СЃ РёРЅС‚РµСЂРЅРµС‚-СЃРѕРµРґРёРЅРµРЅРёРµРј.', NULL, '2023-05-18 11:15:00'),
+    (7, 2, N'РљР°РєРёРµ РґРѕРєСѓРјРµРЅС‚С‹ РЅСѓР¶РЅС‹ РґР»СЏ СЂРµРјРѕРЅС‚Р°?', NULL, '2023-05-18 13:00:00'),
+    (8, 3, N'РЎРїР°СЃРёР±Рѕ Р·Р° РёРЅС„РѕСЂРјР°С†РёСЋ!', NULL, '2023-05-19 08:30:00'),
+    (8, 1, N'РљР°РєРѕР№ СЃСЂРѕРє РіР°СЂР°РЅС‚РёРё РЅР° СЂРµРјРѕРЅС‚?', NULL, '2023-05-19 10:00:00'),
+    (9, 2, N'РЈ РјРµРЅСЏ РїСЂРѕР±Р»РµРјР° СЃ Р·Р°СЂСЏРґРєРѕР№ СѓСЃС‚СЂРѕР№СЃС‚РІР°.', NULL, '2023-05-19 12:45:00'),
+    (9, 3, N'РљР°РєРёРµ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ СѓСЃР»СѓРіРё РІС‹ РїСЂРµРґР»Р°РіР°РµС‚Рµ?', NULL, '2023-05-19 14:15:00'),
+    (10, 1, N'РЈ РјРµРЅСЏ СЃР»РѕРјР°Р»СЃСЏ СЌРєСЂР°РЅ РЅР° С‚РµР»РµС„РѕРЅРµ.', NULL, '2023-05-10 09:30:00'),
+    (10, 2, N'РљР°РєРёРµ РјРµС‚РѕРґС‹ РѕРїР»Р°С‚С‹ РїСЂРёРЅРёРјР°СЋС‚СЃСЏ?', NULL, '2023-05-10 11:00:00');
 
--- Заполнение таблицы ServicesPerformeds
+
+	select *from HistoryChangesOrders
+
+	-- Р—Р°РїРѕР»РЅРµРЅРёРµ С‚Р°Р±Р»РёС†С‹ Services
+	INSERT INTO [dbo].[Services] ([Title], [Description], [Price])
+	VALUES (N'Р”РёР°РіРЅРѕСЃС‚РёРєР° СѓСЃС‚СЂРѕР№СЃС‚РІР°', N'Р”РёР°РіРЅРѕСЃС‚РёРєР° СѓСЃС‚СЂРѕР№СЃС‚РІР° РґР»СЏ РІС‹СЏРІР»РµРЅРёСЏ РЅРµРёСЃРїСЂР°РІРЅРѕСЃС‚РµР№ Рё РѕРїСЂРµРґРµР»РµРЅРёСЏ РїСЂРёС‡РёРЅС‹ РїРѕР»РѕРјРєРё. Р’РєР»СЋС‡Р°РµС‚ РїСЂРѕРІРµСЂРєСѓ Р°РїРїР°СЂР°С‚РЅРѕР№ Рё РїСЂРѕРіСЂР°РјРјРЅРѕР№ СЃРѕСЃС‚Р°РІР»СЏСЋС‰РёС….', 25.00),
+		   (N'Р—Р°РјРµРЅР° РґРёСЃРїР»РµСЏ', N'Р—Р°РјРµРЅР° РїРѕРІСЂРµР¶РґРµРЅРЅРѕРіРѕ РґРёСЃРїР»РµСЏ РЅР° РІР°С€РµРј СѓСЃС‚СЂРѕР№СЃС‚РІРµ. Р’РєР»СЋС‡Р°РµС‚ РґРµРјРѕРЅС‚Р°Р¶ СЃС‚Р°СЂРѕРіРѕ РґРёСЃРїР»РµСЏ Рё СѓСЃС‚Р°РЅРѕРІРєСѓ РЅРѕРІРѕРіРѕ.', 80.00),
+		   (N'Р РµРјРѕРЅС‚ СЃРёСЃС‚РµРјРЅРѕР№ РїР»Р°С‚С‹', N'Р РµРјРѕРЅС‚ СЃРёСЃС‚РµРјРЅРѕР№ РїР»Р°С‚С‹ СѓСЃС‚СЂРѕР№СЃС‚РІР°. Р’РєР»СЋС‡Р°РµС‚ Р·Р°РјРµРЅСѓ РЅРµРёСЃРїСЂР°РІРЅС‹С… РєРѕРјРїРѕРЅРµРЅС‚РѕРІ Рё РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ СЂР°Р±РѕС‚РѕСЃРїРѕСЃРѕР±РЅРѕСЃС‚Рё.', 120.00),
+		   (N'Р—Р°РјРµРЅР° Р°РєРєСѓРјСѓР»СЏС‚РѕСЂР°', N'Р—Р°РјРµРЅР° РёР·РЅРѕС€РµРЅРЅРѕРіРѕ РёР»Рё РїРѕРІСЂРµР¶РґРµРЅРЅРѕРіРѕ Р°РєРєСѓРјСѓР»СЏС‚РѕСЂР° РЅР° РІР°С€РµРј СѓСЃС‚СЂРѕР№СЃС‚РІРµ. Р’РєР»СЋС‡Р°РµС‚ РґРµРјРѕРЅС‚Р°Р¶ СЃС‚Р°СЂРѕРіРѕ Р°РєРєСѓРјСѓР»СЏС‚РѕСЂР° Рё СѓСЃС‚Р°РЅРѕРІРєСѓ РЅРѕРІРѕРіРѕ.', 40.00),
+		   (N'РЈСЃС‚Р°РЅРѕРІРєР° РїСЂРѕРіСЂР°РјРјРЅРѕРіРѕ РѕР±РµСЃРїРµС‡РµРЅРёСЏ', N'РЈСЃС‚Р°РЅРѕРІРєР° Рё РЅР°СЃС‚СЂРѕР№РєР° РїСЂРѕРіСЂР°РјРјРЅРѕРіРѕ РѕР±РµСЃРїРµС‡РµРЅРёСЏ РЅР° РІР°С€РµРј СѓСЃС‚СЂРѕР№СЃС‚РІРµ. Р’РєР»СЋС‡Р°РµС‚ СѓСЃС‚Р°РЅРѕРІРєСѓ РѕРїРµСЂР°С†РёРѕРЅРЅРѕР№ СЃРёСЃС‚РµРјС‹ Рё РЅРµРѕР±С…РѕРґРёРјС‹С… РїСЂРёР»РѕР¶РµРЅРёР№.', 30.00),
+		   (N'Р§РёСЃС‚РєР° РѕС‚ РїС‹Р»Рё Рё РіСЂСЏР·Рё', N'Р§РёСЃС‚РєР° СѓСЃС‚СЂРѕР№СЃС‚РІР° РѕС‚ РїС‹Р»Рё Рё РіСЂСЏР·Рё РґР»СЏ РїРѕРґРґРµСЂР¶Р°РЅРёСЏ РµРіРѕ СЂР°Р±РѕС‚РѕСЃРїРѕСЃРѕР±РЅРѕСЃС‚Рё Рё РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚Рё.', 15.00),
+		   (N'Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ РґР°РЅРЅС‹С…', N'Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ СѓРґР°Р»РµРЅРЅС‹С… РёР»Рё РїРѕРІСЂРµР¶РґРµРЅРЅС‹С… РґР°РЅРЅС‹С… РЅР° РІР°С€РµРј СѓСЃС‚СЂРѕР№СЃС‚РІРµ. Р’РєР»СЋС‡Р°РµС‚ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ СЃРїРµС†РёР°Р»РёР·РёСЂРѕРІР°РЅРЅС‹С… РїСЂРѕРіСЂР°РјРј Рё С‚РµС…РЅРёРє РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ.', 60.00),
+		   (N'РќР°СЃС‚СЂРѕР№РєР° СЃРµС‚РµРІС‹С… РїРѕРґРєР»СЋС‡РµРЅРёР№', N'РќР°СЃС‚СЂРѕР№РєР° Рё СѓСЃС‚Р°РЅРѕРІРєР° СЃРµС‚РµРІС‹С… РїРѕРґРєР»СЋС‡РµРЅРёР№ РЅР° РІР°С€РµРј СѓСЃС‚СЂРѕР№СЃС‚РІРµ. Р’РєР»СЋС‡Р°РµС‚ РїРѕРґРєР»СЋС‡РµРЅРёРµ Рє Wi-Fi, РЅР°СЃС‚СЂРѕР№РєСѓ СЃРµС‚РµРІС‹С… РїР°СЂР°РјРµС‚СЂРѕРІ Рё РїСЂРѕРІРµСЂРєСѓ СЃРІСЏР·Рё.', 25.00),
+		   (N'Р—Р°РјРµРЅР° СЂР°Р·СЉРµРјРѕРІ', N'Р—Р°РјРµРЅР° РїРѕРІСЂРµР¶РґРµРЅРЅС‹С… РёР»Рё РЅРµРёСЃРїСЂР°РІРЅС‹С… СЂР°Р·СЉРµРјРѕРІ (USB, HDMI, Р°СѓРґРёРѕ Рё С‚. Рґ.) РЅР° РІР°С€РµРј СѓСЃС‚СЂРѕР№СЃС‚РІРµ. Р’РєР»СЋС‡Р°РµС‚ РґРµРјРѕРЅС‚Р°Р¶ СЃС‚Р°СЂРѕРіРѕ СЂР°Р·СЉРµРјР° Рё СѓСЃС‚Р°РЅРѕРІРєСѓ РЅРѕРІРѕРіРѕ.', 35.00),
+		   (N'Р РµРјРѕРЅС‚ РєР»Р°РІРёР°С‚СѓСЂС‹', N'Р РµРјРѕРЅС‚ РїРѕРІСЂРµР¶РґРµРЅРЅРѕР№ РёР»Рё РЅРµРёСЃРїСЂР°РІРЅРѕР№ РєР»Р°РІРёР°С‚СѓСЂС‹ РЅР° РІР°С€РµРј СѓСЃС‚СЂРѕР№СЃС‚РІРµ. Р’РєР»СЋС‡Р°РµС‚ Р·Р°РјРµРЅСѓ РєР»Р°РІРёС€ Рё СЂРµРјРѕРЅС‚ СЌР»РµРєС‚СЂРёС‡РµСЃРєРёС… РєРѕРЅС‚Р°РєС‚РѕРІ.', 50.00);
+
+	-- Р—Р°РїРѕР»РЅРµРЅРёРµ С‚Р°Р±Р»РёС†С‹ ServicesPerformeds
 
 
-select *from orders 
+select *from Services 
 delete from orders
 
-INSERT INTO [dbo].[Orders] ([IdDevice], [IdMaster], [IdClient], [Status], [Date_acceptance], [Repair_start_date], [Repair_completion_date], [Date_issue], [Description], [PriceOrder])
-SELECT 
-    (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = FLOOR(RAND() * 20) + 1),
-    (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users WHERE IdRole = 3) AS foo WHERE rownumber = FLOOR(RAND() * 4) + 1),
-    (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users WHERE IdRole = 1) AS foo WHERE rownumber = FLOOR(RAND() * 106) + 1),
-    'Заказ завершён',
-    DATEADD(DAY, ROUND(RAND() * DATEDIFF(DAY, '2022-06-01', '2023-05-24'), 0), '2022-06-01'),
-    DATEADD(DAY, ROUND(RAND() * DATEDIFF(DAY, '2022-06-01', '2023-05-24'), 0), '2022-06-01'),
-    DATEADD(DAY, ROUND(RAND() * DATEDIFF(DAY, '2022-06-01', '2023-05-24'), 0), '2022-06-01'),
-    DATEADD(DAY, ROUND(RAND() * DATEDIFF(DAY, '2022-06-01', '2023-05-24'), 0), '2022-06-01'),
-    (SELECT TOP 1 Description FROM (
-        SELECT 'Проблема с разъемом питания' AS Description UNION ALL
-        SELECT 'Неисправность в сетевом адаптере' AS Description UNION ALL
-        SELECT 'Проблемы с зарядкой аккумулятора' AS Description UNION ALL
-        SELECT 'Не работает клавиатура' AS Description UNION ALL
-        SELECT 'Проблема с дисплеем' AS Description UNION ALL
-        SELECT 'Замена жесткого диска' AS Description UNION ALL
-        SELECT 'Не загружается операционная система' AS Description UNION ALL
-        SELECT 'Проблема с звуком' AS Description UNION ALL
-        SELECT 'Вирусная атака' AS Description UNION ALL
-        SELECT 'Проблемы с Wi-Fi соединением' AS Description
-    ) AS d ORDER BY NEWID()),
-    ROUND(RAND() * 100 + 1, 2)
-FROM
-    (SELECT RAND() AS random) AS r
-CROSS JOIN
-    (SELECT RAND() AS random) AS r2;
-
-
-
-DECLARE @i INT = 1
+DECLARE @i INT = 1;
 WHILE @i <= 200
 BEGIN
-   DECLARE @previousDate DATE = '2022-06-01';
+    DECLARE @previousDate DATE = '2022-06-01';
 
-INSERT INTO [dbo].[Orders] ([IdDevice], [IdMaster], [IdClient], [Status], [Date_acceptance], [Repair_start_date], [Repair_completion_date], [Date_issue], [Description], [PriceOrder])
-SELECT 
-    (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = FLOOR(RAND() * 20) + 1),
-    (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users WHERE IdRole = 3) AS foo WHERE rownumber = FLOOR(RAND() * 4) + 1),
-    (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users WHERE IdRole = 1) AS foo WHERE rownumber = FLOOR(RAND() * 106) + 1),
-    (SELECT TOP 1 Description FROM (
-        SELECT 'Заказ завершён' AS Description UNION ALL
-        SELECT 'Заказ принят' AS Description UNION ALL
-        SELECT 'Начат ремонт' AS Description UNION ALL
-        SELECT 'На согласовании' AS Description UNION ALL
-        SELECT 'Ремонт закончен' AS Description 
-    ) AS d ORDER BY NEWID()),
-    DATEADD(DAY, ROUND(RAND() * DATEDIFF(DAY, @previousDate, '2023-05-24'), 0), @previousDate),
-    DATEADD(DAY, ROUND(RAND() * DATEDIFF(DAY, @previousDate, '2023-05-24'), 0), DATEADD(DAY, 1, @previousDate)),
-    DATEADD(DAY, ROUND(RAND() * DATEDIFF(DAY, @previousDate, '2023-05-24'), 0), DATEADD(DAY, 2, @previousDate)),
-    DATEADD(DAY, ROUND(RAND() * DATEDIFF(DAY, @previousDate, '2023-05-24'), 0), DATEADD(DAY, 3, @previousDate)),
-    (SELECT TOP 1 Description FROM (
-        SELECT 'Проблема с разъемом питания' AS Description UNION ALL
-        SELECT 'Неисправность в сетевом адаптере' AS Description UNION ALL
-        SELECT 'Проблемы с зарядкой аккумулятора' AS Description UNION ALL
-        SELECT 'Не работает клавиатура' AS Description UNION ALL
-        SELECT 'Проблема с дисплеем' AS Description UNION ALL
-        SELECT 'Замена жесткого диска' AS Description UNION ALL
-        SELECT 'Не загружается операционная система' AS Description UNION ALL
-        SELECT 'Проблема с звуком' AS Description UNION ALL
-        SELECT 'Вирусная атака' AS Description UNION ALL
-        SELECT 'Проблемы с Wi-Fi соединением' AS Description
-    ) AS d ORDER BY NEWID()),
-    ROUND(RAND() * 100 + 1, 2)
-FROM
-    (SELECT RAND() AS random) AS r
-CROSS JOIN
-    (SELECT RAND() AS random) AS r2;
-   
-    
+    INSERT INTO [dbo].[Orders] ([IdDevice], [IdMaster], [IdClient], [Status], [ReasonContacting], [Equipment], [Appearance], [IsUrgently], [Date_acceptance], [Repair_start_date], [Repair_completion_date], [Date_issue], [Description], [PriceOrder])
+    SELECT 
+        (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM Devices) AS foo WHERE rownumber = FLOOR(RAND() * 20) + 1),
+        (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users WHERE IdRole = 3) AS foo WHERE rownumber = FLOOR(RAND() * 4) + 1),
+        (SELECT id FROM (SELECT ROW_NUMBER() OVER (ORDER BY id ASC) AS rownumber, id FROM users WHERE IdRole = 1) AS foo WHERE rownumber = FLOOR(RAND() * 106) + 1),
+        (SELECT TOP 1 Description FROM (
+            SELECT N'Р—Р°РєР°Р· Р·Р°РІРµСЂС€С‘РЅ' AS Description UNION ALL
+            SELECT N'Р—Р°РєР°Р· РїСЂРёРЅСЏС‚' AS Description UNION ALL
+            SELECT N'РќР°С‡Р°С‚ СЂРµРјРѕРЅС‚' AS Description UNION ALL
+            SELECT N'РќР° СЃРѕРіР»Р°СЃРѕРІР°РЅРёРё' AS Description UNION ALL
+            SELECT N'Р’ РѕР¶РёРґР°РЅРёРё Р·Р°РїС‡Р°СЃС‚РµР№' AS Description UNION ALL
+            SELECT N'РџСЂРѕРґРѕР»Р¶Р°РµС‚СЃСЏ СЂРµРјРѕРЅС‚' AS Description UNION ALL
+            SELECT N'РљР»РёРµРЅС‚ РѕС‚РєР°Р·Р°Р»СЃСЏ РѕС‚ СЂРµРјРѕРЅС‚Р°' AS Description UNION ALL
+            SELECT N'Р РµРјРѕРЅС‚ Р·Р°РєРѕРЅС‡РµРЅ' AS Description 
+        ) AS d ORDER BY NEWID()),
+        (SELECT TOP 1 Description FROM (
+            SELECT N'РџСЂРѕР±Р»РµРјР° СЃ СЂР°Р·СЉРµРјРѕРј РїРёС‚Р°РЅРёСЏ' AS Description UNION ALL
+            SELECT N'РќРµРёСЃРїСЂР°РІРЅРѕСЃС‚СЊ РІ СЃРµС‚РµРІРѕРј Р°РґР°РїС‚РµСЂРµ' AS Description UNION ALL
+            SELECT N'РџСЂРѕР±Р»РµРјС‹ СЃ Р·Р°СЂСЏРґРєРѕР№ Р°РєРєСѓРјСѓР»СЏС‚РѕСЂР°' AS Description UNION ALL
+            SELECT N'РќРµ СЂР°Р±РѕС‚Р°РµС‚ РєР»Р°РІРёР°С‚СѓСЂР°' AS Description UNION ALL
+            SELECT N'РџСЂРѕР±Р»РµРјР° СЃ РґРёСЃРїР»РµРµРј' AS Description UNION ALL
+            SELECT N'Р—Р°РјРµРЅР° Р¶РµСЃС‚РєРѕРіРѕ РґРёСЃРєР°' AS Description UNION ALL
+            SELECT N'РќРµ Р·Р°РіСЂСѓР¶Р°РµС‚СЃСЏ РѕРїРµСЂР°С†РёРѕРЅРЅР°СЏ СЃРёСЃС‚РµРјР°' AS Description UNION ALL
+            SELECT N'РџСЂРѕР±Р»РµРјР° СЃ Р·РІСѓРєРѕРј' AS Description UNION ALL
+            SELECT N'Р’РёСЂСѓСЃРЅР°СЏ Р°С‚Р°РєР°' AS Description UNION ALL
+            SELECT N'РџСЂРѕР±Р»РµРјС‹ СЃ Wi-Fi СЃРѕРµРґРёРЅРµРЅРёРµРј' AS Description
+        ) AS d ORDER BY NEWID()),
+        (SELECT TOP 1 [Equipment] FROM (
+            SELECT N'Р‘РµР· РґРѕРїРѕР»РЅРµРЅРёР№' AS [Equipment] UNION ALL
+            SELECT N'РЎСѓРјРєР°' AS [Equipment] UNION ALL
+            SELECT N'Р—Р°СЂСЏРґРЅРѕРµ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ' AS [Equipment] UNION ALL
+            SELECT N'Р§РµС…РѕР»' AS [Equipment] UNION ALL
+            SELECT N'РЎРёРј-РєР°СЂС‚Р°' AS [Equipment] UNION ALL
+            SELECT N'Р°РєРєСѓРјСѓР»СЏС‚РѕСЂ' AS [Equipment]
+        ) AS e ORDER BY NEWID()),
+        (SELECT TOP 1 [Appearance] FROM (
+            SELECT N'Р¦Р°СЂР°РїРёРЅС‹ РЅР° РєРѕСЂРїСѓСЃРµ' AS [Appearance] UNION ALL
+            SELECT N'РџРѕРІСЂРµР¶РґРµРЅРЅС‹Р№ СЌРєСЂР°РЅ' AS [Appearance] UNION ALL
+            SELECT N'РќРµ СЂР°Р±РѕС‚Р°СЋС‚ РєРЅРѕРїРєРё' AS [Appearance] UNION ALL
+            SELECT N'РџРѕС‚РµСЂС‚РѕСЃС‚Рё' AS [Appearance] UNION ALL
+            SELECT N'РџРѕРІСЂРµР¶РґРµРЅРЅС‹Р№ СЂР°Р·СЉРµРј' AS [Appearance] UNION ALL
+            SELECT N'РџСЂРѕР±Р»РµРјС‹ СЃ Р·РІСѓРєРѕРј' AS [Appearance]
+        ) AS a ORDER BY NEWID()),
+        (SELECT CONVERT(BIT, FLOOR(RAND() * 2))),
+        DATEADD(DAY, ROUND(RAND() * DATEDIFF(DAY, @previousDate, '2023-05-24'), 0), @previousDate),
+        DATEADD(DAY, ROUND(RAND() * DATEDIFF(DAY, @previousDate, '2023-05-24'), 0), DATEADD(DAY, 1, @previousDate)),
+        DATEADD(DAY, ROUND(RAND() * DATEDIFF(DAY, @previousDate, '2023-05-24'), 0), DATEADD(DAY, 2, @previousDate)),
+        DATEADD(DAY, ROUND(RAND() * DATEDIFF(DAY, @previousDate, '2023-05-24'), 0), DATEADD(DAY, 3, @previousDate)),
+        (SELECT TOP 1 Description FROM (
+            SELECT N'РџСЂРѕР±Р»РµРјР° СЃ СЂР°Р·СЉРµРјРѕРј РїРёС‚Р°РЅРёСЏ' AS Description UNION ALL
+            SELECT N'РќРµРёСЃРїСЂР°РІРЅРѕСЃС‚СЊ РІ СЃРµС‚РµРІРѕРј Р°РґР°РїС‚РµСЂРµ' AS Description UNION ALL
+            SELECT N'РџСЂРѕР±Р»РµРјС‹ СЃ Р·Р°СЂСЏРґРєРѕР№ Р°РєРєСѓРјСѓР»СЏС‚РѕСЂР°' AS Description UNION ALL
+            SELECT N'РќРµ СЂР°Р±РѕС‚Р°РµС‚ РєР»Р°РІРёР°С‚СѓСЂР°' AS Description UNION ALL
+            SELECT N'РџСЂРѕР±Р»РµРјР° СЃ РґРёСЃРїР»РµРµРј' AS Description UNION ALL
+            SELECT N'Р—Р°РјРµРЅР° Р¶РµСЃС‚РєРѕРіРѕ РґРёСЃРєР°' AS Description UNION ALL
+            SELECT N'РќРµ Р·Р°РіСЂСѓР¶Р°РµС‚СЃСЏ РѕРїРµСЂР°С†РёРѕРЅРЅР°СЏ СЃРёСЃС‚РµРјР°' AS Description UNION ALL
+            SELECT N'РџСЂРѕР±Р»РµРјР° СЃ Р·РІСѓРєРѕРј' AS Description UNION ALL
+            SELECT N'Р’РёСЂСѓСЃРЅР°СЏ Р°С‚Р°РєР°' AS Description UNION ALL
+            SELECT N'РџСЂРѕР±Р»РµРјС‹ СЃ Wi-Fi СЃРѕРµРґРёРЅРµРЅРёРµРј' AS Description
+        ) AS d ORDER BY NEWID()),
+        ROUND(RAND() * 100 + 1, 2)
+    FROM
+        (SELECT RAND() AS random) AS r
+    CROSS JOIN
+        (SELECT RAND() AS random) AS r2;
+
     SET @i = @i + 1;
 END;
+
+
+
+select *from ServicesPerformeds;
+insert into ServicesPerformeds(IdOrder, IdService) values(129, 1);

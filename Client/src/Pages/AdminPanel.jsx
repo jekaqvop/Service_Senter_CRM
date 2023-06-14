@@ -40,6 +40,9 @@ import {
 import { getAverageCeckDay, getAverageCeckMonth, getDiffIncomePrevPerc, getIncomeMonth, getIncomeYear, getOrdersLastMonth, getOrdersLastYear } from "../api/utils/analyticsAPI";
 import { useState } from "react";
 import { useEffect } from "react";
+import { getCurrRole } from "../api/utils/rolesAPI";
+import { Navigate } from "react-router-dom";
+import Preloader from "../components/Preloader/Preloader";
   
 const AdminPanel = () => {
     // Chakra Color Mode
@@ -53,12 +56,15 @@ const AdminPanel = () => {
     const [incomeMonth, setIncomeMonth] = useState(0);
     const [IncomeYear, setIncomeYear] = useState(0);
     const [diffIncomePrevPerc, setDiffIncomePrevPerc] = useState(0);
+    const [role, setRole] = useState("User");
+    const [loading, setLoading] = useState(true);
    
     var rounded = function(number){
         return +number.toFixed(2);
       }
 
     useEffect(() => {
+        setLoading(true);
         async function fetchData() {
           try {
             let data = await getAverageCeckDay();            
@@ -74,8 +80,12 @@ const AdminPanel = () => {
             data = await getIncomeYear();            
             setIncomeYear(data);   
             data = await getDiffIncomePrevPerc();            
-            setDiffIncomePrevPerc(data);   
-
+            setDiffIncomePrevPerc(data);  
+            let Role = "User";
+            Role = await getCurrRole(); 
+            console.log(Role);
+            setLoading(false);
+            setRole(Role);
           } catch (error) {
             console.error(error);            
           }
@@ -83,11 +93,14 @@ const AdminPanel = () => {
     
         fetchData();
       }, []); 
-    return (
-        <div className="adminPanel">        
+
+     
+    return (<>{loading === true ? <Preloader/> : <>
+        {role !== "Admin" ? <Navigate to="/notFound"/> : 
+            <><div className="adminPanel">        
             <ChakraProvider theme={theme}>
             <Box pt={{ base: "130px" }}>
-               <div className="miniStatistics">
+            <div className="miniStatistics">
                 <MiniStatistics
                     startContent={
                     <IconBox
@@ -165,7 +178,7 @@ const AdminPanel = () => {
                     value={ordersLastYear}
                 />
                 </div>
-        
+
                 <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>
                 {/*<TotalSpent />*/}
                     <WeeklyRevenue />
@@ -191,8 +204,11 @@ const AdminPanel = () => {
                 </SimpleGrid>*/}
             </Box>
             </ChakraProvider>
-        </div>
-    );
+        </div></>
+        }
+    </>}
+    
+    </>);
   }
   
 

@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useContext } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import axios from './api/axios';
 import './index.css';
 import { AuthContext } from './context/AuthContext';
@@ -97,16 +97,19 @@ const Login = (history) => {
 							value={Password}
 							required
 						/>
+						<span>
+							<Link style={{float: 'right', fontSize: "15px"}} to="/passwordRecovery">Забыли пароль?</Link>					
+						</span>
 						<button id='button-sing'>Войти</button>
 					</form>
 					<p>
 						Нет аккаунта?
 						<br />
 						<span className="line" >
-							<a href="/register">Зарегистрироваться</a>							
+							<Link to="/register">Зарегистрироваться</Link>							
 						</span>
 						<span className="line" >
-							<a href="/">На главную страницу</a>					
+							<Link to="/">На главную страницу</Link>					
 						</span>
 					</p>
 				</section>

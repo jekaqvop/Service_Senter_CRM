@@ -10,7 +10,8 @@ import Confirm from 'react-confirm-bootstrap';
 import "./CSS/StylesTable.css";
 import AddStafferModal from '../components/Modals/AddStafferModal';
 import Preloader from '../components/Preloader/Preloader';
-import { getRolesAll } from '../api/utils/rolesAPI';
+import { getCurrRole, getRolesAll } from '../api/utils/rolesAPI';
+import { Navigate } from 'react-router-dom';
 
 
 
@@ -26,7 +27,7 @@ let PhoneNumberFilter2;
 
 
 const StaffersTable = (props) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -40,7 +41,7 @@ const [selectOptions, setSelectOptions] = useState([
   {id: 3, roleName: 'Master'}
 ]);
  
- const columns = [{
+ const [columns, setColumns] = useState([{
   dataField: 'id',
   text: 'Id Сотрудника',  
   isKey: true,    
@@ -159,7 +160,7 @@ const [selectOptions, setSelectOptions] = useState([
       </Confirm>
     );
   },
-},];
+},]);
 
 
 const beforeSaveCell = (oldValue, newValue, row, column, done) => {
@@ -280,6 +281,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
     onSelectAll: handleOnSelectAll
   };     
 
+  const [role, setRole] = useState('User');
    useEffect(()=>{
     setLoading(true);
       const loadUsers = async (e) => {
@@ -294,6 +296,9 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
           setUsers(response.data);   
           const dataRoles = await getRolesAll();    
           setSelectOptions(dataRoles);  
+          let Role = "User";
+          Role = await getCurrRole();
+          setRole(Role);
           setLoading(false);   
         }catch(err){
           setLoading(false);
@@ -307,7 +312,126 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
    }, []);
    
    useEffect(()=>{
-    console.log(selectOptions);     
+      setColumns([{
+        dataField: 'id',
+        text: 'Id Сотрудника',  
+        isKey: true,    
+        sort: true
+      }, {
+        dataField: 'login',
+        text: 'Логин',
+        filter: textFilter({
+            getFilter: (filter) => {            
+              LoginFilter2 = filter;              
+            }            
+          }),
+          validator: (newValue, row, column) => {
+          
+            if (!newValue || !LOGIN_REGEX.test(newValue)) {
+              return {
+                valid: false,
+                message: 'Длина от 4 до 24 символов(только латиница). Должен начинаться с буквы.'
+              };             
+            } 
+            return true;
+          },
+          sort: true
+      }, {
+        dataField: 'userName',
+        text: 'ФИО',
+        filter: textFilter({
+            getFilter: (filter) => {
+              UserNameFilter2 = filter;
+            }
+          }),
+          validator: (newValue, row, column) => {          
+            if (!newValue || !USER_REGEX.test(newValue)) {
+              return {
+                valid: false,
+                message: 'ФИО должно содержать 2/3 слова начинающихся с заглавных букв.'
+              };             
+            } 
+            return true;
+          },
+          sort: true
+      },{
+        dataField: 'email',
+        text: 'Электронная почта',
+        filter: textFilter({
+            getFilter: (filter) => {
+                EmailFilter2 = filter;
+            }
+          }),
+          validator: (newValue, row, column) => {          
+            if (!newValue || !EMAIL_REGEX.test(newValue)) {
+              return {
+                valid: false,
+                message: 'Электронная почта должна быть в формате name@mail.com'
+              };             
+            } 
+            return true;
+          },
+          sort: true
+      },{
+        dataField: 'phoneNumber',
+        text: 'Номер телефона',
+        filter: textFilter({
+            getFilter: (filter) => {
+              PhoneNumberFilter2 = filter;
+            }
+          }),
+          validator: (newValue, row, column) => {          
+            if (!newValue || !PHONENUMBER_REGEX.test(newValue)) {
+              return {
+                valid: false,
+                message: 'Номер должен быть в формате +378/80 xx xxx xx xx или +378/80 xx xxxxxxx'
+              };             
+            } 
+            return true;
+          },
+          sort: true
+      },{
+        dataField: 'idRole',
+        text: 'Роль',
+        formatter: cell => selectOptions.find(obj => {
+          return obj.id.toString() === cell.toString()
+        }).roleName || ' ',
+        editor:{
+          type: Type.SELECT,
+          getOptions: (setOptions, { row, column }) => {
+            return selectOptions.map((item, index) => (
+             {value: item.id, label: item.roleName}
+            ));
+          }
+          },
+        filter: selectFilter({
+            options: () => {
+              return selectOptions.map((item, index) => (
+               {value: item.id, label: item.roleName}
+              ))},
+        }),
+        sort: true
+      },
+      {
+        dataField: "id2",
+        text: "Remove",
+        editable: false,
+        formatter: (cellContent, row) => {
+          return (
+            <Confirm
+            onConfirm={() => handleDelete(row.id)}
+            body="Вы уверены, что хотите удалить этого сотрудника? Данный процесс необратим!"
+            confirmText="Подтвердить удаление"
+            title="Подтверждение удаления">
+              <Button
+                className="btn-danger"         
+              >
+                Удалить
+              </Button>
+            </Confirm>
+          );
+        },
+      },]);
    }, [selectOptions])
    const handleTableChange = (type, { data, cellEdit: { rowId, dataField, newValue } }) => {
    
@@ -331,8 +455,9 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
   };
     return(
         <>      
-        {loading ? (
-            <Preloader/>) : (
+        {loading && selectOptions && columns? (
+            <Preloader/>) : (<>
+              {role !== "Master" && role !== "Admin" ? <Navigate to="/notFound"/> : 
               <>    
                 <div className='tableContainer'> 
                 <div className='tableContainer'>               
@@ -370,11 +495,8 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
                               AddNewUser={AddNewUser}
                 />      
               </>
-          )
-        }
-        
-          </>       
-    );
+         }</> )
+        }</> );
 }
 
 export default StaffersTable;

@@ -1,6 +1,6 @@
 ﻿using DataBaseManager.Pattern.Repositories;
-using DBManager.Pattern;
-using DBManager.Pattern.Repositories;
+using DAL.Pattern;
+using DAL.Pattern.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -143,8 +143,7 @@ namespace ServerServiceCenter.Controllers
             try
             {
                 var roleCookie = Request.Cookies["role"];
-                if (roleCookie != "Admin" && roleCookie != "Master")
-                    return StatusCode(409);
+               
                 deviceRepository.DeleteDevices(idDevices);
                 deviceRepository.Save();
                 Response.StatusCode = 201;

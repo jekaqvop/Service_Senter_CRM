@@ -10,7 +10,8 @@ import Confirm from 'react-confirm-bootstrap';
 import "./CSS/StylesTable.css";
 import AddUserModal from '../components/Modals/AddUserModal';
 import Preloader from '../components/Preloader/Preloader';
-import { getRolesAll } from '../api/utils/rolesAPI';
+import { getCurrRole, getRolesAll } from '../api/utils/rolesAPI';
+import { Navigate } from 'react-router-dom';
 
 const LOGIN_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const USER_REGEX = /^(([А-ЯЁA-Z][а-яёa-z']+[\\-\s]?){2,3})$/;
@@ -23,7 +24,7 @@ let EmailFilter;
 let PhoneNumberFilter;
 
 const UsersTable = (props) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -306,6 +307,8 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
     onSelectAll: handleOnSelectAll
   };     
 
+  const [role, setRole] = useState("User");
+
    useEffect(()=>{
     setLoading(true);
       const loadUsers = async (e) => {
@@ -320,6 +323,9 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
           setUsers(response.data); 
           const dataRoles = await getRolesAll();    
           setSelectOptions(dataRoles);     
+          let Role = "User";
+          Role = await getCurrRole();
+          setRole(Role);
           setLoading(false);   
         }catch(err){
           setLoading(false);
@@ -400,7 +406,8 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
     return(
         <>      
         {loading ? (
-            <Preloader/>) : (
+            <Preloader/>) : (<>
+              {role !== "Master" && role !== "Admin" ? <Navigate to="/notFound"/> : 
               <>    
                 <div className='tableContainer'> 
                 <div id='buttonFixPosition'>     
@@ -441,11 +448,8 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
                               AddNewUser={AddNewUser}
                 />      
               </>
-          )
-        }
-        
-          </>       
-    );
+          }</>)
+        } </>);
 }
 
 export default UsersTable;

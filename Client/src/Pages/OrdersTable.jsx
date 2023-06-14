@@ -12,6 +12,9 @@ import AddOrderModal from '../components/Modals/AddOrderModal';
 import Preloader from '../components/Preloader/Preloader';
 import DetailsOrder from '../components/Modals/DetailsOrder';
 import Multiselect from 'multiselect-react-dropdown';
+import AddDeviceModal from '../components/Modals/AddDeviceModal';
+import { Navigate } from 'react-router-dom';
+import { getCurrRole } from '../api/utils/rolesAPI';
 
 
 const DESCRIPTION_REGEX = /^[^_]{5,20000}$/;
@@ -30,7 +33,7 @@ let TypeFilter;
 
 
 const OrdersTable = (props) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -44,20 +47,41 @@ const selectOptions = [
   {id: 0, status:'Заказ принят'},
   {id: 1, status:'Начат ремонт'},  
   {id: 2, status:'На согласовании'},
-  {id: 3, status:'Ремонт закончен'},
-  {id: 4, status:'Заказ завершён'},
+  {id: 3, status:'В ожидании запчастей'},
+  {id: 4, status:'Продолжается ремонт'},
+  {id: 5, status:'Ремонт закончен'},
+  {id: 6, status:'Клиент отказался от ремонта'},
+  {id: 7, status:'Заказ завершён'},
 ];
   
   
  const columns = [{
   dataField: 'id',
-  text: 'Id Заказа', 
+  text: '№', 
   filter: textFilter({
     getFilter: (filter) => {
         IdOrderFilter = filter;
     }
-  }), 
+  }),   
   isKey: true,    
+  headerStyle: { width: '77px' },
+  sort: true
+},{
+  dataField: "isUrgently",
+  text: "Срочность",
+  editable: false,
+  formatter: (cellContent, row) => {
+    return (  <>  
+       {row.isUrgently ? <><div style={{color: "red"}}>Срочно <img width={"20px"} src='/pngwing.com.png'/> </div></> : <>По очереди</>}
+       </> );
+  },
+  filter: selectFilter({
+    options: () => {
+      return (
+        [{value: false, label: "По очереди"},
+         {value: true, label: "Срочно"}]
+  )},
+}),
   sort: true
 },{
   dataField: 'master.userName',
@@ -128,8 +152,8 @@ const selectOptions = [
   sort: true
 },
 {
-  dataField: 'description',
-  text: 'Описание',
+  dataField: 'reasonContacting',
+  text: 'Заявленная неисправность',
   filter: textFilter({
       getFilter: (filter) => {
           DescriptonFilter = filter;
@@ -144,7 +168,8 @@ const selectOptions = [
       } 
       return true;
     },
-    sort: true
+    sort: true,
+    editable: false
 },
 {
   dataField: 'device.typeDevice',
@@ -159,7 +184,8 @@ const selectOptions = [
 },
 {
   dataField: 'priceOrder',
-  text: 'Цена заказа',
+  text: 'Цена',
+  headerStyle: { width: '90px' },
   editable: true,
   filter: textFilter({
     getFilter: (filter) => {
@@ -336,6 +362,7 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
     onSelectAll: handleOnSelectAll
   };     
 
+  const [role, setRole] = useState("User");
    useEffect(()=>{
     setLoading(true);
       const loadOrders = async (e) => {
@@ -349,6 +376,10 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
           );  
    
           setOrders(response?.data);
+          let Role = "User";
+          Role = await getCurrRole();
+          setRole(Role);   
+                
           setLoading(false);   
         }catch(err){
           setLoading(false);
@@ -360,6 +391,8 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
      
    // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
+
+
    const handleTableChange = (type, { data, cellEdit: { rowId, dataField, newValue } }) => {
    
     const result = data.map((row) => {
@@ -384,7 +417,8 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
         <>      
         {loading ? (
             <Preloader/>) : (
-              <>    
+              <>
+      {role !== "Master" && role !== "Admin" ? <Navigate to="/notFound"/> : <>    
                 <div className='tableContainer'>  
                 <div id='buttonFixPosition'>    
                
@@ -426,13 +460,10 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
                               setOpen={setOpenDetails}
                               showToast={showToastFiveSec}                             
                               idOrder={idOrder}
-                />          
+                />    
               </>
-          )
-        }
-        
-          </>       
-    );
+           }</>)
+        } </> );
 }
 
 export default OrdersTable;

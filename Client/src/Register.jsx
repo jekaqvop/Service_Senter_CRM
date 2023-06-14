@@ -6,7 +6,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from './api/axios';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import './index.css';
 
 const LOGIN_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -162,7 +162,7 @@ const Register = () => {
 							required
 							aria-invalid={validLogin ? 'false' : 'true'}
 							aria-describedby="uidnote"
-							autocomplete="new-login"
+							autoComplete ="new-login"
 							onFocus={() => setLoginFocus(true)}
 							onBlur={() => setLoginFocus(false)}
 						/>
@@ -195,7 +195,7 @@ const Register = () => {
 						<input
 							type="text"
 							id="username"						
-							autocomplete="new-fio"
+							autoComplete ="new-fio"
 							onChange={(e) => setUser(e.target.value)}
 							value={userName}
 							required
@@ -232,7 +232,7 @@ const Register = () => {
 						<input
 							type="text"
 							id="email"							
-							autocomplete="off"
+							autoComplete ="off"
 							onChange={(e) => setEmail(e.target.value)}
 							value={email}
 							required
@@ -305,7 +305,7 @@ const Register = () => {
 						<input
 							type="password"
 							id="password"
-							autocomplete="new-password"
+							autoComplete ="new-password"
 							onChange={(e) => setPwd(e.target.value)}
 							value={pwd}
 							required
@@ -346,7 +346,7 @@ const Register = () => {
 						<input
 							type="password"
 							id="confirm_pwd"
-							autocomplete="new-password"
+							autoComplete ="new-password"
 							onChange={(e) => setMatchPwd(e.target.value)}
 							value={matchPwd}
 							required
@@ -375,7 +375,7 @@ const Register = () => {
 						Уже зарегистрированны?
 						<br />
 						<span className="line">
-							<a href="/login">Войти</a>
+							<Link to="/login">Войти</Link>
 						</span>
 					</p>
 				</section>

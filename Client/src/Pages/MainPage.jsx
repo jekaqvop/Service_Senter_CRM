@@ -5,6 +5,7 @@ import "./CSS/MainPage.css";
 import 'bulma/css/bulma.css';
 
 import Preloader from '../components/Preloader/Preloader';
+import { Link } from 'react-router-dom';
 
 const SERVICES_URL = "/api/Services"
 
@@ -44,9 +45,9 @@ const MainPage = (props) =>{
                             <ul className="top-menu">
                                 <li className="active">HOME</li>
                              
-                                <li><a href="/services/">SERVICES</a></li>
-                                <li id='right'><a href="/register/">REGISTER</a></li>
-                                <li id='right'><a href="/login/">LOGIN</a></li>
+                                <li><Link to="/services" > SERVICES</Link></li>
+                                <li id='right'><Link to="/register/">REGISTER</Link></li>
+                                <li id='right'><Link to="/login/">LOGIN</Link></li>
                               
                             </ul>
                             

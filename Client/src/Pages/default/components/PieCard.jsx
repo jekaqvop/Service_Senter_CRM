@@ -140,7 +140,8 @@ export default function Conversion(props) {
             </Text>
           </Flex>
           <Text fontSize='lg' color={textColor} fontWeight='700'>
-          {rounded((PieChartData[3])/ (PieChartData[0] + PieChartData[1] + PieChartData[2] + PieChartData[3]) * 100)}
+          {rounded((PieChartData[7])/ (PieChartData[0] + PieChartData[1] + PieChartData[2] + PieChartData[3] + PieChartData[4] 
+            + PieChartData[5] + PieChartData[6] + PieChartData[7]) * 100)}
           %
           </Text>
         </Flex>

@@ -1,7 +1,6 @@
-﻿using Azure.Core;
-using DataBaseManager.Pattern.Repositories;
-using DBManager.Pattern.Repositories;
-using DBManager.Pattern;
+﻿using DataBaseManager.Pattern.Repositories;
+using DAL.Pattern.Repositories;
+using DAL.Pattern;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Models;
@@ -10,7 +9,6 @@ using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.AspNetCore.Mvc;
 using Models.ModelsView;
-using Azure;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -65,7 +63,7 @@ namespace ServerServiceCenter.Middleware
             }
             catch(Exception ex)
             {
-                httpContext.Response.StatusCode = 401;
+                httpContext.Response.StatusCode = 403;
                 return new UnauthorizedObjectResult(new MessageForView("Ошибка получения доступа!"));
             }
             return new ObjectResult(new MessageForView(""));

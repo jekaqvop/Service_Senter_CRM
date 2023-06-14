@@ -8,8 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["ServerServiceCenter/ServerServiceCenter.csproj", "ServerServiceCenter/"]
-COPY ["DBManager/DBManager.csproj", "DBManager/"]
-COPY ["Models/Models.csproj", "Models/"]
+
 RUN dotnet restore "ServerServiceCenter/ServerServiceCenter.csproj"
 COPY . .
 WORKDIR "/src/ServerServiceCenter"

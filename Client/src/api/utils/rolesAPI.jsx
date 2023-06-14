@@ -1,5 +1,5 @@
 import axios from "../axios";
-import { ROLES_ALL_URL } from "../urls/urlsUsers&Roles";
+import { ROLES_ALL_URL, CURR_ROLE } from "../urls/urlsUsers&Roles";
 
 const fetchData = async (url) => {
     try {
@@ -20,3 +20,5 @@ const fetchData = async (url) => {
   };
   
   export const getRolesAll = async () => fetchData(ROLES_ALL_URL);
+  export const getCurrRole = async () => fetchData(CURR_ROLE);
+

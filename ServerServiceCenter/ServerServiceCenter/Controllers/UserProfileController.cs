@@ -1,5 +1,5 @@
 ﻿using DataBaseManager.Pattern.Repositories;
-using DBManager.Pattern;
+using DAL.Pattern;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 

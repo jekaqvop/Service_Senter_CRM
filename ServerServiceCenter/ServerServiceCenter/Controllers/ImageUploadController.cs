@@ -1,5 +1,5 @@
-﻿using DBManager.Pattern;
-using DBManager.Pattern.Repositories;
+﻿using DAL.Pattern;
+using DAL.Pattern.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -34,6 +34,7 @@ namespace ServerServiceCenter.Controllers
             var jwt = Request.Cookies["jwt"];
             var token = jwtService.Verify(jwt);
             int userId = int.Parse(token.Issuer);
+            User user = unitOfWork.GetUserRepository().GetItem(userId);
             Room? room = unitOfWork.GetRoomRepository().GetItem(idRoom);
             RoomUsersRepository roomUsersRepository = unitOfWork.GetRoomUsersRepository();
             IEnumerable<RoomUser> roomUsers = roomUsersRepository.GetList().Where(ru => ru.RoomId == idRoom && ru.UserId == userId).ToList();
@@ -51,6 +52,7 @@ namespace ServerServiceCenter.Controllers
                             Message newMess = new Message { RoomId = idRoom, UserId = userId, MessageImage = fileBytes, TimeSend = DateTime.Now };
                             messRep.Create(newMess);
                             messRep.Save();
+                            newMess.User = user;
                             await _hubContext.Clients.Group(idRoom.ToString()).SendAsync("ReceiveMessage", newMess);
                         }
                     }                   

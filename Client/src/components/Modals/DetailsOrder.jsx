@@ -41,9 +41,27 @@ const DetailsOrder = (props) => {
          
         }         
       }
+
       const SERVICES_URL = "/api/Services";
       const [services, setServices] = useState([]);
       const [selectedServices, setSelectedServices] = useState([]);
+      
+      const loadServPerf = async (e) => {
+        try{
+           const response = await axios.get(
+              OrderS_URL + "/ServPerf/" + props.idOrder,
+              {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true,
+              }
+          );  
+          setSelectedServices(response.data); 
+          setIsLoading(false);          
+        }catch(err){
+         props.showToastFiveSec('error', 'Не удалось загрузить применяемые услуги');
+        }         
+      }
+
       const loadServices = async (e) => {
         try{
            const response = await axios.get(
@@ -61,12 +79,15 @@ const DetailsOrder = (props) => {
       };
 
       useEffect(()=>{
-        loadServices();
+        loadServices();      
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [])
  
     useEffect(()=>{
-        if(props.open) loadOrder();        
+        if(props.open) {
+          loadOrder();     
+          loadServPerf();
+        }
      // eslint-disable-next-line react-hooks/exhaustive-deps
      }, [props.open]);
 
@@ -75,19 +96,27 @@ const DetailsOrder = (props) => {
     props.setOpen(false);
   }; 
 
-  const addServiceOrder = async (e) => {
+  const saveChangeOrder = async (e) => {
     try{
-       const response = await axios.post(
-          SERVICES_URL,
-          {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true,
-          }
-      );  
-      setServices(response.data); 
+      let strParams = "";
+      selectedServices.forEach(element => {
+        strParams += "param" + element.id + "=" + element.id + "&";
+      });    
+      //strParams[strParams.length - 1] = "";
+      let add_serv_perf_url = "/api/private/Orders/setvicePerfomed?" + strParams;
+      const response = await axios.post(
+        add_serv_perf_url,
+        JSON.stringify({id_order: props.idOrder}),
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        }
+    );
+      //setServices(response.data); 
+      props.showToast("success", 'Услуги применены!');
     }catch(err){
         console.log(err);
-        props.showToastFiveSec('error', 'Не удалось загрузить список услуг');
+        props.showToast('error', 'Не удалось применить услуги к заказу');
     }         
   };
 
@@ -113,12 +142,15 @@ const onRemove = (selectedList, removedItem) => {
                 <div className="media-content">
                     <b style={{ textTransform: "capitalize" }}>
                     Заказ №{order.id}{" "}
-                     <span id="bagroundBlue" className="tag is-primary">Цена {order.priceOrder === 0 ? "бесплатно" : (order.priceOrder + " р")}</span>
+                     <span id="bagroundBlue" className="tag is-primary">Цена {order.priceOrder + " р"}</span>
                     </b>
-                    <div>Тип устройства: {order.device.typeDevice}</div>           
-                    <div>Модель: {order.device.model}</div>           
-                    <div>Серийный номер: {order.device.serialNumber}</div>           
-                    <div>Производетиель: {order.device.manufacturer}</div>           
+                    {order.device ? <>
+                      <div>Тип устройства: {order.device.typeDevice}</div>           
+                      <div>Модель: {order.device.model}</div>           
+                      <div>Серийный номер: {order.device.serialNumber}</div>           
+                      <div>Производетиель: {order.device.manufacturer}</div>       
+                    </>: <></> }
+                        
                     <div className="is-clearfix">
                         <div>
                         ФИО мастера: {!order.master ? "не существует" : order.master.userName}
@@ -146,11 +178,13 @@ const onRemove = (selectedList, removedItem) => {
                         Логин клиента: {!order.client ? "не существует" : order.client.login}
                         </div>
                     <div>
+                      <br/>
+
                         <br/>
                     Применяемые услуги
                     <Multiselect
                     options={services} // Options to display in the dropdown
-                    selectedValues={services}
+                    selectedValues={selectedServices}
                     onSelect={onSelect} // Function will trigger on select event
                     onRemove={onRemove} // Function will trigger on remove event
                     displayValue="title" // Property name to display in the dropdown options
@@ -191,7 +225,11 @@ const onRemove = (selectedList, removedItem) => {
                         + new Date(order.date_issue).getSeconds())}
                     </div>              
                     <div>
-                    Статус заказа: {order.status}
+                      Статус заказа: {order.status}
+                    </div>
+                    <br/>
+                    <div>
+                      Статус заказа: {order.status}
                     </div>
                     </div>                   
                 </div>               
@@ -204,8 +242,8 @@ const onRemove = (selectedList, removedItem) => {
            Закрыть
           </Button>
           <Button 
-                  onClick={()=> ''} color="primary" autoFocus>
-        Сохранить
+                  onClick={()=> saveChangeOrder()} color="primary" autoFocus>
+          Сохранить
           </Button>
         </DialogActions>
       </Dialog>

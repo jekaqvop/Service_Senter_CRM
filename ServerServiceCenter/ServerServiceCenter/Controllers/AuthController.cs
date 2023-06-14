@@ -1,17 +1,17 @@
 ﻿using DataBaseManager.Pattern.Interface;
 using DataBaseManager.Pattern.Repositories;
-using DBManager.Pattern;
-using DBManager.Pattern.Repositories;
+using DAL.Pattern;
+using DAL.Pattern.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.ModelsView;
-using Newtonsoft.Json;
 using ServerServiceCenter.Helpers;
 using System.IO;
 using System.Reflection.PortableExecutable;
 using System.Security.Cryptography;
 using System.Text;
+using Aardvark.Base;
 
 namespace ServerServiceCenter.Controllers
 {
@@ -74,6 +74,35 @@ namespace ServerServiceCenter.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpPost("PasswordRecovery/{email}")]
+        public async Task<IActionResult> PasswordRecovery(string email)
+        {
+            try
+            {
+                if (email == null || email.IsEmptyOrNull())
+                {
+                    return BadRequest();
+                }
+                UserRepository userRep = unitOfWork.GetUserRepository();
+
+                User user = userRep.GetList().Where(u => u.Email.ToLower().Equals(email.ToLower())).FirstOrDefault();
+                if (user == null) return Ok("Пользователь с таким email не найден!");
+                string newPassword = RegUser.RandomString(user.Login.Length + user.Login.Length % 7);
+                user.Pwd = BCrypt.Net.BCrypt.HashPassword(newPassword);
+                userRep.Update(user);
+                userRep.Save();
+                Mail.SendEmail("Восстановление пароля. \nВаш логин: " + user.Login + ".\nВаш новый пароль: " 
+                    + newPassword + ".\nПри входе в аккаунт, пожалуйста смените пароль на другой для безопасности.", user.Email);
+                return Ok("Инструкция по восстановлению пароля отправлена на почту!");
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+
+            return BadRequest();
         }
 
         [HttpPost("login")]

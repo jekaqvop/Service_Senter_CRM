@@ -34,9 +34,7 @@ const MyOrders = (props) =>{
    
         props.showToast(type, "top-right", true, 5000, !description ? "Error" : description);
       }
-
-    
-
+      
        return(
         <>
             {loading ? (

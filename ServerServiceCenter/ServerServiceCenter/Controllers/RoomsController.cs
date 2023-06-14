@@ -1,5 +1,6 @@
-﻿using DBManager.Pattern;
+﻿using DAL.Pattern;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using ServerServiceCenter.Helpers;
@@ -15,10 +16,13 @@ namespace ServerServiceCenter.Controllers
     {
         UnitOfWork unitOfWork;
         JwtService jwtService;
-        public RoomsController(UnitOfWork unitOfWork, JwtService jwtService)
+        private readonly IHubContext<ChatHub> _hubContext;
+
+        public RoomsController(IHubContext<ChatHub> hubContext, UnitOfWork unitOfWork, JwtService jwtService)
         {
             this.unitOfWork = unitOfWork;
             this.jwtService = jwtService;
+            this._hubContext = hubContext; 
         }
 
         // GET: v1/Rooms
@@ -130,14 +134,24 @@ namespace ServerServiceCenter.Controllers
         {
             try
             {
-                var room = unitOfWork.GetRoomRepository().GetItem(id);
-                if (room == null)
+                var jwt = Request.Cookies["jwt"];
+                var token = jwtService.Verify(jwt);
+                int userId = int.Parse(token.Issuer);
+                User user = unitOfWork.GetUserRepository().GetItem(userId);
+                var idRoomsUs = unitOfWork.GetRoomUsersRepository().GetList().Where(ur => ur.UserId == userId && ur.RoomId == id).FirstOrDefault();
+
+                if (idRoomsUs == null)
                 {
                     return BadRequest();
                 }
-
-                unitOfWork.GetRoomRepository().Delete(id);
-                unitOfWork.GetRoomRepository().Save();
+                
+                Message newMess = new Message { RoomId = id, UserId = userId, MessageText = "Пользователь вышел из чата", TimeSend = DateTime.Now };
+                unitOfWork.GetMessageRepository().Create(newMess);
+                unitOfWork.GetMessageRepository().Save();
+                newMess.User = user;
+                unitOfWork.GetRoomUsersRepository().Delete(idRoomsUs.Id);
+                unitOfWork.GetRoomUsersRepository().Save();
+                await _hubContext.Clients.Group(id.ToString()).SendAsync("ReceiveMessage", newMess);
                 return NoContent();
             }
             catch (Exception)

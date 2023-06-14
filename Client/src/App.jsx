@@ -25,6 +25,7 @@ import ProfilePage from './Pages/ProfilePage';
 import MyOrders from './Pages/MyOrders';
 import Messanger from './Pages/Messanger';
 import AdminPanel from './Pages/AdminPanel';
+import PasswordRecovery from './PasswodRecovery';
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
 					<Route path="/services" exact element={<ServicesPublicPage showToast={showToast}/>} />					
 					<Route path="/register" exact element={<Register showToast={showToast}/>} />					
 					<Route path="/login" element={<Login />} />		
+					<Route path="/PasswordRecovery" element={<PasswordRecovery />} />		
 							
 					<Route path="/account/" element={
 						<PrivateRoute>
@@ -74,6 +76,7 @@ function App() {
 					</Route>	
 				
 					<Route path="/seviceItemPage/:id" element={<ServicePage showToast={showToast}/>} />
+					<Route path="/notFound" element={<ErrorPage />} />	
 					<Route path="*" element={<ErrorPage />} />	
 				</Routes>
 			</Router>

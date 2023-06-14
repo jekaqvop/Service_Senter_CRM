@@ -5,6 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import axios from '../../api/axios';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
+import { useNavigate } from "react-router-dom";
 
 const LOGOUT_URL = "/api/Auth/logout";
 
@@ -134,7 +135,13 @@ const Sidebar = () => {
     const location = useLocation();
     const { setAuthData, auth} = useContext(AuthContext);
     const [sidebarNavItems, setSidebarNavItems] = useState(sidebarNavItemsUser);
-    const [curUser, setCurUser] = useState('');
+    const [curUser, setCurUser] = useState(null);
+
+    let navigate = useNavigate(); 
+    const routeChange = (url) =>{ 
+        
+        navigate(url);
+    }
    
     useEffect(()=>{
         const loadDataUser = async (e) => {
@@ -224,7 +231,7 @@ const Sidebar = () => {
        
     }, [location, sidebarNavItems]);
 
-    function formatFullName(fullName) {
+    const formatFullName = (fullName) => {
         // Разбиваем строку на массив имени, фамилии и отчества
         const names = fullName.split(' ');
       
@@ -249,10 +256,13 @@ const Sidebar = () => {
     <>
         <div >        
             <div className='sidebar'>
-                <div className="sidebar__logo">
+                {curUser ? 
+                    <div className="sidebar__logo">
                     Приветствую<br/>
-                    <a href='/account/profile'>{formatFullName(curUser.userName)}</a>
-                </div>
+                    <Link to='/account/profile'>{formatFullName(curUser.userName)}</Link>
+                    </div>
+                : ''}
+                
                 <div ref={sidebarRef} className="sidebar__menu">
                     <div
                         ref={indicatorRef}

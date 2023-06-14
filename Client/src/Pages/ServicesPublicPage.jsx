@@ -4,6 +4,7 @@ import ServiceItem from '../components/ServiceItem';
 import "./CSS/Services.css"
 import 'bulma/css/bulma.css';
 import Preloader from '../components/Preloader/Preloader';
+import { Link } from 'react-router-dom';
 
 const SERVICES_URL = "/api/Services"
 
@@ -41,11 +42,11 @@ const ServicesPublicPage = (props) =>{
 		        <header>
                         <nav>
                             <ul className="top-menu">
-                                <li ><a  href="/">HOME</a></li>
+                                <li ><Link  to="/">HOME</Link></li>
                              
                                 <li className="active">SERVICES</li>
-                                <li id='right'><a href="/register/">REGISTER</a></li>
-                                <li id='right'><a href="/login/">LOGIN</a></li>
+                                <li id='right'><Link to="/register/">REGISTER</Link></li>
+                                <li id='right'><Link to="/login/">LOGIN</Link></li>
                               
                             </ul>
                             
@@ -94,16 +95,16 @@ const ServicesPublicPage = (props) =>{
                     <div id="sitemap">
                         <h3>SITEMAP</h3>
                         <div>
-                            <a href="/home/">Home</a>                          
-                            <a href="/services/">Services</a>
+                            <Link to="/home/">Home</Link>                          
+                            <Link to="/services/">Services</Link>
                         </div>
                        
                     </div>
                     <div id="social">
                         <h3>SOCIAL NETWORKS</h3>
-                        <a href="http://twitter.com/" className="social-icon twitter"></a>
-                        <a href="http://youtube.com/" className="social-icon youtube"></a>
-                        <a href="https://www.instagram.com/" className="social-icon instagram"></a>                    
+                        <Link to="http://twitter.com/" className="social-icon twitter"></Link>
+                        <Link to="http://youtube.com/" className="social-icon youtube"></Link>
+                        <Link to="https://www.instagram.com/" className="social-icon instagram"></Link>                    
                     </div>
                     <div id="footer-logo"></div>
                 </div>

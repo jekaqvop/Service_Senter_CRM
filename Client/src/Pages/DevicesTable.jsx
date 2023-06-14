@@ -10,6 +10,8 @@ import Confirm from 'react-confirm-bootstrap';
 import "./CSS/StylesTable.css";
 import AddDeviceModal from '../components/Modals/AddDeviceModal';
 import Preloader from '../components/Preloader/Preloader';
+import { getCurrRole } from '../api/utils/rolesAPI';
+import { Navigate } from 'react-router-dom';
 
 let LoginFilter;
 let DeviceNameFilter;
@@ -20,7 +22,7 @@ let PhoneNumberFilter;
 const REGEX = /^[A-zА-я0-9-_\\/\s]{3,23}$/;
 
 const DevicesTable = (props) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [Devices, setDevices] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -248,7 +250,8 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
     onSelectAll: handleOnSelectAll
   };  
   
-  const [pageNumber, setPageNumber] = useState(1);
+  const [role, setRole] = useState("User");
+  
 
    useEffect(()=>{
     setLoading(true);
@@ -261,8 +264,11 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
                 withCredentials: true,
               }
           );  
-          setDevices(response.data);          
+          setDevices(response.data); 
+          let Role = await getCurrRole();
+          setRole(Role);         
           setLoading(false);   
+          console.log(Role);
         }catch(err){
           setLoading(false);
           showToastFiveSec('error', 'Не удалось загрузить список устройств');
@@ -292,11 +298,12 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
    const AddNewDevice = (newDevice) => {  
       setDevices(prevState => [ newDevice, ...prevState]);
   };
-    return(
+    return( 
         <>      
-        {loading ? (
+        {loading === true ? (
             <Preloader/>) : (
-              <>    
+              <>
+      {role !== "Master" && role !== "Admin" ? <Navigate to="/notFound"/> :<>    
                 <div className='tableContainer'>   
                 <div id='buttonFixPosition'>         
                   <Button  className="btn btn-lg btn-primary" onClick={ handleClick }> Очистить фильтры </Button>
@@ -332,10 +339,10 @@ const beforeSaveCell = (oldValue, newValue, row, column, done) => {
                               showToast={showToastFiveSec}
                               AddNewDevice={AddNewDevice}
                 />      
-              </>
+              </>}
+    </>
           )
         }
-        
           </>       
     );
 }

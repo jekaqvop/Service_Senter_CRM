@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
-import axios from "../api/axios";
+import axios, {BASE_URL} from "../api/axios";
 import Confirm from 'react-confirm-bootstrap';
 
 const IMAGES_URL = "/api/Images";
-const BASE_URL = "https://localhost:44340";
+
 const SERVICESPRIVATE_URL = "/api/private/Services";
 
 const ServiceItem = props => {
   const { product } = props;
   const [isRedirect, setIsRedirect] = useState(false);
-  const [imagePath, setImagePath] = useState("https://bulma.io/images/placeholders/128x128.png");
+  const [imagePath, setImagePath] = useState(null);
+  const defaultImage = "https://bulma.io/images/placeholders/128x128.png";
 useEffect(()=>{  
   setIsRedirect(false);
     const loadImage = async () => {
@@ -53,12 +54,11 @@ const DelteService = (id) =>{
     <div className=" column is-half">
       <div className="box">
         <div className="media">
-          { !imagePath ? console.log(imagePath) :(
+        { !imagePath ? <></> :(
              <div className="media-left">
             <figure className="image is-96x96">
-              <img id="mini_image"
-                src={BASE_URL + "/" + imagePath}
-                
+            <img id="mini_image"
+                src={BASE_URL + "/" + imagePath}                
               />
             </figure>
           </div>

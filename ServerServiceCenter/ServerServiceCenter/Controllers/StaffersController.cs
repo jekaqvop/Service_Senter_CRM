@@ -1,6 +1,6 @@
 ﻿using DataBaseManager.Pattern.Repositories;
-using DBManager.Pattern.Repositories;
-using DBManager.Pattern;
+using DAL.Pattern.Repositories;
+using DAL.Pattern;
 using Microsoft.AspNetCore.Mvc;
 using Models.ModelsView;
 using Models;

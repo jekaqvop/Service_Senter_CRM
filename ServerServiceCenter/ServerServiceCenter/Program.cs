@@ -1,5 +1,5 @@
-using DBManager.Pattern;
-using DBManager;
+using DAL.Pattern;
+using DAL;
 using Microsoft.EntityFrameworkCore;
 using ServerServiceCenter.Helpers;
 using ServerServiceCenter.Middleware;
@@ -57,6 +57,8 @@ app.UseCors(builder =>
 
 app.UseRouting();
 app.UseCors();
+
+app.UseDefaultFiles();
 app.UseStaticFiles();
 
 

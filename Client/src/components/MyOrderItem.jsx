@@ -62,6 +62,7 @@ const MyOrderItem = props => {
               <div>
                Статус заказа: {order.status}
               </div>
+              
             </div>
           </div>
         </div>

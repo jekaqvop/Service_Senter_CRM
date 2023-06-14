@@ -1,6 +1,6 @@
 ﻿using Aardvark.Base;
-using DBManager.Pattern;
-using DBManager.Pattern.Repositories;
+using DAL.Pattern;
+using DAL.Pattern.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
@@ -47,7 +47,12 @@ namespace ServerServiceCenter.Helpers
                 await Groups.AddToGroupAsync(Context.ConnectionId, myRoom.Id.ToString());
                 var messages = unitOfWork.GetMessageRepository().GetList().Where(m => m.RoomId == idRoom).TakeLast(15).ToList();
                 if(messages != null && messages.Count() > 0)
-                {                    
+                {
+                    foreach (var message in messages)
+                    {
+                        User user = unitOfWork.GetUserRepository().GetItem(message.UserId);
+                        message.User = user;
+                    }
                     await Clients.Group(idRoom.ToString()).SendAsync("SetMessages",
                         messages);
                 }
@@ -58,6 +63,10 @@ namespace ServerServiceCenter.Helpers
         {
                 var messages = unitOfWork.GetMessageRepository().GetList().Where(m => m.RoomId == idRoom)
                 .SkipLast(countMessages).TakeLast(15).ToList();
+            foreach(var message in messages) {
+                User user = unitOfWork.GetUserRepository().GetItem(message.UserId);
+                message.User = user;
+            }
             if (messages != null && messages.Count() > 0)
             {
                 await Clients.Group(idRoom.ToString()).SendAsync("LoadMoreMessages",
@@ -86,6 +95,8 @@ namespace ServerServiceCenter.Helpers
                     messRep.Create(newMess);
 
                     messRep.Save();
+                    User user = unitOfWork.GetUserRepository().GetItem(userId);
+                    newMess.User = user;
                     await Clients.Group(idRoom.ToString()).SendAsync("ReceiveMessage", newMess);                    
                 }
             }

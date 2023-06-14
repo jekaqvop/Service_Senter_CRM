@@ -4,7 +4,7 @@ import "../components/chatComponents/CSS_Chat/temporary.css";
 import Chat from "../components/chatComponents/Chat";
 import Lobby from "../components/chatComponents/Lobby";
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
-import axios from "../api/axios";
+import axios, {BASE_URL} from "../api/axios";
 
 
 const Messenger = () =>{ 
@@ -17,7 +17,7 @@ const Messenger = () =>{
   const CreateConnect = async () => {   
       try {
         const connection = new HubConnectionBuilder()
-          .withUrl("https://localhost:44340/chat")
+          .withUrl(BASE_URL + "/chat")
           .configureLogging(LogLevel.Information)
           .build();
   
